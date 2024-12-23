@@ -5,9 +5,6 @@
       ".cache/nix-index"
     ];
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.nix-index = {
       enable = true;
       enableZshIntegration = true;

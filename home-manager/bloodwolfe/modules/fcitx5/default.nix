@@ -4,12 +4,12 @@
     syncDirs = [
       ".config/fcitx5"
     ];
-    pc-windowrule = [
-      "pseudo, fcitx"
-    ];
-    pc-exec-once = [
+    pcExecOnce = [
       "${pkgs.fcitx5}/bin/fcitx5 -d -r"
       "${pkgs.fcitx5}/bin/fcitx5-remote -r"
+    ];
+    pcWindowRule = [
+      "pseudo, fcitx"
     ];
     i18n = {
       inputMethod = {

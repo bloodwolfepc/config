@@ -1,6 +1,9 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "daw";
+    pcExecOnce = [
+      "carla ${config.home.homeDirectory}/carla/default.carxp --no-gui"
+    ];
     packages = with pkgs; [
 
       cli-visualizer

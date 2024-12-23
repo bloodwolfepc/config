@@ -7,7 +7,10 @@
     syncDirs = [
       ".local/share/kdenlive"
     ];
-    #TODO file .config/kdenliverc .config/kdenlive-layoutrc
+    syncFiles = [
+      ".config/kdenliverc"
+      ".config/kdenlive-layoutrc"
+    ];
     inherit config;
   }; 
 in {

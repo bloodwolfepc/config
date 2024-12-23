@@ -1,7 +1,7 @@
 # BUG: hyperland has graphical issues
 
 { lib, pkgs, config, ... }: let
-  cfg = config.hardware.amdgpu.gpu-detatched;
+  cfg = config.bwcfg.angel.gpu-detatched;
   platform = "amd";
   vfioIds = [ "1002:73ef" "1002:ab28" ];
 in {

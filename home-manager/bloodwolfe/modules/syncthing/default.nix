@@ -1,16 +1,12 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "syncthing";
-    packages = with pkgs;[
+    packages = with pkgs; [
       (writeShellScriptBin "syncthing-gen-config" ''
         ${syncthing}/bin/syncthing -generate=myconfig
       '')
       syncthing
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     services.syncthing = { #8384
       enable = true;
       overrideDevices = true;
@@ -30,10 +26,9 @@
       };
     };
     sops.secrets = {
-      "syncthing-password" = {
-        #owner = "syncthing";
-      };
+      "syncthing-password" = { };
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

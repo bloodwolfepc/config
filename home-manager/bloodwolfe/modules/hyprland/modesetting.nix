@@ -1,3 +1,11 @@
+
+  #TODO create a function for bindings from normal mode #${lib.concatStringsSep "\n" (map mkNormalMapings submaps )}
+  #mkNormalMapings = kbKey: map: ''
+  #  submap = ${config.kb_NML}
+  #    bindi = ${kbKey}, submap, ${map}
+  #  submap = escape
+  #'';
+
 { lib, config, pkgs, ... }: let
   mkOneShots = let
     escape-to-mode = "INS";
@@ -11,99 +19,60 @@
     lib.concatStringsSep "\n" (map (key: "bindi = , ${key}, submap, ${escape-to-mode}") keys);
   passOneshots = pkgs.writeText "passOneshots" mkOneShots;
   submaps = [
-     "WS" "DEPLOY" "TERM" "MIGRATE"
-    "POSITION" "REC" "MONITOR" "RESIZE"
+    "CONFIG" "WS" "DEPLOY" "MIGRATE"
+    "POSITION" "REC" "MONITOR" "TMUX" "TOGGLE"
+  ];
+  submapsNoPassOneshots = [
+    "RESIZE" "EXEC"
   ];
   mkSubmap = map: ''
     submap = ${map}
-      bindi = ${config.kb_INS}, submap, INS
-      bindi = ${config.kb_NML}, submap, NML
+      bindi = ,${config.kb_INS}, submap, INS
+      bindi = ,${config.kb_NML}, submap, NML
       source = ${passOneshots}
     submap = escape
   '';
+  mkSubmapNoPassOneshots = map: ''
+    submap = ${map}
+      bindi = ,${config.kb_INS}, submap, INS
+      bindi = ,${config.kb_NML}, submap, NML
+    submap = escape
+  '';
 in {
-  options.globals.passOneshots = lib.mkOption {
-    type = lib.types.path;
-    default = passOneshots;
-  };
-  config = {
-    wayland.windowManager.hyprland = {
-      settings = lib.mkBefore { };
-      extraConfig = lib.mkAfter ''
-        ${lib.concatStringsSep "\n" (map mkSubmap submaps)}
-        submap = NML
-          source = ${config.globals.passOneshots}
-        submap = escape
-        submap = EXEC
-          bindi = ${config.kb_INS}, submap, INS
-          bindi = ${config.kb_NML}, submap, NML
-        submap = escape
-      '';
+  attrs.extraConfig = ''
+    ${lib.concatStringsSep "\n" (map mkSubmap submaps)}
+    ${lib.concatStringsSep "\n" (map mkSubmapNoPassOneshots submapsNoPassOneshots)}
+    submap = NML
+      source = ${config.globals.passOneshots}
+    submap = escape
+  '';
+  options = let
+    mkKb = default: lib.mkOption {
+      inherit default;
+      type = lib.types.str;
     };
+  in {
+    globals.passOneshots = lib.mkOption {
+      type = lib.types.path;
+      default = passOneshots;
+    };
+    kb_RIGHT = mkKb "l";
+    kb_DOWN = mkKb "j";
+    kb_UP = mkKb "k";
+    kb_LEFT = mkKb "h";
+    kb_INS = mkKb "i";
+    kb_NML = mkKb "SUPER_L";
+    kb_EXEC = mkKb "e";
+    kb_WS = mkKb "f";
+    kb_DEPLOY = mkKb "d";
+      #kb_TERM = mkKb "t";
+    kb_MIGRATE = mkKb "g";
+    kb_POSITION = mkKb "o";
+    kb_RESIZE = mkKb "r";
+    kb_REC = mkKb "c";
+    kb_MONITOR = mkKb "m";
+    kb_CONFIG = mkKb "s";
+    kb_TOGGLE = mkKb "t";
+    kb_TMUX = mkKb "SPACE";
   };
 }
-      
-
-
-  #{ lib, config, ... }: {
-  #  wayland.windowManager.hyprland = { 
-  #    settings = lib.mkBefore {
-  #      "submap, INS" = "submap, INS";
-  #      "$pass-oneshots" = "/home/bloodwolfe/projects/flake/home-manager/bloodwolfe/modules/pc/pass-oneshots.conf"; #TODO add to nix store
-  #    };
-  #    extraConfig = lib.mkAfter ''
-  #      
-  #      submap = NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      
-  #      #FOR EACH MODE
-  #      
-  #      submap = EXEC
-  #        bindi = ,${config.kb_INS}, submap, INS
-  #        bindi = ,${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = WS
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = EXEC_WS
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = TERM
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = MIGRATE
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = POSITION
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = REC
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      submap = MONITOR
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #        source = $pass-oneshots
-  #      submap = escape
-  #      
-  #      submap = RESIZE
-  #        bindi = , ${config.kb_INS}, submap, INS
-  #        bindi = , ${config.kb_NML}, submap, NML
-  #      submap = escape
-  #    '';
-  #  };
-  #}

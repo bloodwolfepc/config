@@ -5,13 +5,10 @@
       bitwarden
       bitwarden-cli
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.rbw = {
       enable = true;
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

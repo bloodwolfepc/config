@@ -10,7 +10,7 @@
       packwiz
     ];
     syncDirs = [
-      ".local/share/PrismLauncher/instances" #TODO create a symlink for ease of access
+      ".local/share/PrismLauncher/instances"
       ".config/ferium"
       ".local/share/packwiz"
     ];

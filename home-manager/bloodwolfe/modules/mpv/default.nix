@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "mpv";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.mpv = {
       enable = true;
       defaultProfiles = [

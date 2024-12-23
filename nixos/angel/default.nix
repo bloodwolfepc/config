@@ -3,7 +3,6 @@
     inputs.hardware.nixosModules.asus-zephyrus-ga402
     ./hardware-configuration.nix
     ./monitors.nix
-    ./syncthing.nix
     ../modules/users/bloodwolfe
     ../modules/preset/main.nix
     ../modules/hardware/behringer-404-hd
@@ -37,14 +36,14 @@
   #boot.binfmt.preferStaticEmulators = true;
 
   specialisation.vfio-passthough.configuration = {
-    hardware.amdgpu.gpu-detatched.enable = true;
-    programs.qemu.vfio-passthough.enable = true;
+    bwcfg.angel.gpu-detatched.enable = true;
+    bwcfg.angel.vfio-passthough.enable = true;
   };
   #specialisation.powersave.configuration = {
   #  config.hardware.asus-zypherus-ga402.powersave = true;
   #};
-  #specialisation.networkmanager.configuration = {
-  #  networking.networkmanager.enable = true;
-  #};
-  networking.networkmanager.enable = lib.mkForce false;
+  specialisation.networkmanager.configuration = {
+    networking.networkmanager.enable = true;
+    bwcfg.angel.powersave.enable = true;
+  };
 }

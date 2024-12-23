@@ -1,6 +1,5 @@
 #for a working working clipboard
 #wl-paste -t text -w xclip -selection clipboard
-
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "wine";
@@ -18,6 +17,9 @@
     ];
     syncDirs = [
       "wine"
+    ];
+    pcExecOnce = [
+      "wl-paste -t text -w xclip -selection clipboard" #fix for clipboard
     ];
     inherit config;
   }; 

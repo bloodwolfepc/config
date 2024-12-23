@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "gpg";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     services.gpg-agent = {
       enable = true;
       enableZshIntegration = true;
@@ -29,7 +26,7 @@
           disable-ccid = true;
       };
     };
-  };
+  }; 
 in {
   inherit (attrs) options config;
 }

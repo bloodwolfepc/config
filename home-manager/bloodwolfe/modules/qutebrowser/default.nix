@@ -8,10 +8,6 @@
       ".config/qutebrowser/greasemonkey"
       ".local/share/qutebrowser"
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.qutebrowser = {
       enable = true;
       package = pkgs.qutebrowser-qt5;
@@ -49,6 +45,7 @@
       "x-scheme-handler/https" = ["org.qutebrowser.qutebrowser.desktop"];
       "x-scheme-handler/qute" = ["org.qutebrowser.qutebrowser.desktop"];
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

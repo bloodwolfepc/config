@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "ripgrep";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.ripgrep = {
       enable = true;
       package = pkgs.ripgrep-all;

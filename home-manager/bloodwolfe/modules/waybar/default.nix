@@ -1,10 +1,12 @@
 { lib, config, pkgs, ... }: let #TODO toggle command
   attrs = lib.custom.mkHomeApplication {
     name = "waybar";
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
+    pcExtraConfig = ''
+      submap = TOGGLE
+        bindi = , w , exec , systemctl stop --user waybar.service || systemctl start --user waybar.service
+        bindi = , e , exec , systemctl start --user waybar.service
+      submap = escape
+    '';
     programs.waybar = {
       enable = true;
       systemd = {
@@ -97,6 +99,7 @@
         }
       '';
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

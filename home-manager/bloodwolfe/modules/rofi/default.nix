@@ -6,10 +6,9 @@
     name = "rofi";
     key = "e";
     command = "${pkgs.rofi}/bin/rofi -show run";
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
+    pcWindowRule =  [
+      "stayfocused , class:(Rofi)"
+    ];
     programs.rofi = {
     	enable = true;
       package = pkgs.rofi-wayland-unwrapped;
@@ -75,6 +74,7 @@
       	};
       };
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

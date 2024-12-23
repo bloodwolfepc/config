@@ -7,14 +7,11 @@
     syncDirs = [
       ".config/task" #TODO should only worry about taskrc
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.taskwarrior = { 
       enable = true; 
       package = pkgs.taskwarrior3;
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

@@ -32,7 +32,7 @@
             "audio.position" = [ "FL" "FR" ];
           };
           "playback.props" = {
-            "node.name" = "playback.UMC_Headphoes";
+            "node.name" = "playback.UMC_Headphones";
             "audio.position" = [ "AUX2" "AUX3" ];
             "target.object" = "alsa_output.usb-BEHRINGER_UMC404HD_192k-00.pro-output-0";
             "stream.dont-remix" = "true";

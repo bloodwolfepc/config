@@ -1,5 +1,5 @@
 { config, pkgs, lib,... }: let 
-  cfg = config.programs.qemu.vfio-passthough;
+  cfg = config.bwcfg.angel.vfio-passthough;
   user = "bloodwolfe";
   dir.win11 = "/home/bloodwolfe/qemu/win11.qcow2";
 in {

@@ -12,9 +12,6 @@
       ".local/share/containers" #distrobox
     ];
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     services.podman = {
       enable = true;
     };

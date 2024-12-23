@@ -5,9 +5,6 @@
       ".config/kdeconnect"
     ];
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     services.kdeconnect = {
       enable = true;
       indicator = true;

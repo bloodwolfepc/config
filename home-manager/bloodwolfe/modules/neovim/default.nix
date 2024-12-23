@@ -5,13 +5,10 @@
       #TODO use forSystem
       inputs.nixvim.packages.x86_64-linux.default 
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     home.sessionVariables = {
       EDITOR = "nvim";
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

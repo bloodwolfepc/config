@@ -1,9 +1,4 @@
 { lib, config, pkgs, ... }: let 
-  attrs = lib.custom.mkHomeApplication {
-    name = "stylix";
-    inherit config;
-    inherit extraConfig;
-  }; 
   base16Scheme = {
     base00 = "000000";
     base01 = "1C1C1C";
@@ -24,13 +19,13 @@
     base0E = "ff00ff";
     base0F = "00a800";
   };
-  extraConfig = {
+  attrs = lib.custom.mkHomeApplication {
+    name = "stylix";
     stylix = {
       image = config.wallpaper;
       enable = true;
       autoEnable = true;
       inherit base16Scheme;
-      #base16Scheme = "${ pkgs.base16-schemes }/share/themes/windows-95.yaml";
       cursor = {
         package = pkgs.xorg.xcursorthemes; #/share/icons/handhelds
         name = "handhelds";
@@ -56,7 +51,8 @@
       };
       polarity = "dark";   
     };
-  };
+    inherit config;
+  }; 
 in {
   inherit (attrs) options config;
 }

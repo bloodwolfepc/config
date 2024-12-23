@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "hyfetch";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.hyfetch = {
       enable = true;
       settings = {

@@ -11,7 +11,7 @@
     ../server/nginx-proxy
     ../server/waterdreamer
     ../server/waterdreamer-blog
-    ../server/nixarr
+    #../server/nixarr
     ../server/calibre
   ];
 }

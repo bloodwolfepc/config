@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "htop";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.htop = {
       enable = true;
     };

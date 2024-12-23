@@ -15,7 +15,7 @@ rec {
   mkApplicationOptions = {
     name,
     attrSpace ? "bwcfg",
-    extraOpts ? {}
+    extraOptions ? {}
   }: {
     options = {
       ${attrSpace}.${name} = {
@@ -27,7 +27,7 @@ rec {
           enable = mkEnableOption "enable sync ${attrSpace} ${name}";
         };
       };
-    } // extraOpts;
+    } // extraOptions;
   };
   
   mkHomeApplication = args:
@@ -42,7 +42,7 @@ rec {
     packages ? [ ],
     extraConfig ? { },
     extraHomeConfig ? { },
-    extraOpts ? { },
+    extraOptions ? { },
     persistDirs ? [ ],
     persistFiles ? [ ],
     persistRootDir ? "/persist",
@@ -52,21 +52,26 @@ rec {
     syncDefaultDevices ? [ "navi" "angel" ],
     syncExtraDevices ? [ ],
 
-    pc-windowrule ? [],
-    pc-exec-once ? [],
-    pc-env ? [],
+    pcWindowRule ? [ ],
+    pcExecOnce ? [ ],
+    pcEnv ? [ ],
+    pcExtraConfig ? '' '',
 
     i18n ? { },
     programs ? { },
     services ? { },
     home ? { },
+    xdg ? { },
+    sops ? { },
+    stylix ? { },
+    wayland ? { },
 
     config
 
   }: let
       cfg = config.${attrSpace}.${name};
       applicationOptions = mkApplicationOptions {
-        inherit name attrSpace extraOpts;
+        inherit name attrSpace extraOptions;
       };
       extraConfig' = mkIf cfg.enable (
         if isFunction extraConfig
@@ -92,9 +97,9 @@ rec {
         {
           windowManager.hyprland = mkIf (config.wayland.windowManager.hyprland.enable) {
             settings = {
-              windowrule = pc-windowrule;
-              exec-one = pc-exec-once;
-              env = pc-env;
+              windowrulev2 = pcWindowRule;
+              exec-once = pcExecOnce;
+              env = pcEnv;
             };
             extraConfig = mkBefore ''
               submap = EXEC
@@ -118,9 +123,11 @@ rec {
               submap = WS
                 bindi = , ${key}, workspace, name:${name}
               submap = escape
-            '';
+              ${pcExtraConfig}
+            ''; #+ pcExtraConfig;
           };
         }
+        wayland
       ];
       home' = mkMerge [
         {
@@ -144,12 +151,13 @@ rec {
           );
         }
         home
-        extraHomeConfig' ];
+        extraHomeConfig' 
+      ];
   in {
     inherit (applicationOptions) options;
     config = mkMerge [
       (mkIf cfg.enable {
-        inherit i18n programs;
+        inherit i18n programs xdg sops stylix;
         home = home';
         wayland = wayland';
         services = services';

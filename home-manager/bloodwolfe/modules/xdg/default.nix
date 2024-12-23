@@ -9,10 +9,6 @@
       "videos"
       "snips"
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     xdg.userDirs = let 
       me = config.home.homeDirectory;
     in {
@@ -28,6 +24,7 @@
         XDG_SCREENSHOTS_DIR = "${me}/snips";
       };
     }; 
+    inherit config;
   };
 in {
   inherit (attrs) options config;

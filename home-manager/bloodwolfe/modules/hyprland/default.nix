@@ -6,6 +6,7 @@
 #wvkbd-mobintl -L 400 -fn Unscii -bg 000000 -fg 000000 -fg-sp 000000 -press 000000|00 -press-sp 000000|00
 
 { lib, config, pkgs, ... }: let 
+  modesetting = import ./modesetting.nix { inherit pkgs lib config; };
   attrs = lib.custom.mkHomeApplication {
     name = "hyprland";
     packages = with pkgs;[
@@ -18,16 +19,15 @@
       grimblast
       wl-clipboard
       xorg.xrandr
+    ]; 
+    wayland.windowManager = let
+      hyprland = import ./hyprland.nix { inherit pkgs lib config; };
+      extraConfig = import ./extra-config.nix { inherit pkgs lib config; };
+    in lib.mkMerge [
+      { hyprland = hyprland.attrs; }
+      { hyprland.extraConfig = lib.mkBefore extraConfig.attrs.extraConfig; }
+      { hyprland.extraConfig = lib.mkAfter modesetting.attrs.extraConfig; }
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
-    wayland.windowManager.hyprland = {
-      enable = true;
-      systemd.enable = true;
-      xwayland.enable = true;
-    };
     xdg = {
       enable = true;
       portal = let
@@ -44,13 +44,11 @@
         ];
       };
     };
+    inherit config;
+    inherit extraOptions;
   };
+  extraOptions = modesetting.options;
+
 in {
   inherit (attrs) options config;
-  imports = [
-    ./settings.nix
-    ./extra-config.nix
-    ./modesetting.nix
-    ./options.nix
-  ];
 }

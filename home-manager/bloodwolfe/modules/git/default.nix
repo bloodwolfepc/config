@@ -2,9 +2,6 @@
   attrs = lib.custom.mkHomeApplication {
     name = "git";
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.git = {
       enable = true;
       userName = "bloodwolfepc";

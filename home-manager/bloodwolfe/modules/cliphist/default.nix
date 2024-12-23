@@ -6,9 +6,6 @@
       wl-clipboard
     ];
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     services.cliphist = {
       enable = true;
     };

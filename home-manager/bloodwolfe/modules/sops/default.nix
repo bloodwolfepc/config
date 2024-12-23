@@ -4,10 +4,6 @@
     packages = with pkgs; [
       sops
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     sops = {
       age = {
         keyFile = "/persist${config.home.homeDirectory}/.config/sops/age/key.txt";
@@ -15,6 +11,7 @@
       defaultSopsFile = ../../../../secrets/secrets.yaml;
       validateSopsFiles = false; 
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

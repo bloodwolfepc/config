@@ -4,10 +4,6 @@
     persistDirs = [
       ".cache/spotify-player"
     ];
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.spotify-player = {
       enable = true;
       settings = {
@@ -26,6 +22,7 @@
         };
       };
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;

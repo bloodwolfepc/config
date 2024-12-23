@@ -5,9 +5,6 @@
       "mail"
     ];
     inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.neomutt = {
       enable = true;
     };

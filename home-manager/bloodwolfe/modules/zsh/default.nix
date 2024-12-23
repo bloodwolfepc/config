@@ -1,10 +1,6 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "zsh";
-    inherit config;
-    inherit extraConfig;
-  }; 
-  extraConfig = {
     programs.zsh = {
     	enable = true;
       plugins = [
@@ -39,6 +35,7 @@
     	'';
     
     	shellAliases = {
+        ns = "nix-shell --command zsh -p";
     		gvi = "nix run github:evilcatlawyer/nixvim"; 
         lvi = "nix run /home/bloodwolfe/projects/nixvim --";
         vi = "nvim";
@@ -87,6 +84,7 @@
         eval "$(zoxide init zsh)"
     	'';
     };
+    inherit config;
   };
 in {
   inherit (attrs) options config;
