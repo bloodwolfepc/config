@@ -1,4 +1,3 @@
-
 { lib, config, inputs, ... }: {
   imports = [ 
     ../setup
@@ -17,8 +16,8 @@
       list = [ ] 
         ++ require-nixos
         ++ require-hm
-        ++ require-pc
         ++ srv-progs
+        #++ require-pc
         #++ used-progs
         #++ gaming-progs
         #++ workstation-progs
@@ -34,20 +33,7 @@
       inherit (enable) value;
     }) enable.list );
   in {
-    #inherit bwcfg;
-    bwcfg.appimages.enable = true;
-    bwcfg.sops.enable = true;
-    bwcfg.hyprland.enable = true;
-    bwcfg.impermanence.enable = true;
-
-    wayland.windowManager.hyprland.extraConfig = ''
-      submap = MONITOR
-        bindi = ,f, focusmonitor, desc:Microstep MSI G241 0x000005ED
-        bindi = ,d, focusmonitor, desc:BOE 0x0A1D
-        bindi = ,s, focusmonitor, desc:Sceptre Tech Inc Sceptre F24 0x00000001
-      submap = escape
-    '';
-      sops.defaultSopsFile = ../../../secrets/secrets.yaml;
+    inherit bwcfg;
     sops.secrets = {
       "syncthing-key-navi" = { };
       "syncthing-cert-navi" = { };
