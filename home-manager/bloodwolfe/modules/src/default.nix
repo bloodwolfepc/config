@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "src";
-    syncDirs = [
+    persistDirs = [
       "src"
     ];
     inherit config;
