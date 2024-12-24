@@ -1,10 +1,12 @@
-{ pkgs, lib, ... }: let
+{ pkgs, lib, config, inputs, ... }: let
+  mc-attrs = import ../defaults { inherit pkgs; };
   attrs = lib.minecraft.mkMinecraftServer {
+    inherit config inputs;
     srvName = "proxy-mc";
     srvMotd =  "<#09add3>never knows best.";
-    package = pkgs.velocityServers.velocity;
-    NetHostAddress = "10.11.0.1";
-    NetLocalAddress = "10.11.0.101";
+    srvPackage = pkgs.velocityServers.velocity;
+    netHostAddress = "10.11.0.1";
+    netLocalAddress = "10.11.0.101";
     extraServerConfig = {
       files."velocity.toml".value = velocity-toml;
     };
@@ -15,8 +17,8 @@
       xyx-mc = "10.11.0.3";
     };
     config-version = "2.7";
-    bind = "0.0.0.0:${attrs.netMinecraftPort}";
-    motd = "${attrs.srvMotd}";
+    bind = "0.0.0.0:25565";
+    motd =  "<#09add3>never knows best.";
     show-max-players = 100;
     online-mode = true;
     force-key-authentication = false;
@@ -53,7 +55,7 @@
     };
     query = {
       enabled = false;
-      port = attrs.netPortsMinecraft;
+      port = 25565;
       map = "Velocity";
       show-plugins = true;
     };  

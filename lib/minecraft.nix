@@ -3,6 +3,7 @@
   with lib;
 rec {
 
+  #TODO mkdirs sudo mkdir -p /data/srv/minecraft/vanilla-mc/{world,world_nether,world_the_end}
   mkMinecraftServer = {
     srvName ? throw "No name given",
     srvMotd ? "",
@@ -11,35 +12,38 @@ rec {
 
     netHostAddress ? throw "No Host Address Given",
     netLocalAddress ? throw "No Local Adreess Given",
-    netPortMinecraft ? "25565",
-    netPortRcon ? "35567",
+    netPortMinecraft ? 25565,
+    netPortRcon ? 35567,
 
     mcWorlds ? [ "world" "world_nether" "world_the_end" ],
 
-    extraSeverConfig ? { },
-    config
-  }: 
-  {
-    config = {
+    extraServerConfig ? { },
+    config,
+    inputs
+  }: {
+    options = {
       srv.${srvName} = {
+        enable = mkEnableOption "enable ${srvName}";
+      };
+    };
+    config = let
+      net.ports = {
+        minecraft = netPortMinecraft;
+        rcon = netPortRcon;
+      };
+      inherit inputs;
+    in {
+      containers.${srvName} = mkIf config.srv.${srvName}.enable {
         autoStart = true;
         ephemeral = true;
         privateNetwork = true;
-        ports = attrValues netPorts;
         hostAddress = netHostAddress;
         localAddress = netLocalAddress;
-        forwardPorts = let
-          net.ports = {
-            minecraft = "${netPortMinecraft}";
-            rcon = "${netPortRcon}";
-          };
-        in
-          attrValues (genAttrs (builtins.attrNames net.ports) (portName: {
+        forwardPorts = attrValues (genAttrs (builtins.attrNames net.ports) (portName: {
           containerPort = net.ports.${portName};
           hostPort = net.ports.${portName};
-          }));
-        };
-        bindmounts = let 
+        }));
+        bindMounts = let 
           worlds = mcWorlds;
           bindMountAttrs = world: {
             hostPath = "${srvDataDir}/${srvName}/${world}";
@@ -54,12 +58,12 @@ rec {
           networking = {
             firewall = { 
               enable = true;
-              allowedTCPPorts = attrValues netPorts;
+              allowedTCPPorts = attrValues net.ports; #cannot be string[ 25565 35567 ]; 
             };
             useHostResolvConf = lib.mkForce false;
           };
           services.resolved.enable = true;
-          services.minecraft-server = {
+          services.minecraft-servers = {
             enable = true;
             eula = true;
             openFirewall = true;
@@ -68,7 +72,7 @@ rec {
                 {
                   enable = true;
                   package = srvPackage;
-                  serverProperties = { server-port = netPortsMinecraft; };
+                  serverProperties = { server-port = net.ports.minecraft; };
                   symlinks = {
                     "forwarding.secret" = pkgs.writeTextFile {
                       name = "forwarding.secret";
@@ -83,9 +87,18 @@ rec {
         };
       };
     };
-    options = {
-      srv.${srvName} = {
-        enable = mkEnableOption "enable ${srvName}";
-      };
-    };
-  }
+  };
+  toJSONFile = expr: builtins.toFile "expr" (builtins.toJSON expr);
+  toYAMLFile = expr: pkgs.runCommand "expr.yaml" { } ''
+    ${lib.getExe pkgs.remarshal} -i ${toJSONFile expr} -o $out -if json -of yaml
+  '';
+  toTOMLFile = expr: pkgs.runCommand "expr.toml" { } ''
+    ${lib.getExe pkgs.remarshal} -i ${toJSONFile expr} -o $out -if json -of toml
+  '';
+  toPropsFile = expr: pkgs.writeText "expr.properties" (
+    lib.concatStringsSep "\n" (lib.mapAttrsToList
+      (n: v: "${n}=${if builtins.isBool v then lib.boolToString v else toString v}")
+      expr
+    )
+  );
+}

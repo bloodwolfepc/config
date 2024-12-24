@@ -1,5 +1,4 @@
 {
-  paper-global-default = {
     _version = 28;
     chunk-loading = {
       autoconfig-send-distance = true;
@@ -137,5 +136,4 @@
       early-warning-delay = 10000;
       early-warning-every = 5000;
     };
-  };
 }

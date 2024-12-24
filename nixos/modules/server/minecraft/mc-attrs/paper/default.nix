@@ -1,5 +1,3 @@
 {
-  imports = [
-    ./paper-global
-  ];
+  paper-global-default = import ./paper-global;
 }
