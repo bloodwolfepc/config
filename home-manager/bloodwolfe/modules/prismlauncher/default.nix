@@ -2,10 +2,11 @@
   attrs = lib.custom.mkHomeApplication {
     name = "prismlauncher";
     packages  = with pkgs; [
-      (prismlauncher.override {
-        jdks = [ jdk jdk17 jdk8 ];
-        gamemodeSupport = true;
-      })
+      prismlauncher
+      #(prismlauncher.override {
+      #  jdks = [ jdk jdk17 jdk8 ];
+      #  gamemodeSupport = true;
+      #})
       ferium
       packwiz
     ];

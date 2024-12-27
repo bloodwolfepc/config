@@ -11,7 +11,7 @@
       pavucontrol
       qpwgraph
 
-      ardour
+      #ardour
       musescore
       yabridge
       yabridgectl

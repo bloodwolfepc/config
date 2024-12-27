@@ -31,29 +31,32 @@
         fzf-tmux-url
         fuzzback
         extrakto
-        {
-          plugin = resurrect;
-          extraConfig = ''
-            set -g @resurrect-startegy-nvim 'session'
-            set -g @resurrect-capture-pane-contents 'on'
-          '';
-        }
-        {
-          plugin = continuum;
-          extraConfig = ''
-            set -g @continuum-restore 'on'
-            set -g @continuum-save-interval '30'
-          '';
-        }
+        #{
+        #  plugin = yank;
+        #    #set-window-option -g mode-keys vi
+        #  extraConfig = ''
+        #    bind-key -T copy-mode-vi v send-keys -X begin-selection
+        #    bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+        #    bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+        #  '';
+        #}
+        #{
+        #  plugin = resurrect;
+        #  extraConfig = ''
+        #    set -g @resurrect-startegy-nvim 'session'
+        #    set -g @resurrect-capture-pane-contents 'on'
+        #  '';
+        #}
+        #{
+        #  plugin = continuum;
+        #  extraConfig = ''
+        #    set -g @continuum-restore 'on'
+        #    set -g @continuum-save-interval '30'
+        #  '';
+        #}
         ];
       # bind-key mod4 or Escape command-prompt "${normalMode} %%" #jk
       extraConfig = ''
-        set-window-option -g mode-keys vi
-
-        bind-key -T copy-mode-vi v send-keys -X begin-selection
-        bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-
         unbind %
         bind b split-window -h -c "{pane_current_path}"
         unbind '"'

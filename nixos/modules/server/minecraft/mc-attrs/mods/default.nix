@@ -13,6 +13,13 @@
   };
 }
 
+#server:
+#fabric API, Lithium, , Cloth Config API, FerriteCore, ModernFix, fabric-proxy-lite, carpet
+# Video Player, WATERFrAMES, WorldEdit, Plushie Mod, WindChime Continued
+
+#client:
+#Mod Menu, FabricSkyboxes, Iris, Better F3, CraftPresence, Customizable Player Models
+
 #{ pkgs, ... }: {
 #  mods = pkgs.linkFarmFromDrvs "mods" (builtins.attrValues {
 #    fabric-proxy-lite = pkgs.fetchurl {

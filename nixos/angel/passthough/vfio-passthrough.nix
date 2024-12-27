@@ -26,7 +26,7 @@ in {
       "qemu-libvirtd" "libvirtd" "disk"
     ];
     environment.systemPackages = [
-      pkgs.looking-glass-client
+      #pkgs.looking-glass-client
       (pkgs.writeShellScriptBin "vfio-boot-windows" ''
         sudo qemu-system-x86_64 \
         -drive file=${dir.win11},format=qcow2 \
