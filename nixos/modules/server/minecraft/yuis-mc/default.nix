@@ -2,11 +2,11 @@
   mc-attrs = import ../mc-attrs { inherit pkgs; };
   attrs = lib.minecraft.mkMinecraftServer {
     inherit config inputs;
-    srvName = "xyz-mc";
+    srvName = "yuis-mc";
     srvPackage = pkgs.fabricServers.fabric;
-    netPortMinecraft = 25592;
-    netHostAddress = "10.11.0.4";
-    netLocalAddress = "10.11.0.104";
+    netPortMinecraft = 25594;
+    netHostAddress = "10.11.0.6";
+    netLocalAddress = "10.11.0.106";
     extraServerConfig = {
       serverProperties = mc-attrs.server-properties.redstone-default;
       symlinks = {

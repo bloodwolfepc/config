@@ -4,7 +4,7 @@
       gamemode = "creative";
       difficulty = "normal";
       max-players = 12;
-      level-name = "Waterdreamer world.";
+      #level-name = "Waterdreamer world.";
       motd = "Waterdreamer Minecraft Server.";
       simulation-distance = 4;
       view-distance = 7;

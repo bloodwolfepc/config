@@ -24,6 +24,7 @@ rec {
     options = {
       srv.${srvName} = {
         enable = mkEnableOption "enable ${srvName}";
+        forward-ports.enable = mkEnableOption "forward ports";
       };
     };
     config = let
@@ -39,13 +40,15 @@ rec {
         privateNetwork = true;
         hostAddress = netHostAddress;
         localAddress = netLocalAddress;
-        forwardPorts = attrValues (genAttrs (builtins.attrNames net.ports) (portName: {
-          containerPort = net.ports.${portName};
-          hostPort = net.ports.${portName};
-        }));
+        forwardPorts = #(mkIf config.srv.${srvName}.forward-ports.enable)
+          (attrValues (genAttrs (builtins.attrNames net.ports) (portName: {
+            containerPort = net.ports.${portName};
+            hostPort = net.ports.${portName};
+        })));
         bindMounts = let 
           worlds = mcWorlds;
-          bindMountAttrs = world: {
+            # chown -R minecraft:minecraft /srv/minecraft/${srvName}
+          bindMountAttrs = world: { #TODO chgrp as minecraft
             hostPath = "${srvDataDir}/${srvName}/${world}";
             mountPoint = "/srv/minecraft/${srvName}/${world}";
             isReadOnly = false;
@@ -58,7 +61,8 @@ rec {
           networking = {
             firewall = { 
               enable = true;
-              allowedTCPPorts = attrValues net.ports; #cannot be string[ 25565 35567 ]; 
+              allowedTCPPorts = attrValues net.ports;
+#[ 25565 25590 25591 25592 25593 25594 ];
             };
             useHostResolvConf = lib.mkForce false;
           };

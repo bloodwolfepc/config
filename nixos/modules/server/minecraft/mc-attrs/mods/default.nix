@@ -16,6 +16,8 @@
 #server:
 #fabric API, Lithium, , Cloth Config API, FerriteCore, ModernFix, fabric-proxy-lite, carpet
 # Video Player, WATERFrAMES, WorldEdit, Plushie Mod, WindChime Continued
+/022   fabricproxy-lite.pw.toml
+/021   worldedit.pw.toml
 
 #client:
 #Mod Menu, FabricSkyboxes, Iris, Better F3, CraftPresence, Customizable Player Models

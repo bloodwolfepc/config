@@ -1,3 +1,6 @@
 {
-  paper-global-default = import ./paper-global;
+  paper = rec {
+    paper-global' = import ./paper-global;
+    paper-global = paper-global'.paper-global;
+  };
 }
