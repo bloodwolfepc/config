@@ -74,6 +74,7 @@
           "firefox"
           "mpv"
           "vesktop"
+          "khal"
         ];
         gaming-progs = [
           "mangohud"
@@ -104,7 +105,6 @@
           "neomutt"
           "olive-editor"
           "pass"
-          "khal"
         ];
       };
     };
