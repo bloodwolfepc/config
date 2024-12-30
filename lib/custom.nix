@@ -26,6 +26,7 @@ rec {
         sync = {
           enable = mkEnableOption "enable sync ${attrSpace} ${name}";
         };
+        #TODO add type
       };
     } // extraOptions;
   };
@@ -67,6 +68,7 @@ rec {
     wayland ? { },
 
     config
+
 
   }: let
       cfg = config.${attrSpace}.${name};

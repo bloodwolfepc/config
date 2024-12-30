@@ -29,6 +29,12 @@
     config = {
       system.stateVersion = "24.05";
       imports = [ inputs.nixarr.nixosModules.default ]; 
+      nixpkgs.config.permittedInsecurePackages = [
+        "aspnetcore-runtime-6.0.36"
+        "aspnetcore-runtime-wrapped-6.0.36"
+        "dotnet-sdk-6.0.428"
+        "dotnet-sdk-wrapped-6.0.428"
+      ];
       networking = {
         firewall = { enable = true; allowedTCPPorts = [
           80 443 8096 9091 6767 8686 8787 8989 7878 9696 8080 8083 28960
@@ -105,7 +111,7 @@
         bazarr.enable = true; #6767
         lidarr.enable = true; #8686
         readarr.enable = true; #8787
-        sonarr.enable = true; #8989
+        sonarr.enable = true; #8989 #sdk
         radarr.enable = true; #7878
         prowlarr.enable = true; #9696
       };

@@ -6,11 +6,11 @@
     hostAddress = "10.10.11.8";
     localAddress = "10.10.10.8";
     forwardPorts = [
-      { containerPort = 80; hostPort = 80; }
-      { containerPort = 442; hostPort = 442; }
+      { containerPort = 80; hostPort = 65551; }
+      { containerPort = 442; hostPort = 65552; }
     ];
     bindMounts."nextcloud" = {
-      hostPath = "/data/nextcould";
+      hostPath = "/data/srv/nextcould";
       mountPoint = "/var/lib/nextcloud";
       isReadOnly = false;
     };

@@ -12,6 +12,7 @@
     ../server/waterdreamer
     ../server/waterdreamer-blog
     #../server/nixarr
+    ../server/nextcloud
     ../server/calibre
   ];
 }
