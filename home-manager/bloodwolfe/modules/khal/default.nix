@@ -12,7 +12,7 @@
     programs.vdirsyncer.enable = true;
     services.vdirsyncer.enable = true;
 
-    services.netcloud-client = {
+    services.nextcloud-client = {
       enable = true;
       startInBackground = true;
     };

@@ -66,6 +66,7 @@ rec {
     sops ? { },
     stylix ? { },
     wayland ? { },
+    accounts ? { },
 
     config
 
@@ -159,7 +160,7 @@ rec {
     inherit (applicationOptions) options;
     config = mkMerge [
       (mkIf cfg.enable {
-        inherit i18n programs xdg sops stylix;
+        inherit i18n programs xdg sops stylix accounts;
         home = home';
         wayland = wayland';
         services = services';

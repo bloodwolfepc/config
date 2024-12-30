@@ -19,6 +19,12 @@
         acceptTerms = true;
         defaults.email = "bloodwolfepc@gmail.com";
       };
+      #systemd.services.nginx = {
+      #  after = [ "acme-waterdreamer.net.service" ];
+      #};
+      systemd.services."acme-waterdreamer.net" = {
+        after = [ "nginx.service" ];
+      };
       services.nginx = {
         enable = true;
         virtualHosts."waterdreamer.net" = {
