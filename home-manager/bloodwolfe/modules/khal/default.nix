@@ -17,6 +17,7 @@
       startInBackground = true;
     };
     accounts.calendar = {
+      basePath = ".cal";
       accounts = {
         "bloodwolfe" = {
           primary = true;
@@ -40,6 +41,7 @@
               "color"
               "displayname"
             ];
+          };
           khal = {
             type = "discover";
             enable = true;
@@ -47,7 +49,6 @@
         };
       };
     };
-  };
     inherit config;
   }; 
 in {

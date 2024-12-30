@@ -52,11 +52,11 @@
       key = config.sops.secrets."syncthing-key-angel".path;
       cert = config.sops.secrets."syncthing-cert-angel".path;
     }; 
-    qt = {
-      enable = true;
-    };
-    gtk = {
-      enable = true;
-    };
+    #qt = {
+    #  enable = true;
+    #};
+    #gtk = {
+    #  enable = true;
+    #};
   };
 }
