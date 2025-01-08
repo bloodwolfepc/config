@@ -18,7 +18,7 @@
       carla
       sfizz
       orca-c
-      csound
+      #csound
       glicol-cli
       puredata
       plugdata

@@ -1,0 +1,38 @@
+From ebbb255d6a73384ec2560047eab236660d4589db Mon Sep 17 00:00:00 2001
+From: s0600204 <dev@s0600204>
+Date: Thu, 2 Jan 2025 19:07:50 +0000
+Subject: [PATCH] Explictly specify type
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Was causing a build error, see https://bugzilla.redhat.com/show_bug.cgi?id=2248131
+
+Patch provided by user Miro Hrončok in that bug report
+
+See also:
+* https://github.com/dsacre/pyliblo/issues/30
+---
+ src/liblo.pyx | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/liblo.pyx b/src/liblo.pyx
+index bf1e64d..6f931ad 100644
+--- a/src/liblo.pyx
++++ b/src/liblo.pyx
+@@ -238,12 +238,12 @@ cdef int _msg_callback(const_char *path, const_char *types, lo_arg **argv,
+         elif t == 't': v = _timetag_to_double(argv[i].t)
+         elif t == 'b':
+             if PY_VERSION_HEX >= 0x03000000:
+-                v = bytes(<unsigned char*>lo_blob_dataptr(argv[i]))
++                v = bytes(<unsigned char*>lo_blob_dataptr(<lo_blob>argv[i]))
+             else:
+                 # convert binary data to python list
+                 v = []
+-                ptr = <unsigned char*>lo_blob_dataptr(argv[i])
+-                size = lo_blob_datasize(argv[i])
++                ptr = <unsigned char*>lo_blob_dataptr(<lo_blob>argv[i])
++                size = lo_blob_datasize(<lo_blob>argv[i])
+                 for j from 0 <= j < size:
+                     v.append(ptr[j])
+         else:
