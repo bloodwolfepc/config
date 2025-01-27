@@ -58,7 +58,7 @@
           extraConfig = ''
             unbind f
             TMUX_FZF_LAUNCH_KEY="f"
-            bind F find-window
+            #bind F find-window (needs args)
           '';
         }
         {
@@ -107,7 +107,7 @@
         bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
         #set -g allow-passthrough on
-        set-clipboard on
+        set -s set-clipboard on
         
         unbind t
         bind-key T clock-mode
