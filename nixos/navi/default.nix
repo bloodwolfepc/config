@@ -8,7 +8,7 @@
       ../modules/preset/server.nix
       ../modules/users/bloodwolfe
       
-      ../modules/server/minecraft
+      #../modules/server/minecraft
       ./ddns.nix
     ];
   networking = {

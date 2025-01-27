@@ -106,7 +106,8 @@
         bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
         bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
-        set -g allow-passthrough on
+        #set -g allow-passthrough on
+        set-clipboard on
         
         unbind t
         bind-key T clock-mode
