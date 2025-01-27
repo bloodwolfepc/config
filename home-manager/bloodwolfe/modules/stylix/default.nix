@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: let 
+{ lib, config, pkgs, inputs, ... }: let 
   base16Scheme = {
     base00 = "000000";
     base01 = "1C1C1C";
@@ -54,6 +54,7 @@
     inherit config;
   }; 
 in {
+  imports = [ inputs.stylix.homeManagerModules.stylix ];
   inherit (attrs) options config;
 }
 

@@ -33,7 +33,6 @@
     	profileExtra = ''
         ${pkgs.hyfetch}/bin/hyfetch
     	'';
-    
     	shellAliases = {
         ns = "nix-shell --command zsh -p";
     		gvi = "nix run github:evilcatlawyer/nixvim"; 
@@ -83,7 +82,17 @@
         PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%B%~%b%f %# '
         eval "$(zoxide init zsh)"
     	'';
+
     };
+    #programs.atuin = {
+    #  enable = true;
+    #  settings = {
+    #    auto_sync = true;
+    #    sync_frequency = "5m";
+    #    sync_addresss = "";
+    #    search_mode = "prefix";
+    #  };
+    #};
     inherit config;
   };
 in {

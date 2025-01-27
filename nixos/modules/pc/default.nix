@@ -7,9 +7,9 @@
   security.polkit.enable = true;
   xdg.portal = {
     enable = true;
-    config = {
-      common.default = [ "gtk" ];
-    };
+    #config = {
+    #  common.default = [ "gtk" ];
+    #};
   };
   programs.light.enable = true;
   programs.ydotool.enable = true;

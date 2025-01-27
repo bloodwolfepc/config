@@ -1,4 +1,4 @@
-{ lib, config, inputs, ... }: {
+{ lib, config, inputs, pkgs, ... }: {
   imports = [ 
     ../setup
     ../../../nixos/angel/monitors.nix
@@ -57,6 +57,8 @@
     qt = {
       enable = true;
       platformTheme.name = "qtct";
+      #style.package = lib.mkForce pkgs.adwaita-qt6;
+      #style.name = lib.mkForce "adwaita-dark";
       #qt5ct qt6ct
 
     };
