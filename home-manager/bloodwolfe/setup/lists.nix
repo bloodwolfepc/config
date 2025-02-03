@@ -73,6 +73,7 @@
           "qutebrowser"
           "firefox"
           "mpv"
+          "mpd"
           "vesktop"
           "khal"
         ];

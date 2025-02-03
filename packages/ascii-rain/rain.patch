@@ -1,0 +1,14 @@
+diff --git a/rain.c b/rain.c
+index c427a49..5513bc0 100644
+--- a/rain.c
++++ b/rain.c
+@@ -237,7 +237,8 @@ void initCurses()
+     signal(SIGWINCH, handleResize);
+ 
+     int hazColors = has_colors() && can_change_color();
+-    if (hazColors)
++    char *tmux = getenv("TMUX"); 
++    if (hazColors || tmux)
+     {
+         use_default_colors();
+         start_color();

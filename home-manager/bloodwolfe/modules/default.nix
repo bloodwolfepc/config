@@ -77,5 +77,7 @@
     ./zathura
     ./zoxide
     ./zsh
+
+    ./mpd
   ];
 }

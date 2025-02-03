@@ -7,6 +7,7 @@
     packages = with pkgs; [
 
       cli-visualizer
+      cava
       playerctl
       pavucontrol
       qpwgraph

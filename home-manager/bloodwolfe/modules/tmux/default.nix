@@ -23,7 +23,7 @@
     in {
       enable = true;
       shell = "${pkgs.zsh}/bin/zsh";
-      #terminal = "screen-256color";
+      terminal = "screen-256color";
       historyLimit = 100000;
       clock24 = true;
       keyMode = "vi";
@@ -33,7 +33,7 @@
       aggressiveResize = true;
       escapeTime = 0;
       disableConfirmationPrompt = true;
-      mouse = false;
+      mouse = true;
       tmuxinator.enable = true;
       sensibleOnTop = true;
       #secureSocket = false;
