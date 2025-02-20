@@ -65,7 +65,7 @@
     ./thefuck
     ./tmux
     ./vesktop
-    ./virtual-manager
+    ./virt-manager
     ./waybar
     ./wezterm
     ./wine
@@ -79,5 +79,8 @@
     ./zsh
 
     ./mpd
+    ./terminal-extras
+    ./techmino
+    ./pixelorama
   ];
 }

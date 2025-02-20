@@ -16,7 +16,9 @@
       workstation-progs
     ;
     enable = {
-      list = [ ] 
+      list = [
+        "techmino"
+      ] 
         ++ require-nixos
         ++ require-hm
         ++ require-pc

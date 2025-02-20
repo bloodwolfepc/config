@@ -9,7 +9,7 @@
     ../modules/hardware/gpu-passthrough.nix
     ../modules/hardware/rog-zypherus-g14.nix
     ./passthough
-    ./powersave
+    #./powersave
     ./nonspecial.nix
   ];
   networking.hostName = "angel";
@@ -27,23 +27,33 @@
     pkgs.universal-android-debloater 
   ];
   users.users.bloodwolfe.extraGroups = ["adbusers"];      
-  #environment.sessionVariables = {
-  #  GTK_IM_MODULE = "fcitx";
-  #  QT_IM_MODULE = "fcitx";
-  #  XMODIFIES = "@im=fcitx";
-  #};
   programs.nix-ld.enable = true;
-  #boot.binfmt.preferStaticEmulators = true;
 
   specialisation.vfio-passthough.configuration = {
     bwcfg.angel.gpu-detatched.enable = true;
     bwcfg.angel.vfio-passthough.enable = true;
   };
-  #specialisation.powersave.configuration = {
-  #  config.hardware.asus-zypherus-ga402.powersave = true;
-  #};
   specialisation.networkmanager.configuration = {
-    networking.networkmanager.enable = true;
-    bwcfg.angel.powersave.enable = true;
+    networking.networkmanager.enable = lib.mkForce true;
+    networking.useDHCP = lib.mkForce false;
+  };
+  specialisation.nmvfio.configuration = {
+    bwcfg.angel.gpu-detatched.enable = true;
+    bwcfg.angel.vfio-passthough.enable = true;
+    networking.networkmanager.enable = lib.mkForce true;
+    networking.useDHCP = lib.mkForce false;
+  };
+  systemd.services.supergfxd.path = [ pkgs.pciutils ];
+  services.supergfxd = {
+    enable = true;
+    settings = lib.mkDefault {
+      mode = "Hybrid";
+      vfio_enable = true;
+      vfio_save = true;
+      always_reboot = false;
+      no_logind = false;
+      logout_timeout_s = 180;
+      hotplug_type = "None";
+    };
   };
 }

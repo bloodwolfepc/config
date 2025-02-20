@@ -1,12 +1,11 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
-    name = "gimp";
+    name = "pixelorama";
     packages = with pkgs; [
-      gimp
+      pixelorama
     ];
     syncDirs = [
-      "gimp"
-      ".config/GIMP"
+      ".local/share/pixelorama"
     ];
     inherit config;
   }; 

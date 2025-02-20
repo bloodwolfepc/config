@@ -28,6 +28,7 @@
         "${pkgs.swww}/bin/swww img = ${config.wallpaper}"
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "lxqt-policykit-agent"
       ];
       general = {
         allow_tearing = true;

@@ -1,15 +1,14 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
-    name = "gimp";
+    name = "techmino";
     packages = with pkgs; [
-      gimp
+      techmino
     ];
     syncDirs = [
-      "gimp"
-      ".config/GIMP"
+      "./local/share/love/Techmino"
     ];
     inherit config;
-  }; 
+  };
 in {
   inherit (attrs) options config;
 }

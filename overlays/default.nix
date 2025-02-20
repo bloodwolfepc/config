@@ -14,6 +14,11 @@ in {
   };
 
   modifications = final: prev: {
+    supergfxcl = prev.supergfxcl.overrideAttrs (oldAttrs: {
+    });
+  }; 
+}
+
     #neovim = prev.neovim // {
     #  neovim = inputs.nixvim.packages.x86_64-linux.default;
     #};
@@ -28,6 +33,4 @@ in {
     #      ./pyliblo.patch
     #    ];
     #  });
-    #});
-  };
-}
+    #}); 

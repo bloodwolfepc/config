@@ -1,8 +1,7 @@
-# BUG: hyperland has graphical issues
-
 { lib, pkgs, config, ... }: let
   cfg = config.bwcfg.angel.gpu-detatched;
   platform = "amd";
+  user = "bloodwolfe";
   vfioIds = [ "1002:73ef" "1002:ab28" ];
 in {
   config = lib.mkIf cfg.enable {
@@ -14,6 +13,7 @@ in {
       postBootCommands = ''
         echo "vfio-pci" > /sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/driver_override   
         modprobe -i vfio-pci
+        powerprofilesctl set performance
       '';
       kernelModules = [ 
         "vfio"
@@ -35,19 +35,22 @@ in {
         options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}
       ";
     };
-    environment.etc = {
-      "supergfxd.conf" = {
-        mode = "0664";
-        source = (pkgs.formats.json { }).generate "supergfxd.conf" {
-          mode = lib.mkForce "Vfio";
-          vfio_enable = lib.mkForce true;
-          vfio_save = false;
-          always_reboot = false;
-          no_logind = false;
-          logout_timeout_s = 180;
-          hotplug_type = "None";
-        };
+    systemd.tmpfiles.rules = [
+        "f /dev/shm/looking-glass 0660 ${user} qemu-libvirtd -"
+    ];
+    systemd.services.supergfxd.path = [ pkgs.pciutils ];
+    services.supergfxd = {
+      enable = true;
+      settings = lib.mkForce { #(builtins.readFile ./supergfxd.conf);
+        mode = "Vfio";
+        vfio_enable = true;
+        vfio_save = true;
+        always_reboot = false;
+        no_logind = false;
+        logout_timeout_s = 180;
+        hotplug_type = "None";
       };
     };
   };  
 }
+

@@ -54,6 +54,7 @@
         srv-progs = [
           "qemu"
           "podman"
+          "virt-manager"
         ];
         used-progs = [
           "kdeconnect"
@@ -76,14 +77,18 @@
           "mpd"
           "vesktop"
           "khal"
+          "terminal-extras"
         ];
         gaming-progs = [
           "mangohud"
           "prismlauncher"
           "steam"
           "retroarch"
-          "wl-crosshair"
+          #"wl-crosshair"
         ];
+        #games = [
+        #  "techmino"
+        #];
         workstation-progs = [
           "beeref"
           "bevy"
@@ -92,20 +97,22 @@
           "gimp"
           "krita"
           "obs"
+          "pixelorama"
+          "olive-editor"
+          "godot"
         ];
         unused-progs = [
           "bitwarden"
           "lf" 
           "qutebrowser"
           "freecad"
-          "godot"
           "freecad"
           "kdenlive"
           "libreoffice"
           "msmtp"
           "neomutt"
-          "olive-editor"
           "pass"
+          "libresprite"
         ];
       };
     };

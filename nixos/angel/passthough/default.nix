@@ -1,3 +1,9 @@
+#TODO 
+#modprobe amdgpu on post activation 
+#system hooks
+#usb passthough keybinds
+#emulated tpm
+
 { lib, ... }: {
   imports = [
     ./gpu-detatched.nix

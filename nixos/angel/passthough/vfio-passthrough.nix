@@ -1,33 +1,31 @@
 { config, pkgs, lib,... }: let 
   cfg = config.bwcfg.angel.vfio-passthough;
   user = "bloodwolfe";
-  dir.win11 = "/home/bloodwolfe/qemu/win11.qcow2";
+  dir.win11 = "/home/bloodwolfe/qemu/windows-passthough/win11.qcow2";
 in {
   config = lib.mkIf cfg.enable {
     virtualisation = {
       libvirtd = {
         enable = true;
-        extraConfig = ''
-          user="${user}"
-        '';
+        #extraConfig = ''
+          #user="${user}"
+        #'';
         onBoot = "ignore";
         onShutdown = "shutdown";
         qemu = {
           package = pkgs.qemu_kvm;
           #ovmf = "enabled";
-          verbatimConfig = ''
-            namespaces = []
-            user = "+${builtins.toString config.users.users.${user}.uid}"
-          '';
+          #verbatimConfig = ''
+          #namespaces = []
+            #user = "+${builtins.toString config.users.users.${user}.uid}"
+          #'';
         };
       };
     };
-    users.users.${user}.extraGroups = [
-      "qemu-libvirtd" "libvirtd" "disk"
-    ];
-    environment.systemPackages = [
-      #pkgs.looking-glass-client
-      (pkgs.writeShellScriptBin "vfio-boot-windows" ''
+    #XHCI = eXtensible Host Controller Interface (also OHCI for open, EHCI for enhanced)
+    environment.systemPackages = with pkgs; [
+      looking-glass-client
+      (writeShellScriptBin "vfio-boot-windows" ''
         sudo qemu-system-x86_64 \
         -drive file=${dir.win11},format=qcow2 \
         -cpu Skylake-Client-v3 \
@@ -46,6 +44,21 @@ in {
         -parallel none \
         -serial none \
         -enable-kvm \
+      '')
+      (writeShellScriptBin "check-gpu" ''
+        lspci -nnk | grep "1002:73ef" -A 3
+        lspci -nnk | grep "1002:ab28" -A 3
+        lspci -nnk | grep "1002:1681" -A 3
+      '')
+      (writeShellScriptBin "gpu-attach" ''
+        sudo virsh nodedev-reattach --device pci_0000_03_00_0 && echo "GPU attached" &&
+        sudo rmmod vfio vfio_iommu_type1 vfio_pci vfio virqfd && echo "VFIO drivers removed" &&
+        sudo modprobe amdgpu "amdgpu driver initialized"
+      '')
+      (writeShellScriptBin "gpu-detached" ''
+        sudo rmmod amdgpu && echo "amdgpu driver removed"
+        sudo modprobe vfio vfio_iommu_type1 vfio_pci vfio virqfd && echo "VFIO initialized" &&
+        sudo virsh nodedev-detach pci_0000_03_00_0 "GPU detached"
       '')
     ];
   };

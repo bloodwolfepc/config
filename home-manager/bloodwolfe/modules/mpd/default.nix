@@ -8,12 +8,12 @@
         connection_timeout "5"
       '';
     };
-    services.mpd-mpris = {
-      enable = true;
-    };
-    services.mpdris2 = {
-      enable = true;
-    };
+    #services.mpd-mpris = {
+    #  enable = true;
+    #};
+    #services.mpdris2 = {
+    #  enable = true;
+    #};
     services.mpd-discord-rpc = { };
     services.listenbrainz-mpd = { }; #scrobbler
     services.mopidy = {

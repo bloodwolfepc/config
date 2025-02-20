@@ -1,12 +1,11 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
-    name = "gimp";
+    name = "libresprite";
     packages = with pkgs; [
-      gimp
+      libresprite
     ];
     syncDirs = [
-      "gimp"
-      ".config/GIMP"
+      ".config/libresprite"
     ];
     inherit config;
   }; 

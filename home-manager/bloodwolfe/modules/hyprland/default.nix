@@ -1,7 +1,8 @@
 
 #TODO clipboard history management, screenshots
 #command to toogle gaps
-# bind that:
+#bind that:
+#toggle touchpas
 #moves firefox to a position of the aftive workspace and another to return it
 #wvkbd-mobintl -L 400 -fn Unscii -bg 000000 -fg 000000 -fg-sp 000000 -press 000000|00 -press-sp 000000|00
 
@@ -13,6 +14,11 @@
       (writeShellScriptBin "pc" ''
         ${hyprland}/bin/Hyprland
       '')
+
+      libnotify
+      (writeShellScriptBin "toggle-touchpad"
+        (builtins.readFile ./touchpad.sh)
+      )
       wayvnc
       swww
       wl-mirror

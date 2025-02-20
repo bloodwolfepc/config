@@ -1,4 +1,5 @@
 { pkgs, config, ... }: {
+  users.groups.libvirtd.members = ["bloodwolfe"];
   sops.secrets.bloodwolfe-pass.neededForUsers = true;
   users.mutableUsers = false;
   users.groups.data = {
@@ -17,6 +18,8 @@
       "video"
       "networkmanager"
       "libvirtd"
+      "qemu-libvirtd"
+      "disk"
       "docker"
       "keys"
       "data"
