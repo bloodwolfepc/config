@@ -25,6 +25,7 @@ in {
     #XHCI = eXtensible Host Controller Interface (also OHCI for open, EHCI for enhanced)
     environment.systemPackages = with pkgs; [
       looking-glass-client
+      pciutils
       (writeShellScriptBin "vfio-boot-windows" ''
         sudo qemu-system-x86_64 \
         -drive file=${dir.win11},format=qcow2 \
@@ -45,21 +46,39 @@ in {
         -serial none \
         -enable-kvm \
       '')
-      (writeShellScriptBin "check-gpu" ''
+      (writeShellScriptBin "gpu-info" ''
         lspci -nnk | grep "1002:73ef" -A 3
         lspci -nnk | grep "1002:ab28" -A 3
         lspci -nnk | grep "1002:1681" -A 3
+        ls -l /sys/bus/pci/devices/0000:03:00.0/driver
+        ls -l /sys/bus/pci/devices/0000:03:00.1/driver
       '')
-      (writeShellScriptBin "gpu-attach" ''
-        sudo virsh nodedev-reattach --device pci_0000_03_00_0 && echo "GPU attached" &&
-        sudo rmmod vfio vfio_iommu_type1 vfio_pci vfio virqfd && echo "VFIO drivers removed" &&
-        sudo modprobe amdgpu "amdgpu driver initialized"
-      '')
-      (writeShellScriptBin "gpu-detached" ''
-        sudo rmmod amdgpu && echo "amdgpu driver removed"
-        sudo modprobe vfio vfio_iommu_type1 vfio_pci vfio virqfd && echo "VFIO initialized" &&
-        sudo virsh nodedev-detach pci_0000_03_00_0 "GPU detached"
-      '')
+      (writeShellScriptBin "gpu-detach" (builtins.readFile ./gpu-detach.sh))
+      (writeShellScriptBin "gpu-attach" (builtins.readFile ./gpu-attach.sh))
     ];
   };
 }
+
+#echo "amdgpu" | sudo tee /sys/bus/pci/devices/0000:03:00.0/driver_override &&
+#echo "0000:03:00.0" | sudo tee /sys/bus/pci/drivers/amdgpu/bind &&
+#echo "0000:03:00.0 is bound to amdgpu" &&
+#
+#
+#echo "0000:03:00.1" | sudo tee /sys/bus/pci/drivers/vfio-pci/unbind &&
+#echo "snd_hda_intel" | sudo tee /sys/bus/pci/devices/0000:03:00.1/driver_override &&
+#echo "0000:03:00.1" | sudo tee /sys/bus/pci/drivers/snd_hda_intel/bind &&
+#echo "0000:03:00.1 is bound to snd_hda_intel"
+
+
+
+#echo 1 | sudo tee /sys/class/drm/card0/device/remove
+#echo "0000:03:00.0" | sudo tee /sys/bus/pci/drivers/amdgpu/unbind && #crashes hyprland
+#
+#echo "vfio-pci" | sudo tee /sys/bus/pci/devices/0000:03:00.0/driver_override &&
+#echo "0000:03:00.0" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind &&
+#echo "0000:03:00.0 is bound to vfio-pci" &&
+#
+#echo "0000:03:00.1" | sudo tee /sys/bus/pci/drivers/amdgpu/unbind &&
+#echo "vfio-pci" | sudo tee /sys/bus/pci/devices/0000:03:00.1/driver_override &&
+#echo "0000:03:00.1" | sudo tee /sys/bus/pci/drivers/vfio-pci/bind &&
+#echo "0000:03:00.1 is bound to vfio-pci" &&

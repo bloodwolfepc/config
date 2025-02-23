@@ -30,8 +30,8 @@
         #searchDownKey = [ "^j" ];
         #searchUpKey = [ "^k" ];
       };
+      #${pkgs.hyfetch}/bin/hyfetch
     	profileExtra = ''
-        ${pkgs.hyfetch}/bin/hyfetch
     	'';
     	shellAliases = {
         ns = "nix-shell --command zsh -p";

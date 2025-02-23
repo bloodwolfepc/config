@@ -9,6 +9,9 @@
     xwayland.enable = true;
     settings = {
       #env = [
+      #  "AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:07:00.0-card"
+      #];
+      #env = [
 	    #  "XCURSOR_SIZE,24"
 	    #  "QT_QPA_PLATFORMTHEME,qt6ct"
 	    #  "QT_QPA_PLATFORM=wayland;xcb"
@@ -48,6 +51,9 @@
       };
       debug = {
         suppress_errors = true; #hyprctl seterror diasable
+        disable_logs = false;
+        disable_time = false;
+        enable_stdout_logs = true;
       };
       gestures = {
         workspace_swipe = true;

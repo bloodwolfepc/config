@@ -118,14 +118,9 @@
         bind 'z' command-prompt -p "move pane to:" "move-pane -t ':%%'"
 
         bind C-c send-keys 'C-l'
-
       '';
     };
-    programs.zsh.initExtra = lib.mkIf config.programs.zsh.enable ''
-      if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then     #&& [ -n "$WAYLAND_SESSION" ]; then
-        tmux attach-session -t bloodsession || tmux new-session -s bloodsession
-      fi
-    '';
+    programs.zsh.initExtra = lib.mkIf config.programs.zsh.enable (builtins.readFile ./tmux-autostart.sh);
     inherit config;
   };
 in {

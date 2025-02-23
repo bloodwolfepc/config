@@ -11,7 +11,7 @@ in {
     boot = {
       blacklistedKernelModules = [ "amdgpu" ];
       postBootCommands = ''
-        echo "vfio-pci" > /sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/driver_override   
+        echo "vfio-pci" > /sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/driver_override
         modprobe -i vfio-pci
         powerprofilesctl set performance
       '';
@@ -41,14 +41,14 @@ in {
     systemd.services.supergfxd.path = [ pkgs.pciutils ];
     services.supergfxd = {
       enable = true;
-      settings = lib.mkForce { #(builtins.readFile ./supergfxd.conf);
+      settings = lib.mkForce {
         mode = "Vfio";
         vfio_enable = true;
         vfio_save = true;
         always_reboot = false;
         no_logind = false;
         logout_timeout_s = 180;
-        hotplug_type = "None";
+        hotplug_type = "Asus";
       };
     };
   };  
