@@ -49,6 +49,7 @@
     ./retroarch
     ./ripgrep
     ./rofi
+    ./tofi
     ./sgpt
     ./sops
     ./spotify

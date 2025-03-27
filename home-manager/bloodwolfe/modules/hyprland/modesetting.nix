@@ -20,7 +20,7 @@
   passOneshots = pkgs.writeText "passOneshots" mkOneShots;
   submaps = [
     "CONFIG" "WS" "DEPLOY" "MIGRATE"
-    "POSITION" "REC" "MONITOR" "TMUX" "TOGGLE"
+    "POSITION" "REC" "MONITOR" "TOGGLE"
   ];
   submapsNoPassOneshots = [
     "RESIZE" "EXEC"
@@ -73,6 +73,5 @@ in {
     kb_MONITOR = mkKb "m";
     kb_CONFIG = mkKb "s";
     kb_TOGGLE = mkKb "t";
-    kb_TMUX = mkKb "SPACE";
   };
 }

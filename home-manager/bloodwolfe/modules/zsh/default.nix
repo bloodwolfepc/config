@@ -1,5 +1,6 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
+    sops.secrets."openai-auth" = { };
     name = "zsh";
     programs.zsh = {
     	enable = true;
@@ -81,6 +82,8 @@
         prompt walters 
         PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%B%~%b%f %# '
         eval "$(zoxide init zsh)"
+
+        export OPENAI_API_KEY="$(cat ${config.sops.secrets."openai-auth".path})"
     	'';
 
     };

@@ -10,10 +10,10 @@
     ./vfio-passthrough.nix
   ];
   options = {
-    bwcfg.angel.gpu-detatched = {
+    configured.angel.gpu-detatched = {
       enable = lib.mkEnableOption "Detatch gpu on boot.";
     };
-    bwcfg.angel.vfio-passthough = {
+    configured.angel.vfio-passthough = {
       enable = lib.mkEnableOption "Configure QEMU for vfio Passthough, create VM launch options.";
     };
   };

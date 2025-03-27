@@ -15,7 +15,6 @@
       bindi = ,${config.kb_MONITOR}, submap, MONITOR
       bindi = ,${config.kb_CONFIG}, submap, CONFIG
       bindi = ,${config.kb_TOGGLE}, submap, TOGGLE
-      bindi = ,${config.kb_TMUX}, submap, TMUX
       
       bindm = , mouse:272, movewindow
       bindm = , mouse:273, resizewindow
@@ -23,7 +22,7 @@
       bindi = , ${config.kb_DOWN}, movefocus, d
       bindi = , ${config.kb_UP}, movefocus, u
       bindi = , ${config.kb_LEFT}, movefocus, l
-      bindi = , SPACE, togglefloating
+      bindi = , BRACKETLEFT, togglefloating
       bindi = , v, fullscreen
       bindi = , x, killactive
     submap = escape
@@ -32,7 +31,7 @@
       bindi = , ${config.kb_DOWN}, movewindow, d
       bindi = , ${config.kb_UP}, movewindow, u
       bindi = , ${config.kb_LEFT}, movewindow, l
-      bindi = , SPACE, centerwindow
+      bindi = , BRACKETRIGHT, centerwindow
     submap = escape
     submap = RESIZE
       bindm = ,mouse:272, movewindow

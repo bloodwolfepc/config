@@ -1,5 +1,5 @@
 { lib, pkgs, config, ... }: let
-  cfg = config.bwcfg.angel.gpu-detatched;
+  cfg = config.configured.angel.gpu-detatched;
   platform = "amd";
   user = "bloodwolfe";
   vfioIds = [ "1002:73ef" "1002:ab28" ];
@@ -10,26 +10,34 @@ in {
     };
     boot = {
       blacklistedKernelModules = [ "amdgpu" ];
-      postBootCommands = ''
-        echo "vfio-pci" > /sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/driver_override
-        modprobe -i vfio-pci
-        powerprofilesctl set performance
-      '';
+      #echo "vfio-pci" > /sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/driver_override
+      #modprobe -i vfio-pci
+      #powerprofilesctl set performance
+      #postBootCommands = ''
+      #'';
       kernelModules = [ 
-        "vfio"
-        "vfio_iommu_type1"
-        "vfio_pci"
-        "vfio_virqfd"
         "kvm-${platform}" 
+        "vfio_virqfd"
+        "vfio_pci"
+        "vfio_iommu_type1"
+        "vfio"
+        #"vendor-reset"
       ];
       kernelParams = [
-        "${platform}=on"
-        "${platform}=pt"
-        "iommu=pt"
-        "kvm.ignore_msrs=1"
-        "nogpumanager"
         "rd.driver.pre=vfio-pci"
+        "nogpumanager"
         "vfio-pci.ids=${builtins.concatStringsSep "," vfioIds}"
+
+        "${platform}_iommu=on"
+        "${platform}_iommu=pt"
+        "kvm.ignore_msrs=1"
+
+        "video=vesafb:off,efifb:off"
+
+
+        #"iommu=pt"
+        #"${platform}=on"
+        #"${platform}=pt"
       ];
       extraModprobeConfig = "
         options vfio-pci ids=${builtins.concatStringsSep "," vfioIds}
@@ -53,4 +61,3 @@ in {
     };
   };  
 }
-

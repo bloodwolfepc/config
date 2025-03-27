@@ -15,11 +15,7 @@
 
 ### Notes
 
-Each Home Manager configuration has attributes to enable
-itself plus syncthing with a list of dirs for an applications directores and some other stuff
-I use this in tandem with the impermanence module on a btrfs subvolume called sync which exists on each host.
-
-> This repo is based heavily on [the nix config by Misterio77](https://github.com/Misterio77/nix-config).
+personal nixos configurations
   
 
 ### Feautres
@@ -27,7 +23,6 @@ I use this in tandem with the impermanence module on a btrfs subvolume called sy
 - - rofi
 - - waybar
 - - swaync
-- art
 - - krita
 - - gimp
 - - beeref

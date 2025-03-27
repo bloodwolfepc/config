@@ -1,3 +1,0 @@
-{
-  imports = [ ../virtualization/libvirt.nix ];
-}

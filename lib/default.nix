@@ -1,5 +1,5 @@
-{ lib }: {
-  custom = import ./custom.nix { inherit lib; };
+{ lib, config }: {
+  custom = import ./custom.nix { inherit lib config; };
   minecraft = import ./minecraft.nix { inherit lib; };
 }
 

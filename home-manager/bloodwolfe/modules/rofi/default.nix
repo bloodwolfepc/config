@@ -1,6 +1,3 @@
-#TODO use a command field , redesign
-#program = "${pkgs.rofi}/bin/rofi -show run";
-
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkHomeApplication {
     name = "rofi";
@@ -18,7 +15,7 @@
     	#  pkgs.rofi-systemd
     	#];
     	terminal = "${pkgs.alacritty}/bin/alacritty";
-    	location = "top";
+      #location = "";
       theme = let
         inherit (config.lib.formats.rasi) mkLiteral;
       in {	

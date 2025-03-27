@@ -1,0 +1,23 @@
+{
+  imports = [
+    ./audio
+    ./boot
+    ./extra-modules
+    ./gamescope
+    ./gaming
+    ./hyprland
+    ./impermanence
+    ./kanata
+    ./kernel
+    ./locale
+    ./networking
+    ./nh
+    ./nix
+    ./sops
+    ./ssh
+    ./steam
+    ./users
+    ./virtualization
+    ./yubikey
+  ];
+}

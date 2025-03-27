@@ -5,11 +5,11 @@
 		systems = [
       "x86_64-linux"
     ];
-    #customLib = import ./lib { inherit (nixpkgs) lib; };
     lib' = nixpkgs.lib // home-manager.lib;
     lib = lib'.extend ( final: prev:
       import ./lib {
         lib = final;
+        config = outputs.config;
       }
     );
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
@@ -99,11 +99,11 @@
       url = "github:rasmus-kirk/nixarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim = {
-      url = "github:bloodwolfepc/dead";
-    };
     nixvim = {
       url = "github:bloodwolfepc/nixvim";
+    };
+    neovim = {
+      url = "github:bloodwolfepc/neovim";
     };
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";

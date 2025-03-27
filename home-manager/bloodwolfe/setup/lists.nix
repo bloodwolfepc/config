@@ -39,7 +39,8 @@
         ];
         require-pc = [
           "hyprland"
-          "rofi"
+          #"rofi"
+          "tofi"
           "swaync"
           "waybar"
           "xdg"
@@ -100,13 +101,12 @@
           "pixelorama"
           "olive-editor"
           "godot"
+          "freecad"
         ];
         unused-progs = [
           "bitwarden"
           "lf" 
           "qutebrowser"
-          "freecad"
-          "freecad"
           "kdenlive"
           "libreoffice"
           "msmtp"

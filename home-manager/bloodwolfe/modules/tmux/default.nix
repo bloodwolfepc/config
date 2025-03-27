@@ -4,6 +4,8 @@
     stylix.targets.tmux.enable = false;
     packages = with pkgs ;[
       sesh
+      microfetch
+      (writeShellScriptBin "import-env" (builtins.readFile ./import-env.sh))
     ];
     programs.tmux = let
       matryoshka = pkgs.tmuxPlugins.mkTmuxPlugin {

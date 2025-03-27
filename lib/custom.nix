@@ -1,4 +1,4 @@
-{ lib }: 
+{ lib, config }: 
   with builtins;
   with lib;
 rec {
@@ -15,7 +15,7 @@ rec {
   mkApplicationOptions = {
     name,
     attrSpace ? "bwcfg",
-    extraOptions ? {}
+    extraOptions ? { }
   }: {
     options = {
       ${attrSpace}.${name} = {
@@ -26,19 +26,107 @@ rec {
         sync = {
           enable = mkEnableOption "enable sync ${attrSpace} ${name}";
         };
-        #TODO add type
       };
     } // extraOptions;
   };
-  
-  mkHomeApplication = args:
-    mkApplication (args // {type = "home"; });
 
-  mkApplication = {
+  mkApplicationOptions' = {
+    name,
+    attrSpace ? "configured",
+    extraOptions ? { }
+  }: {
+    options = {
+      ${attrSpace}.${name} = {
+        enable = mkEnableOption "enable ${attrSpace} ${name}";
+        persist = {
+          enable  = mkEnableOption "enable persist ${attrSpace} ${name}";
+        };
+      };
+    } // extraOptions;
+  };
+  mkConfig = {
+    type ? "host",
+    name ? throw "No name given.",
+    attrSpace ? "configured",
+    extraOptions ? { },
+
+    packages ? [ ],
+
+    persistRootDir ? "/persist",
+    persistDirs ? [ ],
+    persistFiles ? [ ],
+
+    users ? { },
+    services  ? { },
+    security ? { },
+    boot ? { },
+    musnix ? { },
+    virtualisation ? { },
+    programs ? { },
+    hardware ? { },
+    sops ? { },
+    networking ? { },
+    fileSystems ? { },
+    home-manager ? { },
+    xdg ? { },
+    systemd ? { },
+    environment ? { },
+    i18n ? { },
+    time ? { },
+    nix ? { },
+
+    config
+  }: let
+    cfg = config.${attrSpace}.${name};
+    applicationOptions = mkApplicationOptions' {
+      inherit name attrSpace extraOptions;
+    }; 
+    persistence = {
+      "${persistRootDir}/system" = {
+        directories = persistDirs;
+        files = persistFiles;
+      };
+    };
+    environment' = lib.mkMerge [
+      environment
+      {
+        systemPackages = packages;
+        inherit persistence;
+      }
+    ]; 
+  in {
+    inherit (applicationOptions) options;
+    config = mkMerge [
+      (mkIf cfg.enable {
+        inherit 
+          users
+          services 
+          security
+          boot
+          musnix
+          virtualisation
+          programs
+          hardware
+          sops
+          networking
+          fileSystems
+          home-manager
+          xdg
+          systemd
+          i18n
+          time
+          nix
+        ;
+      })
+      { environment = environment'; }
+    ];
+  };
+  
+  mkHomeApplication = {
     name ? throw "No name given.",
     command ? "null",
     key ? "null",
-    type ? "host",
+    #type ? "host",
     attrSpace ? "bwcfg",
     packages ? [ ],
     extraConfig ? { },
@@ -70,8 +158,6 @@ rec {
     dconf ? { },
 
     config
-
-
   }: let
       cfg = config.${attrSpace}.${name};
       applicationOptions = mkApplicationOptions {
@@ -170,3 +256,8 @@ rec {
     ];
   };
 }
+
+  
+  # mkHomeApplication = args:
+  #   mkApplication (args // {type = "home"; });
+
