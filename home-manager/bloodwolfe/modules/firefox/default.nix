@@ -19,6 +19,7 @@
       "x-scheme-handler/http" = ["firefox.desktop"];
       "x-scheme-handler/https" = ["firefox.desktop"];
     };
+    stylix.targets.firefox.enable = false;
     inherit config;
   };
 in {

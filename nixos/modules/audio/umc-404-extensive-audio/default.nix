@@ -1,7 +1,7 @@
 { lib, config, pkgs, inputs, ... }: let 
   attrs = lib.custom.mkConfig {
     name = "umc-404-extensive-audio";
-    #configured.audio.enable = true;
+    configured.audio.enable = true;
     boot.kernelModules = [ 
       "snd_virmidi"
       "snd_seq_dummy"
@@ -161,5 +161,7 @@
   }; 
 in {
   inherit (attrs) options config;
-  imports = [ inputs.musnix.nixosModules.default ];
+  imports = [ 
+    inputs.musnix.nixosModules.default
+  ];
 }

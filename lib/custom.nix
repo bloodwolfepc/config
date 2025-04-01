@@ -3,18 +3,9 @@
   with lib;
 rec {
 
-  mkSyncthingAttrs = devices: dirs: genAttrs dirs (dir: let
-    path = dir;
-  in {
-    dir = {
-      inherit devices path;
-      ignorePerms = true;
-    };
-  });
-
-  mkApplicationOptions = {
+  mkApplicationOptions = { #for hm
     name,
-    attrSpace ? "bwcfg",
+    attrSpace,
     extraOptions ? { }
   }: {
     options = {
@@ -30,26 +21,10 @@ rec {
     } // extraOptions;
   };
 
-  mkApplicationOptions' = {
-    name,
-    attrSpace ? "configured",
-    extraOptions ? { }
-  }: {
-    options = {
-      ${attrSpace}.${name} = {
-        enable = mkEnableOption "enable ${attrSpace} ${name}";
-        persist = {
-          enable  = mkEnableOption "enable persist ${attrSpace} ${name}";
-        };
-      };
-    } // extraOptions;
-  };
   mkConfig = {
-    type ? "host",
     name ? throw "No name given.",
     attrSpace ? "configured",
     extraOptions ? { },
-
     packages ? [ ],
 
     persistRootDir ? "/persist",
@@ -74,11 +49,12 @@ rec {
     i18n ? { },
     time ? { },
     nix ? { },
+    configured ? { },
 
     config
   }: let
     cfg = config.${attrSpace}.${name};
-    applicationOptions = mkApplicationOptions' {
+    applicationOptions = mkApplicationOptions {
       inherit name attrSpace extraOptions;
     }; 
     persistence = {
@@ -116,16 +92,26 @@ rec {
           i18n
           time
           nix
+          configured
         ;
       })
       { environment = environment'; }
     ];
   };
   
+  mkSyncthingAttrs = devices: dirs: genAttrs dirs (dir: let
+    path = dir;
+  in {
+    dir = {
+      inherit devices path;
+      ignorePerms = true;
+    };
+  });
+
   mkHomeApplication = {
     name ? throw "No name given.",
-    command ? "null",
-    key ? "null",
+    command ? null,
+    key ? null,
     #type ? "host",
     attrSpace ? "bwcfg",
     packages ? [ ],
@@ -192,29 +178,24 @@ rec {
               env = pcEnv;
             };
             extraConfig = mkBefore ''
-              submap = EXEC
-                bindi = , ${key}, submap , EXEC_${name}
-              submap = escape
-              submap = EXEC_${name}    
-	              bindi = , ${config.kb_RIGHT}, layoutmsg, preselect r
-	              bindi = , ${config.kb_DOWN}, layoutmsg, preselect d
-	              bindi = , ${config.kb_UP}, layoutmsg, preselect u
-	              bindi = , ${config.kb_LEFT}, layoutmsg, preselect l
-	              bindi = , ${config.kb_RIGHT}, exec, ${command}
-	              bindi = , ${config.kb_DOWN}, exec, ${command}
-	              bindi = , ${config.kb_UP}, exec, ${command}
-	              bindi = , ${config.kb_LEFT}, exec, ${command}
-                source = ${config.globals.passOneshots}
-              submap = escape
-              submap = DEPLOY
-                bindi = , ${key}, workspace, name:${name}
-                bindi = , ${key}, exec, ${command}
-              submap = escape
-              submap = WS
-                bindi = , ${key}, workspace, name:${name}
-              submap = escape
+              ${optionalString ((key != null) && (command != null)) ''
+                submap = EXEC
+                  bindi = , ${key}, submap , EXEC_${name}
+                submap = escape
+                submap = EXEC_${name}    
+                  bindi = , ${config.kb_RIGHT}, layoutmsg, preselect r
+                  bindi = , ${config.kb_DOWN}, layoutmsg, preselect d
+                  bindi = , ${config.kb_UP}, layoutmsg, preselect u
+                  bindi = , ${config.kb_LEFT}, layoutmsg, preselect l
+                  bindi = , ${config.kb_RIGHT}, exec, ${command}
+                  bindi = , ${config.kb_DOWN}, exec, ${command}
+                  bindi = , ${config.kb_UP}, exec, ${command}
+                  bindi = , ${config.kb_LEFT}, exec, ${command}
+                  source = ${config.globals.passOneshots}
+                submap = escape
+              ''}
               ${pcExtraConfig}
-            ''; #+ pcExtraConfig;
+            '';
           };
         }
         wayland
@@ -256,8 +237,4 @@ rec {
     ];
   };
 }
-
-  
-  # mkHomeApplication = args:
-  #   mkApplication (args // {type = "home"; });
 

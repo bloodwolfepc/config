@@ -23,7 +23,7 @@
     stateVersion = lib.mkDefault "23.11";
     homeDirectory = "/home/bloodwolfe";
     packages = with pkgs; [
-      home-manager
+      #home-manager
       tree
       ctags
       fzf

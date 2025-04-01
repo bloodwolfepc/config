@@ -89,13 +89,14 @@
         hotplug_type = "None";
       };
     };
-    powerManagement.powertop.enable = true;
+    #powerManagement.powertop.enable = true;
     services.asusd = {
       enable = true;
       enableUserService = true;
     };
-    #services.switcherooControl.enable = true;
+    services.switcherooControl.enable = true;
     services.power-profiles-daemon.enable = true;
+    services.auto-cpufreq.enable = false;
     programs.rog-control-center.enable = true;
   };
 }

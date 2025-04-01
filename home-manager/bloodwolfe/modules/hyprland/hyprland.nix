@@ -8,49 +8,31 @@
     systemd.enable = true;
     xwayland.enable = true;
     settings = {
-      #env = [
-      #  "AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:07:00.0-card"
-      #];
-      #env = [
-	    #  "XCURSOR_SIZE,24"
-	    #  "QT_QPA_PLATFORMTHEME,qt6ct"
-	    #  "QT_QPA_PLATFORM=wayland;xcb"
-	    #  "GDK_BACKEND=wayland,x11"
-	    #  "SDL_VIDEODRIVER=wayland"
-	    #  "CLUTTER_BACKEND=wayland"
-	    #  "XDG_CURRENT_DESKTOP=sway"
-	    #  "XDG_DESSION_TYPE=wayland"
-	    #  "XDG_SESSION_DESKTOP=Hyprland"
-	    #  "WLR_DRM_NO_ATOMIC,1"
-	    #  "WLR_DRM_NO_ATOMIC,1"
-      #  "MOZ_ENABLE_WAYLAND=1"
-      #];
       exec-once = [
         "hyprctl dispatch submap INS"
-        "${pkgs.swww}/bin/swww daemon"
-        "${pkgs.swww}/bin/swww img = ${config.wallpaper}"
+        "hyprctl dispatch workspace 4"
+        "${pkgs.alacritty}/bin/alacritty"
+        "${pkgs.swww}/bin/swww-daemon"
+        "${pkgs.swww}/bin/swww img ${config.wallpaper}"
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "lxqt-policykit-agent"
       ];
       general = {
         allow_tearing = true;
-        #border_size = "0";
-        #gaps_in = "0";
-        #gaps_out = "0";
       };
       dwindle = {
         pseudotile = true;
         preserve_split = true;
         permanent_direction_override = true;
+        smart_resizing = false;
       };
       decoration = {
         fullscreen_opacity = "1";
         blur.enabled = false;
-        drop_shadow = false;
       };
       debug = {
-        suppress_errors = true; #hyprctl seterror diasable
+        suppress_errors = false;
         disable_logs = false;
         disable_time = false;
         enable_stdout_logs = true;
@@ -69,20 +51,11 @@
         hide_on_key_press = true;
         hide_on_touch = true;
       };
-      input = { #hyprctl devices
+      input = {
         kb_layout = "us";
         follow_mouse = "1";
         sensitivity = "0";
         accel_profile = "flat";
-        #touchpad = {
-        #  natrual_scroll = true;
-        #  disable_while_typing = false;
-        #  scroll_factor = 0.5;
-        #};
-        #misc = {
-        #  disable_hyprland_logo = true;
-        #  disable_splash_rendering = true;
-        #};
       };
       monitor = map
         (m:

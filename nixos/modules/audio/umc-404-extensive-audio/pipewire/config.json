@@ -1,0 +1,71 @@
+{
+  "context.modules": [
+    {
+      "name": "libpipewire-module-loopback",
+      "args": {
+        "capture.props": {
+          "audio.position": [
+            "FL",
+            "FR"
+          ],
+          "media.class": "Audio/Sink"
+        },
+        "node.description": "umc-speakers",
+        "playback.props": {
+          "audio.position": [
+            "AUX0",
+            "AUX1"
+          ],
+          "node.name": "playback.UMC_Speakers",
+          "node.passive": "true",
+          "stream.dont-remix": "true",
+          "target.object": "alsa_output.usb-BEHRINGER_UMC404HD_192k-00.pro-output-0"
+        }
+      }
+    },
+    {
+      "args": {
+        "capture.props": {
+          "audio.position": [
+            "FL",
+            "FR"
+          ],
+          "media.class": "Audio/Sink"
+        },
+        "node.description": "umc-headphones",
+        "playback.props": {
+          "audio.position": [
+            "AUX2",
+            "AUX3"
+          ],
+          "node.name": "playback.UMC_Headphones",
+          "node.passive": "true",
+          "stream.dont-remix": "true",
+          "target.object": "alsa_output.usb-BEHRINGER_UMC404HD_192k-00.pro-output-0"
+        }
+      },
+      "name": "libpipewire-module-loopback"
+    },
+    {
+      "args": {
+        "capture.props": {
+          "audio.position": [
+            "AUX0"
+          ],
+          "node.passive": true,
+          "node.target": "alsa_input.usb-BEHRINGER_UMC404HD_192k-00.pro-input-0",
+          "stream.dont-remix": true
+        },
+        "node.description": "umc-aux0",
+        "node.name": "UMC_Mic",
+        "playback.props": {
+          "audio.position": [
+            "MONO"
+          ],
+          "media.class": "Audio/Source"
+        }
+      },
+      "name": "libpipewire-module-loopback"
+    }
+  ]
+}

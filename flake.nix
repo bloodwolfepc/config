@@ -5,12 +5,12 @@
 		systems = [
       "x86_64-linux"
     ];
-    lib' = nixpkgs.lib // home-manager.lib;
+    lib' = nixpkgs.lib;
     lib = lib'.extend ( final: prev:
       import ./lib {
         lib = final;
         config = outputs.config;
-      }
+      } // home-manager.lib
     );
     forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
 		pkgsFor = lib.genAttrs systems (system: import nixpkgs {
@@ -40,12 +40,12 @@
       "bloodwolfe@angel" = lib.homeManagerConfiguration {
         modules = [ ./home-manager/bloodwolfe/angel ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
+        extraSpecialArgs = { inherit inputs outputs lib; };
       };
       "bloodwolfe@navi" = lib.homeManagerConfiguration {
         modules = [ ./home-manager/bloodwolfe/navi ];
         pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
+        extraSpecialArgs = { inherit inputs outputs lib; };
       };
     };
 	};
@@ -105,10 +105,6 @@
     neovim = {
       url = "github:bloodwolfepc/neovim";
     };
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     #steam-tui = {
     #  url = "github:dmadisetti/steam-tui";
     #  inputs.nixpkgs.follows = "nixpkgs";
@@ -130,6 +126,24 @@
       url = "github:lelgenio/wl-crosshair";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland?submodules=1&rev=5ee35f914f921e5696030698e74fb5566a804768";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hy3 = {
+      url = "github:outfoxxed/hy3?ref=hl0.48.0";
+      inputs.hyprland.follows = "hyprland";
+    };
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    }; 
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
+      inputs.hyprland.follows = "hyprland";
+    }; 
+
   };
   description = "bloodflake";
 }
