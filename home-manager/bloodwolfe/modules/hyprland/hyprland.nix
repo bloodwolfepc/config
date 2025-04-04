@@ -12,14 +12,19 @@
         "hyprctl dispatch submap INS"
         "hyprctl dispatch workspace 4"
         "${pkgs.alacritty}/bin/alacritty"
-        "${pkgs.swww}/bin/swww-daemon"
-        "${pkgs.swww}/bin/swww img ${config.wallpaper}"
+        "systemctl restart --user swww.service"
+        #"${pkgs.swww}/bin/swww img ${config.wallpaper}"
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "lxqt-policykit-agent"
       ];
       general = {
         allow_tearing = true;
+      };
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        #vrr = 1;
       };
       dwindle = {
         pseudotile = true;

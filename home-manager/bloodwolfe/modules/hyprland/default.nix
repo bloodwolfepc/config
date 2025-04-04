@@ -29,13 +29,18 @@
       (writeShellScriptBin "toggle-touchpad"
         (builtins.readFile ./sh/touchpad.sh)
       )
+      (writeShellScriptBin "hl-util.sh"
+        (builtins.readFile ./sh/hl-util.sh)
+      )
       wayvnc
-      swww
       wl-mirror
       grimblast
       wl-clipboard
       xorg.xrandr
+      hyprpicker
+      imagemagick
     ]; 
+    services.swww.enable = true;
     wayland.windowManager.hyprland = lib.mkMerge [
       {
         package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -53,14 +58,14 @@
     xdg = {
       enable = true;
       portal = let
-        #hyprland = config.wayland.windowManager.hyprland.package;
+        hyprland = config.wayland.windowManager.hyprland.package;
       in {
         enable = true;
-        # configPackages = [
-        #   hyprland
-        # ];
+         configPackages = [
+           hyprland
+         ];
         config.hyprland = {
-          default = ["wlr" "gtk"];
+          #default = ["wlr" "gtk"];
         };
         extraPortals = with pkgs; [ 
 	        xdg-desktop-portal-wlr
@@ -81,6 +86,8 @@
       MOZ_ENABLE_WAYLAND = 1;
       AQ_DRM_DEVICES = "/dev/dri/card1";
       #"/dev/dri/by-path/pci-0000:07:00.0-card"
+      HL_RESIZE = 100;
+      HL_MOVE = 100;
     };
     inherit config;
     inherit extraOptions;

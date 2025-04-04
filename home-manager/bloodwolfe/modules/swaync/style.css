@@ -11,11 +11,13 @@
 @define-color base0A #ffff00; 
 @define-color base0B #00ff00;
 @define-color base0C #00ffff; 
-/* @define-color base0D #0000ff;  */
+/* @define-color base0notD #0000ff;  */
 @define-color base0E #ff00ff; 
-@define-color base0F #00a800;
+/* @define-color base0notF #00a800; */
 
+/* variation */
 @define-color base0D #BD93F9;
+@define-color base0F #ffaaff;
 
 * {
     font-family: "Unscii";

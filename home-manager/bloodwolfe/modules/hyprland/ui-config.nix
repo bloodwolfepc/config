@@ -13,7 +13,7 @@
           split-monitor-workspaces = lib.mkIf split-monitor-workspaces.enable {
             count = 10;
             keep_focused = 1;
-            enable_notifications = 1;
+            enable_notifications = 0;
             enable_persistent_workspaces = 1;
           };
         }
@@ -33,12 +33,7 @@
         bindi = , f, togglefloating
         bindi = , c, centerwindow
       '';
-      resize-value = "200";
-      lesser-resize-value = "50";
-      mov-value = resize-value;
-      lesser-mov-value = lesser-resize-value;
-      resize = lib.mkShellScriptBin (builtins.readFile ./sh/resize.sh);
-      move = lib.mkShellScriptBin (builtins.readFile ./sh/move.sh);
+      hl-util = pkgs.writeShellScriptBin "hl-util.sh" (builtins.readFile ./sh/hl-util.sh);
     in lib.mkBefore ''
       submap = INS
         bind = , ${config.kb_NML}, submap, NML
@@ -52,10 +47,10 @@
         bindi = ,${config.kb_MIGRATE}, submap, MIGRATE
         bindi = ,${config.kb_POSITION}, submap, POSITION
         bindi = ,${config.kb_RESIZE}, submap, RESIZE
-        bindi = ,${config.kb_REC}, submap, REC
         bindi = ,${config.kb_MONITOR}, submap, MONITOR
         bindi = ,${config.kb_CONFIG}, submap, CONFIG
         bindi = ,${config.kb_TOGGLE}, submap, TOGGLE
+        bindi = , u, submap, UTILITY
         
         bindm = , mouse:272, ${movewindow}
         bindm = , mouse:273, resizewindow
@@ -91,28 +86,45 @@
       submap = RESIZE
         ${const}
         bindi = , m, submap, MOV 
-        bindie = , ${config.kb_RIGHT}, exec, ${resize} h
-        bindie = , ${config.kb_DOWN}, exec, ${resize} j
-        bindie = , ${config.kb_UP}, exec, ${resize} k
-        bindie = , ${config.kb_LEFT}, exec, ${resize} l
-        bindie = , n, exec, ${resize} n
-        bindie = , p, exec, ${resize} p
+        bindie = , ${config.kb_RIGHT}, exec, ${hl-util}/bin/hl-util.sh activewindow resize r
+        bindie = , ${config.kb_DOWN}, exec, ${hl-util}/bin/hl-util.sh activewindow resize d 
+        bindie = , ${config.kb_UP}, exec, ${hl-util}/bin/hl-util.sh activewindow resize u
+        bindie = , ${config.kb_LEFT}, exec, ${hl-util}/bin/hl-util.sh activewindow resize l
+        bindie = , n, exec, ${hl-util}/bin/hl-util.sh activewindow resize e
+        bindie = , p, exec, ${hl-util}/bin/hl-util.sh activewindow resize c
       submap = escape
       submap = MOV
         ${const}
         bindi = , ${config.kb_RESIZE}, submap, RESIZE
-        bindie = , ${config.kb_RIGHT}, exec, ${move} h
-        bindie = , ${config.kb_DOWN}, exec, ${move} j
-        bindie = , ${config.kb_UP}, exec, ${move} k
-        bindie = , ${config.kb_LEFT}, exec, ${move} l
+        bindie = , ${config.kb_RIGHT}, exec, ${hl-util}/bin/hl-util.sh activewindow mv r
+        bindie = , ${config.kb_DOWN}, exec, ${hl-util}/bin/hl-util.sh activewindow mv d
+        bindie = , ${config.kb_UP}, exec, ${hl-util}/bin/hl-util.sh activewindow mv u
+        bindie = , ${config.kb_LEFT}, exec, ${hl-util}/bin/hl-util.sh activewindow mv l
         #binde = , Shift_L ,${config.kb_RIGHT}, ${movewindow}, r
         #binde = , Shift_L ,${config.kb_DOWN}, ${movewindow}, d
         #binde = , Shift_L ,${config.kb_UP}, ${movewindow}, u
         #binde = , Shift_L ,${config.kb_LEFT}, ${movewindow}, l
       submap = escape
 
-      submap = REC
-        bindi = , c, exec, ${pkgs.grimblast}/bin/grimblast copy area
+      submap = UTILITY
+        bindi = , s, submap, SCREENSHOT
+        bindi = , c, submap, COLOR
+        bindi = , r, exec, ${hl-util}/bin/hl-util.sh reset
+      submap = escape
+      submap = COLOR
+        bindi = , c, exec, ${hl-util}/bin/hl-util.sh swaync recolor tmp
+        bindi = , n, exec, ${hl-util}/bin/hl-util.sh swaync recolor
+        bindi = , b, exec, ${hl-util}/bin/hl-util.sh waybar recolor
+        bindi = , t, exec, ${hl-util}/bin/hl-util.sh waybar recolor text
+        bindi = , w, exec, ${hl-util}/bin/hl-util.sh activewindow recolor
+        bindi = , i, exec, ${hl-util}/bin/hl-util.sh activewindow recolor inactivebordercolor
+        bindi = , p, exec, ${hl-util}/bin/hl-util.sh activewindow pinkspazz
+        bindi = , space, exec, ${hl-util}/bin/hl-util.sh activewindow flash "#ff0000" "10" "0.05"
+      submap = escape
+      submap = SCREENSHOT
+        bindi = , s, exec, ${hl-util}/bin/hl-util.sh grimblast screenshot area
+        bindi = , w, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area
+        bindi = , e, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area fit
       submap = escape
 
       submap = TOGGLE

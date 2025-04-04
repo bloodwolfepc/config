@@ -191,6 +191,8 @@ rec {
                   bindi = , ${config.kb_DOWN}, exec, ${command}
                   bindi = , ${config.kb_UP}, exec, ${command}
                   bindi = , ${config.kb_LEFT}, exec, ${command}
+                  bindi = , ${config.kb_NML}, submap, NML
+                  bindi = , Escape, submap, INS #modesetting.nix escape-to-mode
                   source = ${config.globals.passOneshots}
                 submap = escape
               ''}

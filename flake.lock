@@ -1147,11 +1147,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1743035350,
-        "narHash": "sha256-sZwtj83GDtKGsYz8eAriIA0jyjZDVHJ9ZFD9lCmh90Q=",
+        "lastModified": 1743492975,
+        "narHash": "sha256-cjum/8NDGnBprHKwowhlJaS48sOuE+GxLO0EC8EL0f0=",
         "owner": "bloodwolfepc",
         "repo": "neovim",
-        "rev": "b6d798e049a2b956c5cc0298f83b3dc380243660",
+        "rev": "c075f3a264911d2fd19053f48a38501328845059",
         "type": "github"
       },
       "original": {

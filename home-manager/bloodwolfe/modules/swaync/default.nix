@@ -5,6 +5,7 @@
     services.swaync = {
       enable = true;
       settings = {
+        transition-time = 0;
         control-center-margin-top = 10;
         control-center-margin-bottom = 30;
         control-center-margin-left = 10;
@@ -42,8 +43,14 @@
           };
         };
       };
-      style = ./style.css;
     };
+    home.activation.swaync-copy-style-css = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -f "$HOME/.config/swaync/style.css" ]; then
+        touch "$HOME/.config/swaync/style.css"
+        chmod u+w "$HOME/.config/swaync/style.css"
+        cp ${./style.css} "$HOME/.config/swaync/style.css"
+      fi
+    '';
     pcExtraConfig = ''
       submap = NML 
         bindi = , n, exec, swaync-client -t

@@ -20,12 +20,19 @@
   passOneshots = pkgs.writeText "passOneshots" mkOneShots;
 
   submaps = [
-    "CONFIG" "WS" "DEPLOY" "MIGRATE"
-    "REC" "MONITOR" "TOGGLE"
+    "CONFIG" 
+    "WS" 
+    "DEPLOY" 
+    "MIGRATE"
+    "REC" 
+    "MONITOR" 
+    "TOGGLE"
+    "UTILITY"
+    "COLOR"
+    "SCREENSHOT"
   ];
   mkSubmap = submap: ''
     submap = ${submap}
-      bindi = , ${config.kb_INS}, submap, INS
       bindi = , ${config.kb_NML}, submap, NML
       bindi = , Escape, submap, ${escape-to-mode}
       source = ${passOneshots}
@@ -33,13 +40,12 @@
   '';
 
   submapsNoPassOneshots = [
-    "RESIZE" "RESIZE_LESSER"
-    "MOV" "MOV_LESSER" "MOV_GREATER"
+    "RESIZE" 
+    "MOV" 
     "EXEC"
   ];
   mkSubmapNoPassOneshots = submap: ''
     submap = ${submap}
-      bindi = , ${config.kb_INS}, submap, INS
       bindi = , ${config.kb_NML}, submap, NML
       bindi = , Escape, submap, ${escape-to-mode}
     submap = escape

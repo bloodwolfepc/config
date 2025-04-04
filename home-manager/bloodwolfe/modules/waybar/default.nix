@@ -1,12 +1,6 @@
 { lib, config, pkgs, ... }: let #TODO toggle command
   attrs = lib.custom.mkHomeApplication {
     name = "waybar";
-    pcExtraConfig = ''
-      submap = TOGGLE
-        bindi = , w , exec , systemctl stop --user waybar.service || systemctl start --user waybar.service
-        bindi = , e , exec , systemctl start --user waybar.service
-      submap = escape
-    '';
     programs.waybar = {
       enable = true;
       systemd = {
@@ -15,6 +9,7 @@
       };
       settings = {
         mainBar = {
+          reload_style_on_change = true;
           layer = "top";
           position = "top";
           height = 22;
@@ -63,42 +58,21 @@
           };
         };
       };
-      style =
-        ''
-        * {
-          border: none;
-          border-radius: 0;
-          font-family: unscii;
-        }  
-        window#waybar {
-          background: #000000;
-          border-bottom: 2px solid #f0ffff;
-        }
-        #window {
-          color: #f0ffff;
-        }
-        #custom-lyrics {
-          color: cyan;
-          border-left-style: solid;
-          border-left-width: 3px;
-          border-left-color: white;
-          border-right-style: solid;
-          border-right-width: 2px;
-          border-right-color: white;
-          padding-left: 1em;
-          padding-right: 1em;
-        }
-        #mpris, #clock, #clock#date, #battery, #memory, #cpu, #network, #wireplumber {
-          color: #f0ffff;
-          border-left-style: solid;
-          border-left-width: 1px;
-          border-left-color: #f0ffff;
-          padding-left: 0.7em;
-          padding-right: 0.4em;
-          padding-top: 0.4em
-        }
-      '';
     };
+    home.activation.waybar-copy-style-css = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -f "$HOME/.config/waybar/style.css" ]; then
+        touch "$HOME/.config/waybar/style.css"
+        chmod u+w "$HOME/.config/waybar/style.css"
+        cp ${./style.css} "$HOME/.config/waybar/style.css"
+      fi
+    '';
+    pcExtraConfig = ''
+      submap = TOGGLE
+        bindi = , w , exec , systemctl stop --user waybar.service || systemctl start --user waybar.service
+        bindi = , e , exec , systemctl start --user waybar.service
+      submap = escape
+    '';
+    stylix.targets.waybar.enable = false;
     inherit config;
   };
 in {
