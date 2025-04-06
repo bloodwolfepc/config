@@ -58,18 +58,5 @@
       key = config.sops.secrets."syncthing-key-angel".path;
       cert = config.sops.secrets."syncthing-cert-angel".path;
     }; 
-
-
-    qt = {
-      enable = true;
-      platformTheme.name = "qtct";
-      #style.package = lib.mkForce pkgs.adwaita-qt6;
-      #style.name = lib.mkForce "adwaita-dark";
-      #qt5ct qt6ct
-
-    };
-    gtk = {
-      enable = true;
-    };
   };
 }

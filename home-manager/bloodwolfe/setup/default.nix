@@ -35,5 +35,10 @@
       unzip
       alsa-utils
     ];
+    extraOutputsToInstall = [
+      "doc"
+      "info"
+      "devdoc"
+    ];
   };
 } 

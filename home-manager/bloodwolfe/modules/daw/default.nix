@@ -9,7 +9,8 @@
       cli-visualizer
       cava
       playerctl
-      pavucontrol
+      (pavucontrol.override { withLibcanberra = true; })
+      easyeffects
       qpwgraph
 
       #ardour

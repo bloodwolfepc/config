@@ -11,6 +11,11 @@ get_hex() {
   RGB=$(magick xc:"$HEX" -format "%[fx:int(255*r)], %[fx:int(255*g)], %[fx:int(255*b)]\n" info:)
 }
 
+function blink() { 
+
+  echo "blink"
+}
+
 function swaync_recolor() {
   function recolor() {
     get_hex
@@ -187,6 +192,12 @@ function main() {
     fi
   elif [ "$1" == "grimblast" ]; then
     if [ "$2" == "setwallpaper" ]; then
+      grimblast_setwallpaper "$3" "$4"
+    elif [ "$2" == "screenshot" ]; then
+      grimblast_screenshot "$3"
+    fi
+  elif [ "$1" == "" ]; then
+    if [ "$2" == "" ]; then
       grimblast_setwallpaper "$3" "$4"
     elif [ "$2" == "screenshot" ]; then
       grimblast_screenshot "$3"

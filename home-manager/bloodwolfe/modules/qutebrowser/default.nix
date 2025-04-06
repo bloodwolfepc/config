@@ -5,46 +5,51 @@
     key = "q";
     syncDirs = [
       ".config/qutebrowser/bookmarks"
-      ".config/qutebrowser/greasemonkey"
+      #".config/qutebrowser/greasemonkey"
       ".local/share/qutebrowser"
     ];
-    #programs.qutebrowser = {
-    #  enable = true;
-    #  package = pkgs.qutebrowser-qt5;
-    #  loadAutoconfig = true;
-    #  searchEngines = rec {
-    #    kagi = "https://kagi.com/search?q={}";
-    #    duckduckgo = "https://duckduckgo.com/?q={}";
-    #    google = "https://google.com/search?hl=en&q={}";
-    #    k = kagi;
-    #    ddg = duckduckgo;
-    #    g = google;
-    #    DEFAULT = kagi;
-    #  };
-    #  settings = {
-    #    url = rec {
-    #      default_page = "https://kagi.com";
-    #      start_pages = [default_page];
-    #    };
-    #    downloads.open_dispatcher = "${lib.getExe pkgs.handlr-regex} open {}";
-    #    editor.command = ["${lib.getExe pkgs.handlr-regex}" "open" "{file}"];
-    #    tabs = {
-    #      show = "multiple";
-    #      position = "left";
-    #      indicator.width = 0;
-    #    };
-    #  };
-    #  extraConfig = ''
-    #    c.tabs.padding = {"bottom": 10, "left": 10, "right": 10, "top": 10}
-    #  '';
-    #};
-    #xdg.mimeApps.defaultApplications = {
-    #  "text/html" = ["org.qutebrowser.qutebrowser.desktop"];
-    #  "text/xml" = ["org.qutebrowser.qutebrowser.desktop"];
-    #  "x-scheme-handler/http" = ["org.qutebrowser.qutebrowser.desktop"];
-    #  "x-scheme-handler/https" = ["org.qutebrowser.qutebrowser.desktop"];
-    #  "x-scheme-handler/qute" = ["org.qutebrowser.qutebrowser.desktop"];
-    #};
+    stylix.targets.qutebrowser.enable = false;
+    programs.qutebrowser = {
+      enable = true;
+      loadAutoconfig = true;
+      extraConfig = (builtins.readFile ./config.py);
+      greasemonkey = [
+        #(pkgs.fetchurl {
+        #  url = "https://raw.githubusercontent.com/afreakk/greasemonkeyscripts/1d1be041a65c251692ee082eda64d2637edf6444/youtube_sponsorblock.js";
+        #  sha256 = "sha256-e3QgDPa3AOpPyzwvVjPQyEsSUC9goisjBUDMxLwg8ZE=";
+        #})
+        (pkgs.writeText "darkreader.js" (builtins.readFile ./greasemonkey/darkreader.js))
+      ];
+      searchEngines = rec {
+        kagi = "https://kagi.com/search?q={}";
+        duckduckgo = "https://duckduckgo.com/?q={}";
+        google = "https://google.com/search?hl=en&q={}";
+        k = kagi;
+        ddg = duckduckgo;
+        g = google;
+        DEFAULT = kagi;
+      };
+      settings = {
+        url = rec {
+          default_page = "https://kagi.com";
+          start_pages = [default_page];
+        };
+        downloads.open_dispatcher = "${lib.getExe pkgs.handlr-regex} open {}";
+        editor.command = ["${lib.getExe pkgs.handlr-regex}" "open" "{file}"];
+        tabs = {
+          show = "multiple";
+          position = "left";
+          indicator.width = 0;
+        };
+      };
+    };
+    xdg.mimeApps.defaultApplications = {
+      "text/html" = ["org.qutebrowser.qutebrowser.desktop"];
+      "text/xml" = ["org.qutebrowser.qutebrowser.desktop"];
+      "x-scheme-handler/http" = ["org.qutebrowser.qutebrowser.desktop"];
+      "x-scheme-handler/https" = ["org.qutebrowser.qutebrowser.desktop"];
+      "x-scheme-handler/qute" = ["org.qutebrowser.qutebrowser.desktop"];
+    };
     inherit config;
   };
 in {

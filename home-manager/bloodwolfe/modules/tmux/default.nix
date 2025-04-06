@@ -120,6 +120,9 @@
         bind 'z' command-prompt -p "move pane to:" "move-pane -t ':%%'"
 
         bind C-c send-keys 'C-l'
+        #set-window-option -g visual-bell on
+        #set-window-option -g bell-action other
+        #set-hook -g alert-bell 'run-shell "canberra-gtk-play --id=bell"'
       '';
     };
     programs.zsh.initExtra = lib.mkIf config.programs.zsh.enable (builtins.readFile ./tmux-autostart.sh);

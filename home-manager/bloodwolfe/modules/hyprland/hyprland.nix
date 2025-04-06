@@ -17,6 +17,7 @@
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "lxqt-policykit-agent"
+        "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login"
       ];
       general = {
         allow_tearing = true;

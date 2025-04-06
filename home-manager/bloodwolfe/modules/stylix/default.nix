@@ -26,10 +26,15 @@
       enable = true;
       autoEnable = true;
       inherit base16Scheme;
+      # cursor = {
+      #   package = pkgs.xorg.xcursorthemes; #/share/icons/handhelds
+      #   name = "handhelds";
+      #   size = 23;
+      # };
       cursor = {
-        package = pkgs.xorg.xcursorthemes; #/share/icons/handhelds
-        name = "handhelds";
-        size = 23;
+        package = pkgs.plasma-overdose-kde-theme;
+        name = "Plasma-Overdose";
+        size = 15;
       };
       fonts = {
         monospace = {

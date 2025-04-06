@@ -128,11 +128,13 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland?submodules=1&rev=5ee35f914f921e5696030698e74fb5566a804768";
+      #url = "github:hyprwm/Hyprland?submodules=1&rev=5ee35f914f921e5696030698e74fb5566a804768";
+      url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hy3 = {
-      url = "github:outfoxxed/hy3?ref=hl0.48.0";
+      #url = "github:outfoxxed/hy3?ref=hl0.48.0";
+      url = "github:outfoxxed/hy3";
       inputs.hyprland.follows = "hyprland";
     };
     split-monitor-workspaces = {

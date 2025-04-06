@@ -142,6 +142,8 @@ rec {
     wayland ? { },
     accounts ? { },
     dconf ? { },
+    gtk ? { },
+    qt ? { },
 
     config
   }: let
@@ -230,7 +232,7 @@ rec {
     inherit (applicationOptions) options;
     config = mkMerge [
       (mkIf cfg.enable {
-        inherit i18n programs xdg sops accounts stylix dconf;
+        inherit i18n programs xdg sops accounts stylix dconf gtk qt;
         home = home';
         wayland = wayland';
         services = services';
