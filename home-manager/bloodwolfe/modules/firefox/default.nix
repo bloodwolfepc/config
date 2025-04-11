@@ -4,10 +4,6 @@
     name = "firefox";
     key = "f";
     command = "${pkgs.firefox}/bin/firefox";
-    pcExecOnce = [
-      #TODO: neeeds focus correct monitor first or binds to move workspace to monitors
-      #"hyprctl dispatch workspace name:firefox"
-    ];
     persistDirs = [
       ".mozilla"
       ".cache/mozilla"

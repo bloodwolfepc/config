@@ -39,8 +39,8 @@
         ];
         require-pc = [
           "hyprland"
-          #"rofi"
-          "tofi"
+          "rofi"
+          #"tofi"
           "swaync"
           "waybar"
           "xdg"
@@ -58,6 +58,7 @@
           "virt-manager"
         ];
         used-progs = [
+          "password-store"
           "kdeconnect"
           "sgpt"
           "feh"
@@ -85,7 +86,8 @@
           "prismlauncher"
           "steam"
           "retroarch"
-          #"wl-crosshair"
+          "wine"
+          "wl-crosshair"
         ];
         #games = [
         #  "techmino"
@@ -111,7 +113,6 @@
           "libreoffice"
           "msmtp"
           "neomutt"
-          "pass"
           "libresprite"
         ];
       };

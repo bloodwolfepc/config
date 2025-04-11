@@ -30,6 +30,7 @@
     "UTILITY"
     "COLOR"
     "SCREENSHOT"
+    "MENU"
   ];
   mkSubmap = submap: ''
     submap = ${submap}

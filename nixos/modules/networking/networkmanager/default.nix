@@ -9,6 +9,9 @@
       useDHCP = lib.mkForce false;
     };
     services.resolved.enable = true;
+    #packages = with pkgs; [
+    #  wifi-password
+    #];
     inherit config;
   }; 
 in {

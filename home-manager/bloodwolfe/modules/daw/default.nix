@@ -15,8 +15,8 @@
 
       #ardour
       musescore
-      yabridge
-      yabridgectl
+      #yabridge
+      #yabridgectl
       carla
       sfizz
       orca-c

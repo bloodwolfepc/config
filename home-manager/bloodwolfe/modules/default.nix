@@ -41,7 +41,7 @@
     ./notebook
     ./obs
     ./olive-editor
-    ./pass
+    ./password-store
     ./podman
     ./prismlauncher
     ./qemu
@@ -58,7 +58,6 @@
     ./ssh
     ./staging
     ./steam
-    ./steam-tui
     ./stylix
     ./swaync
     ./syncthing

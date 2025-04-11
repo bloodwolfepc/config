@@ -17,7 +17,7 @@
 DarkReader.enable({
   darkSchemeBackgroundColor: "#000000",
   darkSchemeTextColor: "#fafafa",
-  brightness: 50,
+  brightness: 100,
   contrast: 100,
   sepia: 0,
 });

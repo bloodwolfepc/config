@@ -20,6 +20,7 @@
       ];
     };
     extraConfig = let
+      menu = "${pkgs.rofi-wayland}/bin/rofi";
       movewindow = if hy3.enable then "hy3:movewindow" else "movewindow";
       movefocus = if hy3.enable then "hy3:movefocus" else "movefocus";
       makegroup = if hy3.enable then "hy3:makegroup" else "null";
@@ -48,8 +49,8 @@
         bindi = ,${config.kb_POSITION}, submap, POSITION
         bindi = ,${config.kb_RESIZE}, submap, RESIZE
         bindi = ,${config.kb_MONITOR}, submap, MONITOR
-        bindi = ,${config.kb_CONFIG}, submap, CONFIG
-        bindi = ,${config.kb_TOGGLE}, submap, TOGGLE
+        bindi = , c, submap, CONFIG
+        bindi = , space, submap, MENU
         bindi = , u, submap, UTILITY
         
         bindm = , mouse:272, ${movewindow}
@@ -126,8 +127,23 @@
         bindi = , w, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area
         bindi = , e, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area fit
       submap = escape
+      submap = MENU
+        bindi = , space, exec, rofi -show run
+        bindi = , c, exec, rofi -modi calc -show calc -no-show-match -no-sort
+        bindi = , e, exec, rofi -modi emoji -show emoji
+        bindi = , t, exec, rofi -modi top -show top
+        bindi = , w, exec, rofi -modi window -show window
+        bindi = , g, exec, rofi -modi games -show games
+        bindi = , x, exec, rofi -modi power-menu:rofi-power-menu -show power-menu
+        bindi = , n, exec, rofi-network-manager
+        bindi = , b, exec, rofi-bluetooth
+        bindi = , s, exec, rofi-systemd
+        bindi = , p, exec, rofi-pass
+        bindi = , bracketleft, exec, rofi-pulse-select sink
+        bindi = , bracketright, exec, rofi-pulse-select source
+      submap = escape
 
-      submap = TOGGLE
+      submap = CONFIG
         bindi = , g, exec, hyprctl --batch "keyword general:gaps_out 0" & hyprctl --batch "keyword general:gaps_in 0" || hyprctl --batch "keyword general:gaps_out 10" & hyprctl --batch "keyword general:gaps_in 4"
         bindi = , h, exec, hyprctl --batch "keyword general:gaps_out 10" & hyprctl --batch "keyword general:gaps_in 4"
       submap = escape

@@ -3,13 +3,14 @@
     sops.secrets."openai-auth" = { };
     name = "zsh";
     programs.zsh = {
-    	enable = true;
+      enable = true;
       plugins = [
         {
           name = "vi-mode";
           src = pkgs.zsh-vi-mode;
           file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         }
+        #zsh-autopair
       ];
       enableCompletion = true;
       enableVteIntegration = true;
@@ -40,6 +41,11 @@
         lvi = "nix run /home/bloodwolfe/projects/nixvim --";
         vi = "nvim";
         td = "task";
+        syst = "systemctl status";
+        systu = "systemctl status --user";
+        jctl = "journalctl -xeu";
+        jctlu = "journalctl --user -xeu";
+        hist = "vi /persist/home/bloodwolfe/.zhistory";
         sync-permissions = "
           sudo chown -R bloodwolfe:syncthing /sync/home/bloodwolfe &&
           sudo chmod -R 770 /sync/home/bloodwolfe

@@ -217,6 +217,7 @@ rec {
               files = syncFiles;
             };
           };
+          #TODO: this should just be /.extra-syncs and then be the full path from $HOME nested inside
           file = (
             mkMerge (map (syncPath: {
               "${syncPath}".source = mkForce (config.lib.file.mkOutOfStoreSymlink

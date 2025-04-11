@@ -48,7 +48,7 @@
     '';
     hl-plugins = {
       hy3.enable = false;
-      split-monitor-workspaces.enable = true;
+      split-monitor-workspaces.enable = false;
     };
     sops.secrets = {
       "syncthing-key-angel" = { };

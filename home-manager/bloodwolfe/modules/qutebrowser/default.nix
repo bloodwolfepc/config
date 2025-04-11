@@ -5,8 +5,10 @@
     key = "q";
     syncDirs = [
       ".config/qutebrowser/bookmarks"
-      #".config/qutebrowser/greasemonkey"
       ".local/share/qutebrowser"
+    ];
+    syncFiles = [
+      ".config/qutebrowser/quickmarks"
     ];
     stylix.targets.qutebrowser.enable = false;
     programs.qutebrowser = {
@@ -21,13 +23,10 @@
         (pkgs.writeText "darkreader.js" (builtins.readFile ./greasemonkey/darkreader.js))
       ];
       searchEngines = rec {
-        kagi = "https://kagi.com/search?q={}";
-        duckduckgo = "https://duckduckgo.com/?q={}";
-        google = "https://google.com/search?hl=en&q={}";
-        k = kagi;
-        ddg = duckduckgo;
-        g = google;
-        DEFAULT = kagi;
+        k = "https://kagi.com/search?q={}";
+        ddg = "https://duckduckgo.com/?q={}";
+        g = "https://google.com/search?hl=en&q={}";
+        DEFAULT = k;
       };
       settings = {
         url = rec {

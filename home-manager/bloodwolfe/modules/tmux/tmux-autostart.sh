@@ -2,33 +2,51 @@ tmux-autostart() {
   if ! command -v tmux &> /dev/null; then
     return 1
   fi
-  
-  sessions=$(tmux list-sessions 2>/dev/null)
-  
-  if echo "$sessions" | grep -q "initsession"; then #initsession is true
-    if command -v hyprctl &> /dev/null && hyprctl instances | grep -q .; then #hyprland is true
-      if ! echo "$sessions" | grep -q "bloodsession"; then #bloodsession is not true
-        echo "starting and attaching to bloodsession"
-        import-env tmux && tmux new-session -d -s "bloodsession" && tmux attach-session -t "bloodsession" #both will end up being active due to this
-      else #bloodsession is true
-        if echo "$sessions" | grep -q 'bloodsession.*(attached)'; then #attached to bloodsession is true (somewhere after bloodsession (attached) must occur)
-          if echo "$sessions" | grep -q 'initsession.*(attached)'; then
-            tmux detach -s initsession
-          fi
-          return 0
-        else #not attached to bloodsession
+
+  sessions=$(tmux list-sessions 2>/dev/null || true)
+  current_session=$(tmux display-message -p '#S' 2>/dev/null || echo "")
+
+  inside_hyprland=false
+  if command -v hyprctl &> /dev/null && hyprctl instances | grep -q .; then
+    inside_hyprland=true
+  fi
+
+  initsession_exists=false
+  echo "$sessions" | grep -q "^initsession:" && initsession_exists=true
+
+  bloodsession_exists=false
+  echo "$sessions" | grep -q "^bloodsession:" && bloodsession_exists=true
+
+  attached_to_initsession=false
+  [[ "$current_session" == "initsession" ]] && attached_to_initsession=true
+
+  attached_to_bloodsession=false
+  [[ "$current_session" == "bloodsession" ]] && attached_to_bloodsession=true
+
+  if [[ "$initsession_exists" == true ]]; then
+    if [[ "$inside_hyprland" == true ]]; then
+      if [[ "$bloodsession_exists" == true ]]; then
+        if [[ "$attached_to_bloodsession" == true ]]; then
+          echo ":x:"
+          #if [[ "$attached_to_initsession" == true ]]; then
+          #  tmux detach -s initsession
+          #fi
+          #return 0
+        else
           echo "attaching to bloodsession"
-          tmux attach-session -t "bloodsession"
+          exec tmux new-session -A -t "bloodsession"
         fi
+      else
+        echo "starting and attaching to bloodsession"
+        import-env tmux
+        exec tmux new-session -s "bloodsession"
       fi
-    else #hyprland is not true
+    else
       microfetch | dotacat
     fi
-  else #initsession is not true
-    echo "starting initsession and attaching to initsession"
-      #TERM="screen-256color"
-      tmux new-session -d -s "initsession" && tmux attach-session -t "initsession"
-  fi 
+  else
+    exec tmux new-session -s "initsession"
+  fi
 }
 if [[ $- == *i* ]]; then
   tmux-autostart

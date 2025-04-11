@@ -3,6 +3,10 @@
     name = "vesktop";
     key = "d";
     command = "${pkgs.vesktop}/bin/vesktop";
+    pcWindowRule = [
+      "workspace 3 silent, initialClass:^([Vv]esktop)$"
+      "workspace 3 silent, initialClass:^([Vv]esktop)$, initialTitle:^([Vv]esktop)$"
+    ];
     packages = with pkgs; [
       vesktop
     ];

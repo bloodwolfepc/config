@@ -1,4 +1,5 @@
 { lib, config, pkgs, inputs, ... }: let 
+  secrets = builtins.toString inputs.secrets;
   attrs = lib.custom.mkHomeApplication {
     name = "sops";
     packages = with pkgs; [
@@ -8,7 +9,7 @@
       age = {
         keyFile = "/persist${config.home.homeDirectory}/.config/sops/age/key.txt";
       }; 
-      defaultSopsFile = ../../../../secrets/secrets.yaml;
+      defaultSopsFile = "${secrets}/secrets/secrets.yaml";
       validateSopsFiles = false; 
     };
     inherit config;
