@@ -3,10 +3,10 @@
   attrs = lib.custom.mkHomeApplication {
     name = "mangohud";
     programs.mangohud = {
-      enable = false;
-      enableSessionWide = false;
+      enable = true;
+      enableSessionWide = true;
     };
-    #home.file.".config/MangoHud/MangoHod.conf".source = ./MangoHud.conf;
+    home.file.".config/MangoHud/MangoHod.conf".source = ./MangoHud.conf;
     inherit config;
   };
 in {

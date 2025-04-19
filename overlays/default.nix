@@ -14,6 +14,18 @@ in {
     supergfxcl = prev.supergfxcl.overrideAttrs (oldAttrs: {
     });
     #install with freedesktop sound theme
+
+    #mesa = prev.mesa.overrideAttrs (oldAttrs: rec {
+    #  version = "24.2.8";
+    #  src = final.fetchFromGitLab {
+    #    domain = "gitlab.freedesktop.org";
+    #    owner = "mesa";
+    #    repo = "mesa";
+    #    rev = "mesa-${version}";
+    #    hash = "sha256-70X0Ba7t8l9Vs/w/3dd4UpTR7woIvd7NRwO/ph2rKu8=";
+    #  };
+    #});
+
     plasma-overdose-kde-theme = prev.plasma-overdose-kde-theme.overrideAttrs ( oldAttrs: {
       src = final.fetchFromGitHub {
         owner = "Notify-ctrl";

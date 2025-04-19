@@ -5,7 +5,10 @@
     key = "t"; 
     pcExecOnce = [
       "${command}"
-      "swaync --inhibitor-add Alacritty" #block spotify_player
+      #"swaync --inhibitor-add Alacritty"
+    ];
+    pcWindowRule = [
+      "bordercolor rgba(00000000), class:^(alacritty_drop)$"
     ];
     programs.alacritty = {
       enable = true;

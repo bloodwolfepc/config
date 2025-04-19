@@ -6,9 +6,7 @@ in {
       asusctl profile -P Quiet
       powerprofilesctl set power-saver
     '';
-    environment.systemPackages = with pkgs; [
-      powertop
-    ];
+    powerManagement.powertop.enable = true;
     environment.etc = {
       "supergfxd.conf" = {
         mode = "0664";

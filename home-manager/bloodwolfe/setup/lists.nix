@@ -111,8 +111,6 @@
           "qutebrowser"
           "kdenlive"
           "libreoffice"
-          "msmtp"
-          "neomutt"
           "libresprite"
         ];
       };

@@ -1,8 +1,12 @@
 { lib, config, pkgs, ... }: let 
   attrs = lib.custom.mkConfig {
     name = "systemd-boot";
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    boot = {
+      loader = {
+        systemd-boot.enable = true;
+        efi.canTouchEfiVariables = true;
+      };
+    };
     inherit config;
   }; 
 in {

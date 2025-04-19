@@ -13,7 +13,6 @@
         "usbcore.autosuspend=-1"
       ];
     };
-
     inherit config;
   }; 
 in {

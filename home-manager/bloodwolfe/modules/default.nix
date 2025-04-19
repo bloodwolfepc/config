@@ -32,8 +32,6 @@
     ./lxqt-policykit
     ./mangohud
     ./mpv
-    ./msmtp
-    ./neomutt
     ./neovim
     ./nh
     ./nix-index

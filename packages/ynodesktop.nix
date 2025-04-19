@@ -1,13 +1,13 @@
 { lib, stdenv, fetchFromGitHub, yarn2nix, }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "ynodesktop";
-  version = "v1.1.3";
+  version = "1.1.3";
   src = fetchFromGitHub {
-    owner = "atextor";
-    repo = "ynodeskitop";
-    rev = "v1.1.3";
-    sha256 = "051sxhqsviy4vax8pp6kcby34mh02p0jlf01ificvh99dag2kryy";
+    owner = "GummyLeeches";
+    repo = "ynodeskitop-linux-binaries";
+    rev = "v${version}";
+    sha256 = lib.fakeSha256;
   };
   buildInputs = [ yarn2nix ];
   installPhase = ''
@@ -18,6 +18,10 @@ stdenv.mkDerivation {
     '';
 }
     
+
+#on ynodesktop
+#yarn install
+#electron run .
 
 
 

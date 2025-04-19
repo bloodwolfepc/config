@@ -31,6 +31,9 @@
     "COLOR"
     "SCREENSHOT"
     "MENU"
+    "DROP"
+    "MV->WS"
+    "SEND_TO_MONITOR"
   ];
   mkSubmap = submap: ''
     submap = ${submap}

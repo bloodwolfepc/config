@@ -46,6 +46,16 @@
         jctl = "journalctl -xeu";
         jctlu = "journalctl --user -xeu";
         hist = "vi /persist/home/bloodwolfe/.zhistory";
+        update-secrets = ''
+          cd ~/src/secrets
+          git add .
+          git commit -m "update-secrets"
+          git push
+          cd $FLAKE
+          nix flake update secrets 
+          cd -
+          cd -
+        '';
         sync-permissions = "
           sudo chown -R bloodwolfe:syncthing /sync/home/bloodwolfe &&
           sudo chmod -R 770 /sync/home/bloodwolfe

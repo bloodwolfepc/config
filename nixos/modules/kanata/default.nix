@@ -19,8 +19,8 @@
           ;;
           (defalias
           a (tap-hold 200 200 tab (layer-toggle navigation))
-          ;;b (lctl)
-          b (tap-hold 200 200 lctl (layer-toggle number))
+          b lctl
+          #b (tap-hold 200 200 lctl (layer-toggle number))
           chj (chord jkesc j)
           chk (chord jkesc k)
           )

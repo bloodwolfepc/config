@@ -3,7 +3,6 @@
   attrs = lib.custom.mkConfig {
     name = "sops";
     sops = {
-      #defaultSopsFile = ../../../secrets/secrets.yaml;
       defaultSopsFile = "${secrets}/secrets/secrets.yaml";
       validateSopsFiles = false;
       defaultSopsFormat = "yaml";

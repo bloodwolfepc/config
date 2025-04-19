@@ -2,9 +2,7 @@
   attrs = lib.custom.mkHomeApplication {
     name = "neovim";
     packages = [
-      #TODO use forSystem
-      #inputs.nixvim.packages.x86_64-linux.default 
-      inputs.neovim.packages.x86_64-linux.default 
+      inputs.neovim.packages.${pkgs.system}.default 
     ];
     home.sessionVariables = {
       EDITOR = "nvim";

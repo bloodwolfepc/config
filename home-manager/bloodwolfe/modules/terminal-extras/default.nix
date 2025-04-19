@@ -64,6 +64,48 @@
       ascii-rain
       durdraw
     ]);
+    programs = {
+      irssi = {
+        enable = false;
+        networks = {
+          liberachat = {
+            nick = "bwtestuser";
+            server = {
+              address = "irc.libera.chat";
+              port = 6697;
+              autoConnect = true;
+            };
+          };
+          channels = {
+            nixos.autoJoin = true;
+            tmux.autoJoin = true;
+          };
+        };
+      };
+      newsboat = {
+        enable = true;
+        autoReload = true;
+        urls = let 
+          mkSource = tags: url: { inherit tags url; };
+        in [
+          (mkSource [ "tech" ] "https://xeiaso.net/blog.rss")
+          (mkSource [ "tech" ] "https://100r.co/links/rss.xml")
+          (mkSource [ "tech" ] "https://catgirl.ai/log/atom.xml")
+
+          (mkSource [ "news" ] "https://feeds.npr.org/1001/rss.xml")
+          (mkSource [ "tech" ] "https://www.phoronix.com/rss.php")
+          (mkSource [ "tech" ] "http://www.linux.com/feeds/all-content")
+          (mkSource [ "tech" ] "https://www.cyberciti.com/atom/atom.xml")
+          (mkSource [ "tech" ] "https://frame.work/blog.rss")
+
+          (mkSource [ "tech" ] "https://hnrss.org/frontpage")
+          (mkSource [ "tech" ] "https://www.reddit.com/r/linux/.rss")
+          (mkSource [ "tech" ] "https://www.reddit.com/r/neovim/.rss")
+          (mkSource [ "tech" ] "https://discourse.nixos.org/c/announcements/8.rss")
+          (mkSource [ "tech" ] "https://github.com/NixOS/nixpkgs/commits/master.atom")
+        ];
+      };
+    };
     inherit config;
   };
 in {

@@ -128,6 +128,8 @@ rec {
     syncExtraDevices ? [ ],
 
     pcWindowRule ? [ ],
+    pcWindowRuleOld ? [ ],
+
     pcExecOnce ? [ ],
     pcEnv ? [ ],
     pcExtraConfig ? '' '',
@@ -176,6 +178,7 @@ rec {
           windowManager.hyprland = mkIf (config.wayland.windowManager.hyprland.enable) {
             settings = {
               windowrulev2 = pcWindowRule;
+              windowrule = pcWindowRuleOld;
               exec-once = pcExecOnce;
               env = pcEnv;
             };

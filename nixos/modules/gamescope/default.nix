@@ -3,10 +3,10 @@
 { lib, config, pkgs, inputs, ... }: let
   attrs = lib.custom.mkConfig {
     name = "gamescope";
-    programs.gamescope = {  
-      enable = true;
-      capSysNice = true; #BROKEN in steam: https://github.com/NixOS/nixpkgs/issues/208936
-    };
+    #programs.gamescope = {  
+    #  enable = true;
+    #  #capSysNice = true; #BROKEN in steam: https://github.com/NixOS/nixpkgs/issues/208936
+    #};
     inherit config;
   }; 
 in {

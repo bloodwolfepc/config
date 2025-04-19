@@ -11,6 +11,15 @@ tmux-autostart() {
     inside_hyprland=true
   fi
 
+  #is_alacritty_drop=false
+  #[[ "$current_session" == "bloodsession" ]] && attached_to_bloodsession=true
+  #it may be possable to set this based on a jq output for a new window created, determining if it is newset,
+  #then seeing if it is alacritty_drop 
+
+  #maybe we can birth the drop session and send an env var into it though hdrop starting
+  
+  #it may be better to seperate the session managment into how each terminal is initialized
+
   initsession_exists=false
   echo "$sessions" | grep -q "^initsession:" && initsession_exists=true
 
@@ -22,6 +31,7 @@ tmux-autostart() {
 
   attached_to_bloodsession=false
   [[ "$current_session" == "bloodsession" ]] && attached_to_bloodsession=true
+
 
   if [[ "$initsession_exists" == true ]]; then
     if [[ "$inside_hyprland" == true ]]; then

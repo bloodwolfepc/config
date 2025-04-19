@@ -3,7 +3,7 @@
     name = "wl-crosshair";
     packages = [
       #TODO: use pkgsFor system
-      inputs.wl-crosshair.packages.x86_64-linux.default
+      inputs.wl-crosshair.packages.${pkgs.system}.default
     ];
     pcExtraConfig = ''
       submap = CONFIG

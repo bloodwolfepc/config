@@ -15,6 +15,7 @@
         bsnes
         nxengine
         dosbox
+        easyrpg
       ]))
       retroarch-assets
       retroarch-joypad-autoconfig

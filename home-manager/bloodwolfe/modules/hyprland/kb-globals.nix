@@ -9,6 +9,7 @@
     kb_DOWN = mkKb "j";
     kb_UP = mkKb "k";
     kb_LEFT = mkKb "h";
+
     kb_INS = mkKb "i";
     kb_NML = mkKb "SUPER_L";
     kb_EXEC = mkKb "e";

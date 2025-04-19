@@ -5,14 +5,13 @@
     name = "wine";
     packages = with pkgs; [
       wineWowPackages.stagingFull
-
+      winetricks
       #wineWowPackages.stable
       #wine
       #(wine.override { wineBuild = "wine64"; })
       #wine64
       #wineWowPackages.staging 
       #wineWowPackages.stagingFull
-      #winetricks
       #wineWowPackages.waylandFull 
     ];
     syncDirs = [

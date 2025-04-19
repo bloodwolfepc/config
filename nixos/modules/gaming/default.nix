@@ -3,6 +3,8 @@
     name = "gaming";
     hardware.graphics = {
       enable = true;
+      enable32Bit = true;
+      #package = pkgs.mesa;
       extraPackages = with pkgs; [
         libvdpau-va-gl
       ];
@@ -25,5 +27,5 @@
   }; 
 in {
   inherit (attrs) options config;
-  imports = [ inputs.nix-gaming.nixosModules.platformOptimizations ];
+  #imports = [ inputs.nix-gaming.nixosModules.platformOptimizations ];
 }

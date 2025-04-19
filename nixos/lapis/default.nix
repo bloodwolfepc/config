@@ -76,8 +76,6 @@
   #    #libvdpau-va-gl 
   #  ];   
   #}; 
-  #services.xserver.enable = true;
-  #services.xserver.videoDrivers = [ "amdgpu" ];
   #hardware.amdgpu.initrd.enable = true; #UPDATE
   boot.initrd.kernelModules = [ "amdgpu" ];
   # programs.corectrl = {

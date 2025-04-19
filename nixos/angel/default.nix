@@ -41,62 +41,56 @@
     inherit configured;
     networking.hostName = "angel";
     services.resolved.enable = true;
-    hardware.graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
+
+    specialisation = {
+      nmvfio.configuration = {
+        configured = {
+          angel = {
+            gpu-detatched.enable = true;
+            vfio-passthough.enable = true;
+          };
+          networkmanager.enable = true;
+        };
+      };
+      vfio-passthough.configuration = {
+        configured = {
+          angel = {
+            gpu-detatched.enable = true;
+            vfio-passthough.enable = true;
+          };
+        };
+      };
+      networkmanager.configuration = {
+        configured.networkmanager.enable = true;
+      };
     };
+    services = {
+      asusd = {
+        enable = true;
+        enableUserService = true;
+      };
+      switcherooControl.enable = true;
+      power-profiles-daemon.enable = true;
+      auto-cpufreq.enable = false;
+
+      supergfxd = {
+        enable = true;
+        settings = lib.mkDefault {
+          #mode = "Hybrid";
+          mode = "AsusMuxDgpu";
+          vfio_enable = true;
+          vfio_save = true;
+          always_reboot = false;
+          no_logind = false;
+          logout_timeout_s = 180;
+          hotplug_type = "None";
+        };
+      };
+    };
+    programs.rog-control-center.enable = true;
+    powerManagement.powertop.enable = true;
     environment.systemPackages = with pkgs; [ 
-      powertop
       asusctl
     ];
-    programs.nix-ld.enable = true;
-
-    specialisation.vfio-passthough.configuration = {
-      configured = {
-        angel = {
-          gpu-detatched.enable = true;
-          vfio-passthough.enable = true;
-        };
-      };
-    };
-    specialisation.networkmanager.configuration = {
-      configured.networkmanager.enable = true;
-    };
-    specialisation.nmvfio.configuration = {
-      configured = {
-        angel = {
-          gpu-detatched.enable = true;
-          vfio-passthough.enable = true;
-        };
-        networkmanager.enable = true;
-      };
-    };
-
-    #systemd.services.supergfxd.path = [ pkgs.pciutils ];
-    services.supergfxd = {
-      enable = true;
-      #path = with pkgs; [ pciutils ];
-      settings = lib.mkDefault {
-        mode = "Hybrid";
-        vfio_enable = true;
-        vfio_save = true;
-        always_reboot = false;
-        no_logind = false;
-        logout_timeout_s = 180;
-        hotplug_type = "None";
-      };
-    };
-    #powerManagement.powertop.enable = true;
-    services.asusd = {
-      enable = true;
-      enableUserService = true;
-    };
-    services.switcherooControl.enable = true;
-    services.power-profiles-daemon.enable = true;
-    services.auto-cpufreq.enable = false;
-    programs.rog-control-center.enable = true;
   };
 }

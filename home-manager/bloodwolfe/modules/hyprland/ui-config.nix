@@ -1,4 +1,7 @@
-#TODO: bind that toggle both gaps and bar
+#TODO: bind that toggle both gaps and bar, swapwindow bind
+#https://github.com/Zerodya/hyprfreeze
+#monitor transform binds? monitor = eDP-1, 2880x1800@90, 0x0, 1, transform, 1
+
 { config, lib, pkgs, ... }: let
   hy3 = config.hl-plugins.hy3; #config.configured.hyprland.plugins.hy3; 
   split-monitor-workspaces = config.hl-plugins.split-monitor-workspaces; #config.configured.hyprland.plugins.split-monitor-workspaces; 
@@ -23,8 +26,8 @@
       menu = "${pkgs.rofi-wayland}/bin/rofi";
       movewindow = if hy3.enable then "hy3:movewindow" else "movewindow";
       movefocus = if hy3.enable then "hy3:movefocus" else "movefocus";
-      makegroup = if hy3.enable then "hy3:makegroup" else "null";
-      changegroup = if hy3.enable then "hy3:changegroup" else "null";
+      #makegroup = if hy3.enable then "hy3:makegroup" else "null";
+      #changegroup = if hy3.enable then "hy3:changegroup" else "null";
       workspace = if split-monitor-workspaces.enable then "split-workspace" else "workspace";
       movetoworkspace = if split-monitor-workspaces.enable then "split-movetoworkspace" else "movetoworkspace";
       movetoworkspacesilent = if split-monitor-workspaces.enable then "split-movetoworkspacesilent" else "movetoworkspacesilent";
@@ -37,20 +40,21 @@
       hl-util = pkgs.writeShellScriptBin "hl-util.sh" (builtins.readFile ./sh/hl-util.sh);
     in lib.mkBefore ''
       submap = INS
-        bind = , ${config.kb_NML}, submap, NML
+        bind = , SUPER_L, submap, NML
       submap = escape
 
       submap = NML
-        bindi = ,${config.kb_INS}, submap, INS
-        bindi = ,${config.kb_EXEC}, submap, EXEC
-        bindi = ,${config.kb_WS}, submap, WS
-        bindi = ,${config.kb_DEPLOY}, submap, DEPLOY
-        bindi = ,${config.kb_MIGRATE}, submap, MIGRATE
-        bindi = ,${config.kb_POSITION}, submap, POSITION
-        bindi = ,${config.kb_RESIZE}, submap, RESIZE
-        bindi = ,${config.kb_MONITOR}, submap, MONITOR
+        bindi = , i, submap, INS
+        bindi = , e, submap, EXEC
+        bindi = , f, submap, WS
+        bindi = , d, submap, DEPLOY
+        bindi = , r, submap, RESIZE
+        bindi = , m, submap, MONITOR
+        bindi = , comma, submap, SEND_TO_MONITOR
+        bindi = , g, submap, MV->WS
         bindi = , c, submap, CONFIG
         bindi = , space, submap, MENU
+        bindi = , o, submap, DROP
         bindi = , u, submap, UTILITY
         
         bindm = , mouse:272, ${movewindow}
@@ -83,7 +87,25 @@
         bindi = , p, ${workspace}, -1
         binds = Shift_L, p, focuscurrentorlast
       submap = escape
-
+      submap = MV->WS
+        bindi = , a, ${movetoworkspace}, 1
+        bindi = , s, ${movetoworkspace}, 2
+        bindi = , d, ${movetoworkspace}, 3
+        bindi = , f, ${movetoworkspace}, 4
+        bindi = , g, ${movetoworkspace}, 5
+        bindi = , h, ${movetoworkspace}, 6
+        bindi = , j, ${movetoworkspace}, 7
+        bindi = , k, ${movetoworkspace}, 8
+        bindi = , l, ${movetoworkspace}, 9
+        bindi = , semicolon, ${movetoworkspace}, 10
+        bindi = , n, ${movetoworkspace}, +1
+        bindi = , p, ${movetoworkspace}, -1
+      submap = escape
+      submap = SEND_TO_MONITOR
+        bind = , d, movecurrentworkspacetomonitor, 2
+        bind = , f, movecurrentworkspacetomonitor, 1
+        bind = , g, movecurrentworkspacetomonitor, 0
+      submap = escape
       submap = RESIZE
         ${const}
         bindi = , m, submap, MOV 
@@ -110,6 +132,7 @@
       submap = UTILITY
         bindi = , s, submap, SCREENSHOT
         bindi = , c, submap, COLOR
+        bindi = , p, exec, hyprfreeze -a -s
         bindi = , r, exec, ${hl-util}/bin/hl-util.sh reset
       submap = escape
       submap = COLOR
@@ -124,11 +147,14 @@
       submap = escape
       submap = SCREENSHOT
         bindi = , s, exec, ${hl-util}/bin/hl-util.sh grimblast screenshot area
+        bindi = , a, exec, ${hl-util}/bin/hl-util.sh grimblast screenshot window
+        bindi = , f, exec, ${hl-util}/bin/hl-util.sh grimblast screenshot all
         bindi = , w, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area
         bindi = , e, exec, ${hl-util}/bin/hl-util.sh grimblast setwallpaper area fit
       submap = escape
       submap = MENU
         bindi = , space, exec, rofi -show run
+        bindi = , f, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
         bindi = , c, exec, rofi -modi calc -show calc -no-show-match -no-sort
         bindi = , e, exec, rofi -modi emoji -show emoji
         bindi = , t, exec, rofi -modi top -show top
@@ -141,6 +167,9 @@
         bindi = , p, exec, rofi-pass
         bindi = , bracketleft, exec, rofi-pulse-select sink
         bindi = , bracketright, exec, rofi-pulse-select source
+      submap = escape
+      submap = DROP
+        bindi = , o, exec, hdrop -f alacritty --class alacritty_drop
       submap = escape
 
       submap = CONFIG
