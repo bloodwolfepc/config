@@ -1,22 +1,30 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "retroarch";
     command = "${pkgs.retroarchFull}/bin/retroarch";
     packages = with pkgs; [
-      (retroarch.withCores (cores: with cores; [
-        play
-        swanstation
-        pcsx-rearmed
-        beetle-psx
-        snes9x
-        pcsx2
-        dolphin
-        desmume
-        bsnes
-        nxengine
-        dosbox
-        easyrpg
-      ]))
+      (retroarch.withCores (
+        cores: with cores; [
+          play
+          swanstation
+          pcsx-rearmed
+          beetle-psx
+          snes9x
+          pcsx2
+          dolphin
+          desmume
+          bsnes
+          nxengine
+          dosbox
+          easyrpg
+        ]
+      ))
       retroarch-assets
       retroarch-joypad-autoconfig
     ];
@@ -25,7 +33,8 @@
       "games"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

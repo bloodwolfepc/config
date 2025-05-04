@@ -1,60 +1,104 @@
 {
-	outputs = inputs@{ self, nixpkgs, home-manager, ... }:
-	let 
-    inherit (self) outputs;
-		systems = [
-      "x86_64-linux"
-    ];
-    lib' = nixpkgs.lib;
-    lib = lib'.extend ( final: prev:
-      import ./lib {
-        lib = final;
-        config = outputs.config;
-      } // home-manager.lib
-    );
-    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-		pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-			inherit system;
-			config.allowUnfree = true;
-		});
-	in
-	{
-    inherit lib; 
-    customNixosModules = import ./modules/nixos;
-    customHomeManagerModules = import ./modules/home-manager;
-    overlays = import ./overlays {inherit inputs outputs; };
-    customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; }); #outputs.customPackages.x86_64-linux.hello
-    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
-    #formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
-		nixosConfigurations = {
-      angel = lib.nixosSystem {
-        modules = [ ./nixos/angel ];
-        specialArgs = { inherit inputs outputs; };
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      nixos-generators,
+      ...
+    }:
+    let
+      inherit (self) outputs;
+      systems = [
+        "x86_64-linux"
+      ];
+      lib' = nixpkgs.lib;
+      lib = lib'.extend (
+        final: prev:
+        import ./lib {
+          lib = final;
+          config = outputs.config;
+        }
+        // home-manager.lib
+      );
+      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+      pkgsFor = lib.genAttrs systems (
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+      );
+    in
+    {
+      inherit lib;
+      customNixosModules = import ./modules/nixos;
+      customHomeManagerModules = import ./modules/home-manager;
+      overlays = import ./overlays { inherit inputs outputs; };
+      customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
+      devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+
+      #maybe use as a flake - package instead
+      nixosModules.myFormats =
+        {
+          config,
+          ...
+        }:
+        {
+          imports = [
+            nixos-generators.nixosModules.all-formats
+          ];
+          nixpkgs.hostPlatform = "x86_64-linux";
+          formatConfigs."iso" =
+            { config, modulesPath, ... }:
+            {
+              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-base.nix" ];
+              formatAttr = "isoImage";
+              fileExtension = ".iso";
+            };
+        };
+
+      nixosConfigurations = {
+        angel = lib.nixosSystem {
+          modules = [ ./nixos/angel ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        navi = lib.nixosSystem {
+          modules = [ ./nixos/navi ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        iso = lib.nixosSystem {
+          modules = [
+            self.nixosModules.myFormats
+            ./nixos/iso
+          ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
-      navi = lib.nixosSystem {
-        modules = [ ./nixos/navi ];
-        specialArgs = { inherit inputs outputs; };
+      homeConfigurations = {
+        "bloodwolfe@angel" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/angel ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@navi" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/navi ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@iso" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/iso ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
       };
     };
-    homeConfigurations = {
-      "bloodwolfe@angel" = lib.homeManagerConfiguration {
-        modules = [ ./home-manager/bloodwolfe/angel ];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs lib; };
-      };
-      "bloodwolfe@navi" = lib.homeManagerConfiguration {
-        modules = [ ./home-manager/bloodwolfe/navi ];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs lib; };
-      };
-    };
-	};
   inputs = {
-  	nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware";
-  	home-manager = {
+    home-manager = {
       url = "github:nix-community/home-manager";
-  	  inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko";
@@ -79,10 +123,6 @@
       url = "github:nixos/hydra";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    #nixos-mailserver = {
-    #  url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -109,10 +149,6 @@
     neovim = {
       url = "github:bloodwolfepc/neovim";
     };
-    #steam-tui = {
-    #  url = "github:dmadisetti/steam-tui";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
     };
@@ -121,6 +157,10 @@
     };
     stylix = {
       url = "github:danth/stylix";
+    };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -132,23 +172,21 @@
     };
 
     hyprland = {
-      #url = "github:hyprwm/Hyprland?submodules=1&rev=5ee35f914f921e5696030698e74fb5566a804768";
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hy3 = {
-      #url = "github:outfoxxed/hy3?ref=hl0.48.0";
       url = "github:outfoxxed/hy3";
       inputs.hyprland.follows = "hyprland";
     };
     split-monitor-workspaces = {
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
-    }; 
+    };
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
-    }; 
+    };
 
   };
   description = "bloodflake";

@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   inherit lib;
   attrs = lib.custom.mkHomeApplication {
     name = "mangohud";
@@ -9,7 +15,7 @@
     home.file.".config/MangoHud/MangoHod.conf".source = ./MangoHud.conf;
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }
-

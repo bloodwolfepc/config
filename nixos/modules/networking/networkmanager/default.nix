@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "networkmanager";
     networking = {
@@ -13,7 +19,8 @@
     #  wifi-password
     #];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

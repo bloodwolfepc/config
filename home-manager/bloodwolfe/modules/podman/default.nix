@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "podman";
     packages = with pkgs; [
@@ -9,13 +15,14 @@
       distrobox-tui
     ];
     persistDirs = [
-      ".local/share/containers" #distrobox
+      ".local/share/containers" # distrobox
     ];
     inherit config;
     services.podman = {
       enable = true;
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

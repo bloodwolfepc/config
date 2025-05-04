@@ -1,11 +1,18 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   base16Scheme = {
     base00 = "000000";
     base01 = "1C1C1C";
     base02 = "383838";
     base03 = "545454";
     base04 = "7e7e7e";
-    base05 = "a8a8a8"; 
+    base05 = "a8a8a8";
     base06 = "d2d2d2";
     base07 = "fcfcfc";
 
@@ -48,18 +55,18 @@
         serif = {
           package = pkgs.unscii;
           name = "Unscii";
-        }; 
+        };
         emoji = {
           package = pkgs.noto-fonts-monochrome-emoji;
           name = "Noto Monochrome Emoji";
         };
       };
-      polarity = "dark";   
+      polarity = "dark";
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   imports = [ inputs.stylix.homeManagerModules.stylix ];
   inherit (attrs) options config;
 }
-

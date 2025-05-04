@@ -1,11 +1,18 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "qemu";
     inherit config;
     syncDirs = [
       "qemu"
     ];
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

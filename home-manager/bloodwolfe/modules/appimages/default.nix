@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "appimages";
     packages = with pkgs; [
@@ -8,7 +14,8 @@
       "appimages"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

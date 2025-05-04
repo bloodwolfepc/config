@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "yubikey";
     services.udev.packages = [ pkgs.yubikey-personalization ];
@@ -14,7 +20,8 @@
       sudo.u2fAuth = true;
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

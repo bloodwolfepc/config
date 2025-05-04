@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "git";
     inherit config;
@@ -12,6 +18,7 @@
       path = "/home/bloodwolfe/.config/gh/hosts.yml";
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

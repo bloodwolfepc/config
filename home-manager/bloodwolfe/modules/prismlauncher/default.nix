@@ -1,7 +1,13 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "prismlauncher";
-    packages  = with pkgs; [
+    packages = with pkgs; [
       prismlauncher
       #(prismlauncher.override {
       #  jdks = [ jdk jdk17 jdk8 ];
@@ -25,7 +31,8 @@
       ".local/share/PrismLauncher/metacache"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "rofi";
     key = "space";
@@ -41,6 +47,7 @@
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

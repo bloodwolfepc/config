@@ -1,9 +1,19 @@
-{ lib, pkgs, config, ... }: let
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
   cfg = config.configured.angel.gpu-detatched;
   platform = "amd";
   user = "bloodwolfe";
-  vfioIds = [ "1002:73ef" "1002:ab28" ];
-in {
+  vfioIds = [
+    "1002:73ef"
+    "1002:ab28"
+  ];
+in
+{
   config = lib.mkIf cfg.enable {
     hardware.amdgpu = {
       initrd.enable = lib.mkForce false;
@@ -15,8 +25,8 @@ in {
       #powerprofilesctl set performance
       #postBootCommands = ''
       #'';
-      kernelModules = [ 
-        "kvm-${platform}" 
+      kernelModules = [
+        "kvm-${platform}"
         "vfio_virqfd"
         "vfio_pci"
         "vfio_iommu_type1"
@@ -34,7 +44,6 @@ in {
 
         "video=vesafb:off,efifb:off"
 
-
         #"iommu=pt"
         #"${platform}=on"
         #"${platform}=pt"
@@ -44,7 +53,7 @@ in {
       ";
     };
     systemd.tmpfiles.rules = [
-        "f /dev/shm/looking-glass 0660 ${user} qemu-libvirtd -"
+      "f /dev/shm/looking-glass 0660 ${user} qemu-libvirtd -"
     ];
     systemd.services.supergfxd.path = [ pkgs.pciutils ];
     services.supergfxd = {
@@ -59,5 +68,5 @@ in {
         hotplug_type = "Asus";
       };
     };
-  };  
+  };
 }

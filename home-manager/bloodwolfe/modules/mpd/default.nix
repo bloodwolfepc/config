@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "mpd";
     services.mpd = {
@@ -15,7 +21,7 @@
     #  enable = true;
     #};
     services.mpd-discord-rpc = { };
-    services.listenbrainz-mpd = { }; #scrobbler
+    services.listenbrainz-mpd = { }; # scrobbler
     services.mopidy = {
       enable = true;
       extensionPackages = with pkgs; [
@@ -36,7 +42,7 @@
             ".jpeg"
             ".png"
           ];
-        }; 
+        };
         #spotify = {
         #  client_id = "CLIENT_ID";
         #  client_secret = "CLIENT_SECRET";
@@ -46,10 +52,28 @@
     programs.ncmpcpp = {
       enable = true;
       bindings = [
-        { key = "j"; command = "scroll_down"; }
-        { key = "k"; command = "scroll_up"; }
-        { key = "J"; command = [ "select_item" "scroll_down" ]; }
-        { key = "K"; command = [ "select_item" "scroll_up" ]; }
+        {
+          key = "j";
+          command = "scroll_down";
+        }
+        {
+          key = "k";
+          command = "scroll_up";
+        }
+        {
+          key = "J";
+          command = [
+            "select_item"
+            "scroll_down"
+          ];
+        }
+        {
+          key = "K";
+          command = [
+            "select_item"
+            "scroll_up"
+          ];
+        }
       ];
     };
     programs.cmus = {
@@ -68,6 +92,7 @@
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

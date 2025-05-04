@@ -1,69 +1,85 @@
-{ lib, config, pkgs, outputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  outputs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "terminal-extras";
-    packages = with pkgs; [
-      lolcat
-      dotacat
+    packages =
+      with pkgs;
+      [
+        #lolcat
+        dotacat
 
-      #lolcrab
-      figlet
-      sl
-      #cowsay
-      asciiquarium
-      gay
-      neofetch
-      #https://github.com/poetaman/arttime
+        #lolcrab
+        figlet
+        sl
+        #cowsay
+        asciiquarium
+        gay
+        neofetch
+        #https://github.com/poetaman/arttime
 
-      catimg
-      jp2a
-      ascii-image-converter
-      goat #convert to svg diagrams
+        catimg
+        jp2a
+        ascii-image-converter
+        goat # convert to svg diagrams
 
-      era
-      tenki
-      rsclock #clock-rs
-      tty-clock
+        era
+        tenki
+        rsclock # clock-rs
+        tty-clock
 
-      bat
-      viddy
-      moar
-      toolong
-      dust
-      ncdu
-      eza
+        bat
+        viddy
+        moar
+        toolong
+        dust
+        ncdu
+        eza
 
-      bsdgames
-      nbsdgames
+        bsdgames
+        nbsdgames
 
-      unimatrix
-      cmatrix
-      tmatrix
-      neo
+        unimatrix
+        cmatrix
+        tmatrix
+        neo
 
-      pipes-rs #pipes
+        pipes-rs # pipes
 
-      libresprite
-      #aseprite
+        libresprite
+        #aseprite
 
-      ascii-draw
+        ascii-draw
 
-      #nyancat
+        #nyancat
 
-      #fortune
-      #fortune-kind
-      #taoup
+        #fortune
+        #fortune-kind
+        #taoup
 
-      asciicam
+        asciicam
 
-      glances
-      gtop
-      curlie
+        glances
+        gtop
+        curlie
 
-      #wakatime      
-    ] ++ (with outputs.customPackages; [
-      ascii-rain
-      durdraw
-    ]);
+        #wakatime
+
+        openpomodoro-cli
+        #others:
+        #https://github.com/24seconds/rust-cli-pomodoro
+        #https://github.com/jkallio/pomodoro-cli (waybar, notification support)
+        #https://github.com/ColorCookie-dev/porsmo
+      ]
+      ++ (with outputs.customPackages; [
+        ascii-rain
+        durdraw
+      ]);
     programs = {
       irssi = {
         enable = false;
@@ -85,29 +101,52 @@
       newsboat = {
         enable = true;
         autoReload = true;
-        urls = let 
-          mkSource = tags: url: { inherit tags url; };
-        in [
-          (mkSource [ "tech" ] "https://xeiaso.net/blog.rss")
-          (mkSource [ "tech" ] "https://100r.co/links/rss.xml")
-          (mkSource [ "tech" ] "https://catgirl.ai/log/atom.xml")
+        urls =
+          let
+            mkSource = tags: url: { inherit tags url; };
+          in
+          [
+            (mkSource [ "tech" ] "https://xeiaso.net/blog.rss")
+            (mkSource [ "tech" ] "https://100r.co/links/rss.xml")
+            (mkSource [ "tech" ] "https://catgirl.ai/log/atom.xml")
 
-          (mkSource [ "news" ] "https://feeds.npr.org/1001/rss.xml")
-          (mkSource [ "tech" ] "https://www.phoronix.com/rss.php")
-          (mkSource [ "tech" ] "http://www.linux.com/feeds/all-content")
-          (mkSource [ "tech" ] "https://www.cyberciti.com/atom/atom.xml")
-          (mkSource [ "tech" ] "https://frame.work/blog.rss")
+            (mkSource [ "news" ] "https://feeds.npr.org/1001/rss.xml")
+            (mkSource [ "tech" ] "https://www.phoronix.com/rss.php")
+            (mkSource [ "tech" ] "http://www.linux.com/feeds/all-content")
+            (mkSource [ "tech" ] "https://www.cyberciti.com/atom/atom.xml")
+            (mkSource [ "tech" ] "https://frame.work/blog.rss")
 
-          (mkSource [ "tech" ] "https://hnrss.org/frontpage")
-          (mkSource [ "tech" ] "https://www.reddit.com/r/linux/.rss")
-          (mkSource [ "tech" ] "https://www.reddit.com/r/neovim/.rss")
-          (mkSource [ "tech" ] "https://discourse.nixos.org/c/announcements/8.rss")
-          (mkSource [ "tech" ] "https://github.com/NixOS/nixpkgs/commits/master.atom")
-        ];
+            (mkSource [ "tech" ] "https://hnrss.org/frontpage")
+            (mkSource [ "tech" ] "https://www.reddit.com/r/linux/.rss")
+            (mkSource [ "tech" ] "https://www.reddit.com/r/neovim/.rss")
+            (mkSource [ "tech" ] "https://discourse.nixos.org/c/announcements/8.rss")
+            (mkSource [ "tech" ] "https://github.com/NixOS/nixpkgs/commits/master.atom")
+          ];
       };
     };
+    home.file = {
+      ".pomodoro/hooks/start" = {
+        text = builtins.readFile ./start.sh;
+        executable = true;
+      };
+      ".pomodoro/hooks/stop" = {
+        text = builtins.readFile ./stop.sh;
+        executable = true;
+      };
+      ".pomodoro/hooks/break" = {
+        text = builtins.readFile ./break.sh;
+        executable = true;
+      };
+    };
+    home.shellAliases = {
+      tt = "pomodoro -f '%!r🐺 %c%!g🐺%d%t'";
+    };
+    persistFiles = [
+      ".pomodoro/history"
+    ];
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

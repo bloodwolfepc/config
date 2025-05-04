@@ -1,5 +1,6 @@
 #https://blog.svenar.nl/posts/vm_usb_passthrough/
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   systemd.services."usb-passthough" = {
     serviceConfig = {
       User = "root";

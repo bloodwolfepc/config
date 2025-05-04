@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options = {
     kb_RIGHT = lib.mkOption {
       default = "l";
@@ -62,5 +63,3 @@
     };
   };
 }
-    
-    

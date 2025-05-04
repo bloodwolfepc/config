@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "olive-editor";
     packages = with pkgs; [
@@ -9,7 +15,8 @@
       #TODO config sync dirs
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

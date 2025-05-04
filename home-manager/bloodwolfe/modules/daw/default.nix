@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "daw";
     pcExecOnce = [
@@ -25,13 +31,13 @@
       puredata
       plugdata
       #zexy
-      #timbreid 
-      #maxlib 
-      #cyclone 
+      #timbreid
+      #maxlib
+      #cyclone
       #faust
-      surge 
-      vital 
-      cardinal 
+      surge
+      vital
+      cardinal
       odin2
       geonkick
       x42-avldrums
@@ -63,10 +69,10 @@
       sonobus
       coppwr
       neothesia
-      
+
       #UNPACKAGED
       #wolf-spectrum
-      
+
       zrythm
       soundfont-fluid
       #openutau
@@ -74,8 +80,8 @@
 
     ];
     syncDirs = [
-      ".local/share/vital" #~/.local/share/vital/User/{Wavetables,Presets}
-      ".config/falkTX" 
+      ".local/share/vital" # ~/.local/share/vital/User/{Wavetables,Presets}
+      ".config/falkTX"
       ".config/ardour8"
       ".cache/ardour8"
       ".config/MuseScore"
@@ -94,12 +100,13 @@
     extraConfig = {
       wayland.windowManager.hyprland = {
         settings.windowrulev2 = [
-          "noinitialfocus , xwayland:1" #fixes draggables in ardour
+          "noinitialfocus , xwayland:1" # fixes draggables in ardour
         ];
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

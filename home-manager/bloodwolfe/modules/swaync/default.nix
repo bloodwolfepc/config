@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "swaync";
     stylix.targets.swaync.enable = false;
@@ -18,8 +24,8 @@
           "dnd"
           "notifications"
           "mpris"
-        ];   
-        widget-config = { 
+        ];
+        widget-config = {
           inhibitors = {
             text = "Inhibitors";
             button-text = ":3";
@@ -58,6 +64,7 @@
     '';
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

@@ -1,4 +1,11 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "gaming";
     hardware.graphics = {
@@ -8,7 +15,7 @@
       extraPackages = with pkgs; [
         libvdpau-va-gl
       ];
-    }; 
+    };
     programs.gamemode = {
       enable = true;
       settings = {
@@ -24,8 +31,9 @@
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
   #imports = [ inputs.nix-gaming.nixosModules.platformOptimizations ];
 }

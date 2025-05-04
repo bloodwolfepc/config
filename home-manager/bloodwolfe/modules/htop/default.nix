@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "htop";
     inherit config;
@@ -6,6 +12,7 @@
       enable = true;
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

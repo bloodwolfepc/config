@@ -1,4 +1,9 @@
-{ pkgs, lib, config }: let
+{
+  pkgs,
+  lib,
+  config,
+}:
+let
   attrs = {
     enable = true;
     systemd.enable = true;
@@ -47,7 +52,7 @@
         workspace_swipe_create_new = true;
       };
       xwayland.force_zero_scaling = true;
-      binds.allow_workspace_cycles = true; 
+      binds.allow_workspace_cycles = true;
       animations.enabled = false;
       cursor = {
         inactive_timeout = 0.5;
@@ -60,19 +65,19 @@
         sensitivity = "0";
         accel_profile = "flat";
       };
-      monitor = map
-        (m:
-          let 
-            resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-            position = "${toString m.x}x${toString m.y}";
-          in
-          "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
-        )
-        (config.monitors);
+      monitor = map (
+        m:
+        let
+          resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+          position = "${toString m.x}x${toString m.y}";
+        in
+        "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
+      ) (config.monitors);
       #workspace = id:4, monitor:DP-1
     };
   };
-  in {
+in
+{
   inherit attrs;
 }
 #hyprctl keyword monitor DP-3,1920x1080@144,0x0,1

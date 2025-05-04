@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "qutebrowser";
     command = "${pkgs.qutebrowser}/bin/qutebrowser";
@@ -31,10 +37,14 @@
       settings = {
         url = rec {
           default_page = "https://kagi.com";
-          start_pages = [default_page];
+          start_pages = [ default_page ];
         };
         downloads.open_dispatcher = "${lib.getExe pkgs.handlr-regex} open {}";
-        editor.command = ["${lib.getExe pkgs.handlr-regex}" "open" "{file}"];
+        editor.command = [
+          "${lib.getExe pkgs.handlr-regex}"
+          "open"
+          "{file}"
+        ];
         tabs = {
           show = "multiple";
           position = "left";
@@ -43,14 +53,15 @@
       };
     };
     xdg.mimeApps.defaultApplications = {
-      "text/html" = ["org.qutebrowser.qutebrowser.desktop"];
-      "text/xml" = ["org.qutebrowser.qutebrowser.desktop"];
-      "x-scheme-handler/http" = ["org.qutebrowser.qutebrowser.desktop"];
-      "x-scheme-handler/https" = ["org.qutebrowser.qutebrowser.desktop"];
-      "x-scheme-handler/qute" = ["org.qutebrowser.qutebrowser.desktop"];
+      "text/html" = [ "org.qutebrowser.qutebrowser.desktop" ];
+      "text/xml" = [ "org.qutebrowser.qutebrowser.desktop" ];
+      "x-scheme-handler/http" = [ "org.qutebrowser.qutebrowser.desktop" ];
+      "x-scheme-handler/https" = [ "org.qutebrowser.qutebrowser.desktop" ];
+      "x-scheme-handler/qute" = [ "org.qutebrowser.qutebrowser.desktop" ];
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

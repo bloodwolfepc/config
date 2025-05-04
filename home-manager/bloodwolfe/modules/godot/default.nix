@@ -1,8 +1,14 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "godot";
     packages = with pkgs; [
-      godot_4
+      #godot_4
     ];
     syncDirs = [
       "godot"
@@ -10,7 +16,8 @@
       ".local/share/godot"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

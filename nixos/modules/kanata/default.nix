@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "kanata";
     services.kanata = {
@@ -65,7 +71,8 @@
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

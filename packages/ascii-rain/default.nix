@@ -2,8 +2,8 @@
 pkgs.stdenv.mkDerivation rec {
   pname = "ascii-rain";
   name = pname;
-  nativeBuildInputs = with pkgs; [ 
-    gcc 
+  nativeBuildInputs = with pkgs; [
+    gcc
     ncurses
   ];
   src = pkgs.fetchFromGitHub {
@@ -16,7 +16,7 @@ pkgs.stdenv.mkDerivation rec {
     description = "ncurses rain effect";
     homepage = "https://github.com/nkleemann/ascii-rain";
     license = lib.licenses.mit;
-    maintainers = [ "bloodwolfepc" ]; 
+    maintainers = [ "bloodwolfepc" ];
   };
   buildPhase = ''
     gcc rain.c -o rain -lncurses

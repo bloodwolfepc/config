@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "gpg";
     inherit config;
@@ -9,24 +15,25 @@
       enableSshSupport = true;
       enableExtraSocket = true;
       pinentryPackage = pkgs.pinentry-tty;
-      verbose = true; 
+      verbose = true;
     };
     programs.gpg = {
       enable = true;
       homedir = "${config.home.homeDirectory}/.gnupg";
       mutableKeys = false;
       mutableTrust = false;
-      publicKeys = [ 
+      publicKeys = [
         {
           source = ./B74857A702B0C92B-2024-04-15.asc;
           trust = 5;
         }
       ];
       scdaemonSettings = {
-          disable-ccid = true;
+        disable-ccid = true;
       };
     };
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

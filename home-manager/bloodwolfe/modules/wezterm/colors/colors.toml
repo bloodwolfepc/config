@@ -1,0 +1,54 @@
+[colors]
+ansi = [
+    "#000000",
+    "#ff0000",
+    "#00ff00",
+    "#ffff00",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#a8a8a8",
+]
+background = "#000000"
+brights = [
+    "#545454",
+    "#ff0000",
+    "#00ff00",
+    "#ffff00",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#fcfcfc",
+]
+compose_cursor = "#d2d2d2"
+cursor_bg = "#a8a8a8"
+cursor_fg = "#000000"
+foreground = "#a8a8a8"
+scrollbar_thumb = "#1c1c1c"
+selection_bg = "#a8a8a8"
+selection_fg = "#000000"
+split = "#545454"
+visual_bell = "#fbfb40"
+
+[colors.tab_bar]
+background = "#1c1c1c"
+inactive_tab_edge = "#1c1c1c"
+[colors.tab_bar.active_tab]
+bg_color = "#000000"
+fg_color = "#a8a8a8"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#545454"
+fg_color = "#a8a8a8"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#a8a8a8"
+fg_color = "#000000"
+
+[colors.tab_bar.new_tab]
+bg_color = "#545454"
+fg_color = "#a8a8a8"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#a8a8a8"
+fg_color = "#000000"

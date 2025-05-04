@@ -1,11 +1,18 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "bluetooth";
     hardware.bluetooth = {
       enable = true;
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

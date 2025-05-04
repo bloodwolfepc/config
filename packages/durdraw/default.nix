@@ -1,7 +1,8 @@
-{ lib
-  , python3Packages
-  , fetchFromGitHub
-  , ansilove
+{
+  lib,
+  python3Packages,
+  fetchFromGitHub,
+  ansilove,
 }:
 
 python3Packages.buildPythonApplication rec {

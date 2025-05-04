@@ -1,4 +1,9 @@
-{ lib, stdenv, fetchFromGitHub, yarn2nix, }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  yarn2nix,
+}:
 
 stdenv.mkDerivation rec {
   pname = "ynodesktop";
@@ -15,14 +20,9 @@ stdenv.mkDerivation rec {
     mkdir -p $out/bin 
     cp icat $out/bin 
     runHook postInstall 
-    '';
+  '';
 }
-    
 
 #on ynodesktop
 #yarn install
 #electron run .
-
-
-
-

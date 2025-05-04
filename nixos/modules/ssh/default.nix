@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "ssh";
     services.openssh = {
@@ -16,11 +22,12 @@
         {
           path = "/persist/system/etc/ssh/ssh_host_ed25519_key";
           type = "ed25519";
-        } 
+        }
       ];
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

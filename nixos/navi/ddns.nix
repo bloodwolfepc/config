@@ -1,9 +1,12 @@
-{ config, ... }: {
-  sops.secrets = { "ddnssecret" = { }; };
+{ config, ... }:
+{
+  sops.secrets = {
+    "ddnssecret" = { };
+  };
   services.ddclient = {
     enable = true;
     protocol = "namecheap";
-    domains = ["@"];
+    domains = [ "@" ];
     username = "waterdreamer.net";
     passwordFile = config.sops.secrets."ddnssecret".path;
     use = "web ,web=dynamicdns.park-your-domain.com/getip";

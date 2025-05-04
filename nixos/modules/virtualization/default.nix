@@ -1,12 +1,18 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "virtualisation";
     packages = with pkgs; [
-      distrobox 
+      distrobox
       podman-tui
       dive
       qemu
-    ]; 
+    ];
     virtualisation = {
       containers.enable = true;
       oci-containers.backend = "podman";
@@ -14,13 +20,13 @@
         enable = true;
         dockerCompat = true;
         defaultNetwork.settings.dns_enabled = true;
-      };  
+      };
       spiceUSBRedirection.enable = true;
       libvirtd = {
         enable = true;
         qemu = {
-          swtpm.enable = true; #tpm emulator
-          ovmf.enable = true; #UEFI 
+          swtpm.enable = true; # tpm emulator
+          ovmf.enable = true; # UEFI
         };
       };
       waydroid.enable = true;
@@ -36,7 +42,8 @@
       "/var/lib/libvirt"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

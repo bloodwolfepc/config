@@ -1,8 +1,8 @@
 { }
-  #services.nix-serv = {
-  #  enable = true;
-  #  secretkeyFile = "";
-  #  nginx = {
-  #    enable = true;
-  #  };
-  #};
+#services.nix-serv = {
+#  enable = true;
+#  secretkeyFile = "";
+#  nginx = {
+#    enable = true;
+#  };
+#};

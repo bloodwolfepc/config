@@ -1,14 +1,39 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.globals.list = {
-    require-nixos = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    require-hm = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    require-pc = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    srv-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    used-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    gaming-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    workstation-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    unused-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-  }; 
+    require-nixos = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    require-hm = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    require-pc = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    srv-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    used-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    gaming-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    workstation-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    unused-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+  };
   config = {
     globals = {
       list = {
@@ -24,6 +49,7 @@
         require-hm = [
           "thefuck"
           "tmux"
+          "zellij"
           "zoxide"
           "zsh"
           "neovim"
@@ -48,8 +74,8 @@
           "cliphist"
           "wireplumber"
           "fcitx5"
-          "wezterm"
           "alacritty"
+          "wezterm"
           "xdg"
         ];
         srv-progs = [
@@ -107,7 +133,7 @@
         ];
         unused-progs = [
           "bitwarden"
-          "lf" 
+          "lf"
           "qutebrowser"
           "kdenlive"
           "libreoffice"

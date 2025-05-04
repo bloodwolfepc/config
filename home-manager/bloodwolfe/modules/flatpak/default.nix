@@ -1,6 +1,6 @@
 /*
   --NOTICE--
-  There is an issue with bwrap and impermanence 
+  There is an issue with bwrap and impermanence
   where steam is not be able to find and write some stuff
   even with elevated permissions
   this is exclusive to the impermanence module bindmounts
@@ -8,7 +8,13 @@
   subvolume called flatpak that is mounted to .var/app
 */
 
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "flatpak";
     persistDirs = [
@@ -16,7 +22,8 @@
       ".local/share/flatpak"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

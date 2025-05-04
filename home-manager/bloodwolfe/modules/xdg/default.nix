@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "xdg";
     packages = with pkgs; [
@@ -15,23 +21,25 @@
       "pictures"
       "videos"
     ];
-    xdg = { 
+    xdg = {
       enable = true;
-      userDirs = let 
-        me = config.home.homeDirectory;
-      in {
-        enable = true;
-        createDirectories = false;
-        desktop = "${me}/desktop";
-        documents = "${me}/documents";
-        download = "${me}/downloads";
-        music = "${me}/music";
-        pictures = "${me}/pictures";
-        videos = "${me}/videos";
-        extraConfig = {
-          XDG_SCREENSHOTS_DIR = "${me}/pictures/screenshots";
+      userDirs =
+        let
+          me = config.home.homeDirectory;
+        in
+        {
+          enable = true;
+          createDirectories = false;
+          desktop = "${me}/desktop";
+          documents = "${me}/documents";
+          download = "${me}/downloads";
+          music = "${me}/music";
+          pictures = "${me}/pictures";
+          videos = "${me}/videos";
+          extraConfig = {
+            XDG_SCREENSHOTS_DIR = "${me}/pictures/screenshots";
+          };
         };
-      };
       portal = {
         enable = true;
         xdgOpenUsePortal = false;
@@ -54,12 +62,13 @@
         };
       };
     };
-    stylix.targets.qt.enable = false;
-    qt = {
-      enable = true;
-      platformTheme.name = "gtk";
-      style.name = "gtk";
-    };
+    qt.enable = true;
+    #stylix.targets.qt.enable = false;
+    #qt = {
+    #  enable = true;
+    #  platformTheme.name = "gtk";
+    #  style.name = "gtk";
+    #};
     gtk = {
       enable = true;
       gtk2.extraConfig = ''
@@ -74,6 +83,7 @@
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

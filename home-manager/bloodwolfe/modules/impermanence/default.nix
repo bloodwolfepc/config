@@ -1,7 +1,14 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "impermanence";
-    home = { 
+    home = {
       persistence = {
         "/sync/home/bloodwolfe" = {
           allowOther = true;
@@ -12,10 +19,11 @@
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
-	imports = [
-		inputs.impermanence.nixosModules.home-manager.impermanence
-	];
+  imports = [
+    inputs.impermanence.nixosModules.home-manager.impermanence
+  ];
 }

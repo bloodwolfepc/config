@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "zoxide";
     persistDirs = [
@@ -17,6 +23,7 @@
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

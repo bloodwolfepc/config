@@ -1,4 +1,5 @@
-{ pkgs, lib }: pkgs.stdenv.mkDerivation rec {
+{ pkgs, lib }:
+pkgs.stdenv.mkDerivation rec {
   pname = "minthud";
   name = pname;
   src = pkgs.fetchFromGitHub {
@@ -10,7 +11,7 @@
   meta = {
     description = "A simplistic competitive TF2 hud.";
     homepage = "https://github.com/Mint-tf/minthud";
-    maintainers = [ "bloodwolfepc" ]; 
+    maintainers = [ "bloodwolfepc" ];
   };
   installPhase = ''
     runHook preInstall

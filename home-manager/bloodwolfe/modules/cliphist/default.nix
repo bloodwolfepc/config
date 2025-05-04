@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "cliphist";
     packages = with pkgs; [
@@ -10,6 +16,7 @@
       enable = true;
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

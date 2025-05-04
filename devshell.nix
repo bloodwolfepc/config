@@ -1,33 +1,34 @@
 # Shell for dev
 {
   pkgs ?
-  # If pkgs is not defined, instanciate nixpkgs from locked commit
-  let
-    lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
-    nixpkgs = fetchTarball {
-      url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
-      sha256 = lock.narHash;
-    };
-  in
-    import nixpkgs {overlays = [];},
+    # If pkgs is not defined, instanciate nixpkgs from locked commit
+    let
+      lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
+      nixpkgs = fetchTarball {
+        url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
+        sha256 = lock.narHash;
+      };
+    in
+    import nixpkgs { overlays = [ ]; },
   ...
-}: {
+}:
+{
   default = pkgs.mkShell {
     NIX_CONFIG = "extra-experimental-features = nix-command flakes";
     nativeBuildInputs = with pkgs; [
       nix
       git
 
-      gcc 
-      make 
-      binutils 
-      flex 
-      bison 
-      util-linux 
-      kmod 
-      e2fsprogs 
+      gcc
+      make
+      binutils
+      flex
+      bison
+      util-linux
+      kmod
+      e2fsprogs
       jfsutils
-      reiser 
+      reiser
       fsprogs
       xfsprogs
       squashfs-tools
@@ -45,7 +46,7 @@
       penssl
       libcrypto
       bc
-      
+
       pahole
       cpio
       cmlto
@@ -54,7 +55,7 @@
       pearl
       tar
       xz
-      
+
     ];
   };
 }

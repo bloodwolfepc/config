@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "ripgrep";
     inherit config;
@@ -7,6 +13,7 @@
       package = pkgs.ripgrep-all;
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

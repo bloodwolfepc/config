@@ -1,4 +1,11 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   secrets = builtins.toString inputs.secrets;
   attrs = lib.custom.mkConfig {
     name = "sops";
@@ -7,14 +14,15 @@
       validateSopsFiles = false;
       defaultSopsFormat = "yaml";
       age = {
-       sshKeyPaths = [ "/persist/system/etc/ssh/ssh_host_ed25519_key" ];
-       keyFile = "/persist/system/var/lib/sops-nix/key.txt";
-       generateKey = true; 
+        sshKeyPaths = [ "/persist/system/etc/ssh/ssh_host_ed25519_key" ];
+        keyFile = "/persist/system/var/lib/sops-nix/key.txt";
+        generateKey = true;
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
   imports = [
     inputs.sops-nix.nixosModules.sops

@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "spotify-player";
     persistDirs = [
@@ -16,14 +22,15 @@
           audio_cache = false;
           normalization = false;
           copy_command = {
-            command = "wl-copy"; #TODO if wayland wl-copy
-            args = [];
+            command = "wl-copy"; # TODO if wayland wl-copy
+            args = [ ];
           };
         };
       };
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

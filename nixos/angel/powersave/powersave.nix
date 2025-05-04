@@ -1,6 +1,13 @@
-{ lib, pkgs, config, ... }: let
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
   cfg = config.bwcfg.angel.powersave;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     boot.postBootCommands = ''
       asusctl profile -P Quiet
@@ -21,9 +28,8 @@ in {
         };
       };
     };
-  };  
+  };
 }
-
 
 #(
 #    charge_control_end_threshold: 100,
@@ -41,5 +47,3 @@ in {
 #    throttle_quiet_epp: Power,
 #    throttle_balanced_epp: BalancePower,
 #    throttle_performance_epp: Performance,
-
-

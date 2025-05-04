@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "nix-index";
     persistDirs = [
@@ -10,6 +16,7 @@
       enableZshIntegration = true;
     };
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

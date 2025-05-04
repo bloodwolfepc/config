@@ -1,6 +1,7 @@
-{ python39Packages
-, fetchFromGitHub
-, lib
+{
+  python39Packages,
+  fetchFromGitHub,
+  lib,
 }:
 
 # Doesn't work with python 3.10 due to behavior change of extension interface.
@@ -28,7 +29,10 @@ buildPythonApplication rec {
     export HOME=$TMPDIR
   '';
 
-  checkInputs = [ httpretty pytest ];
+  checkInputs = [
+    httpretty
+    pytest
+  ];
 
   propagatedBuildInputs = [
     setuptools

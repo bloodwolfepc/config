@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "tofi";
     pcExtraConfig = ''
@@ -10,9 +16,10 @@
       enable = true;
     };
     stylix.targets.tofi.enable = false;
-    xdg.configFile."tofi/config".text = lib.mkForce (builtins.readFile ./config.ini); 
+    xdg.configFile."tofi/config".text = lib.mkForce (builtins.readFile ./config.ini);
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

@@ -1,8 +1,14 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication rec {
     name = "alacritty";
     command = "${pkgs.alacritty}/bin/alacritty";
-    key = "t"; 
+    key = "t";
     pcExecOnce = [
       "${command}"
       #"swaync --inhibitor-add Alacritty"
@@ -19,7 +25,7 @@
           color = "#a8a8a8";
           command = {
             program = "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play";
-            args = ["--id=bell" ];
+            args = [ "--id=bell" ];
           };
         };
         font = {
@@ -46,11 +52,12 @@
           magenta = lib.mkForce "0xFF00FF";
           cyan = lib.mkForce "0x00FFFF";
           white = lib.mkForce "0xFFFFFF";
-        };  
+        };
       };
     };
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

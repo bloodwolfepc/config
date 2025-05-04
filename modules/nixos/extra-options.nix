@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options = {
     wallpaper = lib.mkOption {
       default = ../../assets/wallpapers/black.png;

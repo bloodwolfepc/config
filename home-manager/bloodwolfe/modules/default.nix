@@ -75,6 +75,7 @@
     ./zathura
     ./zoxide
     ./zsh
+    ./zellij
 
     ./mpd
     ./terminal-extras

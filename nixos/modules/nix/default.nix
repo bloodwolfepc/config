@@ -1,13 +1,30 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "nix";
     nix = {
       settings = {
-        trusted-users = [ "root" "@wheel" ];
+        trusted-users = [
+          "root"
+          "@wheel"
+        ];
         auto-optimise-store = lib.mkDefault true;
-        experimental-features = [ "flakes" "nix-command"];
+        experimental-features = [
+          "flakes"
+          "nix-command"
+        ];
         warn-dirty = false;
-        system-features = [ "kvm" "big-parallel" "nixos-test" ];
+        system-features = [
+          "kvm"
+          "big-parallel"
+          "nixos-test"
+        ];
         flake-registry = "";
         substituters = [
           "https://hyprland.cachix.org"
@@ -24,7 +41,8 @@
       nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

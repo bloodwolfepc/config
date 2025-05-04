@@ -1,8 +1,15 @@
-{ config, pkgs, lib,... }: let 
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
   cfg = config.configured.angel.vfio-passthough;
   user = "bloodwolfe";
   dir.win11 = "/home/bloodwolfe/qemu/windows-passthough/win11.qcow2";
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     virtualisation = {
       libvirtd = {

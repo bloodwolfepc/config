@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let #TODO toggle command
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let # TODO toggle command
   attrs = lib.custom.mkHomeApplication {
     name = "waybar";
     programs.waybar = {
@@ -13,12 +19,28 @@
           layer = "top";
           position = "top";
           height = 22;
-          modules-left = [ "hyprland/submap" "hyprland/scratchpad" "hyprland/window" ];
-          modules-center = [ "image#album-art" "mpris" "custom/lyrics" ];
-          modules-right = [ "gamemode"  "network" "cpu" "memory" "battery" "clock#date" "clock" ];
+          modules-left = [
+            "hyprland/submap"
+            "hyprland/scratchpad"
+            "hyprland/window"
+          ];
+          modules-center = [
+            "image#album-art"
+            "mpris"
+            "custom/lyrics"
+          ];
+          modules-right = [
+            "gamemode"
+            "network"
+            "cpu"
+            "memory"
+            "battery"
+            "clock#date"
+            "clock"
+          ];
 
           mpris = {
-          interval = 1;
+            interval = 1;
             format = "{position}:{artist} - {album} - {title}";
           };
 
@@ -75,6 +97,7 @@
     stylix.targets.waybar.enable = false;
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

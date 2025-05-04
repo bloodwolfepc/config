@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "bloodwolfe";
     sops.secrets.bloodwolfe-pass.neededForUsers = true;
@@ -7,14 +13,14 @@
     users = {
       mutableUsers = false;
       groups = {
-        libvirtd.members = ["bloodwolfe"];
+        libvirtd.members = [ "bloodwolfe" ];
         data = {
           name = "data";
         };
       };
       users.bloodwolfe = {
         isNormalUser = true;
-        hashedPasswordFile = config.sops.secrets.bloodwolfe-pass.path;
+        hashedPasswordFile = lib.mkDefault config.sops.secrets.bloodwolfe-pass.path;
         shell = pkgs.zsh;
         extraGroups = [
           "syncthing"
@@ -39,7 +45,8 @@
       };
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

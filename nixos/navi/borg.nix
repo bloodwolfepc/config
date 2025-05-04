@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   sops.secrets.borg-pass = { };
   services.borgbackup.jobs = {
     "docker-bu" = {

@@ -1,8 +1,15 @@
-{ lib, config, pkgs, inputs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "umc-404-extensive-audio";
     configured.audio.enable = true;
-    boot.kernelModules = [ 
+    boot.kernelModules = [
       "snd_virmidi"
       "snd_seq_dummy"
     ];
@@ -10,7 +17,7 @@
       options snd_seq_dummy ports=4
       options snd_virmidi midi_devs=1
       options snd slots=snd-usb-audio
-    ''; 
+    '';
     musnix = {
       enable = true;
       alsaSeq.enable = true;
@@ -31,32 +38,32 @@
           # properyty when no other driver is currently active. JACK clients need this.
           factory = "spa-node-factory";
           args = {
-            "factory.name"     = "support.node.driver";
-            "node.name"        = "Dummy-Driver";
-            "priority.driver"  = 8000;
+            "factory.name" = "support.node.driver";
+            "node.name" = "Dummy-Driver";
+            "priority.driver" = 8000;
           };
         }
         {
           factory = "adapter";
           args = {
-            "factory.name"     = "support.null-audio-sink";
-            "node.name"        = "Microphone-Proxy";
+            "factory.name" = "support.null-audio-sink";
+            "node.name" = "Microphone-Proxy";
             "node.description" = "Microphone";
-            "media.class"      = "Audio/Source/Virtual";
-            "audio.position"   = "MONO";
+            "media.class" = "Audio/Source/Virtual";
+            "audio.position" = "MONO";
           };
         }
         {
           factory = "adapter";
           args = {
-            "factory.name"     = "support.null-audio-sink";
-            "node.name"        = "Main-Output-Proxy";
+            "factory.name" = "support.null-audio-sink";
+            "node.name" = "Main-Output-Proxy";
             "node.description" = "Main Output";
-            "media.class"      = "Audio/Sink";
-            "audio.position"   = "FL,FR";
+            "media.class" = "Audio/Sink";
+            "audio.position" = "FL,FR";
           };
         }
-      ];  
+      ];
     };
     services.pipewire.extraConfig.jack = {
       "20-low-latency" = {
@@ -110,28 +117,40 @@
             "node.description" = "UMC Speakers";
             "capture.props" = {
               "media.class" = "Audio/Sink";
-              "audio.position" = [ "FL" "FR" ];
+              "audio.position" = [
+                "FL"
+                "FR"
+              ];
             };
             "playback.props" = {
               "node.name" = "playback.UMC_Speakers";
-              "audio.position" = [ "AUX0" "AUX1" ];
+              "audio.position" = [
+                "AUX0"
+                "AUX1"
+              ];
               "target.object" = "alsa_output.usb-BEHRINGER_UMC404HD_192k-00.pro-output-0";
               "stream.dont-remix" = "true";
               "node.passive" = "true";
             };
           };
-        } 
+        }
         {
           name = "libpipewire-module-loopback";
           args = {
             "node.description" = "UMC Headphones";
             "capture.props" = {
               "media.class" = "Audio/Sink";
-              "audio.position" = [ "FL" "FR" ];
+              "audio.position" = [
+                "FL"
+                "FR"
+              ];
             };
             "playback.props" = {
               "node.name" = "playback.UMC_Headphones";
-              "audio.position" = [ "AUX2" "AUX3" ];
+              "audio.position" = [
+                "AUX2"
+                "AUX3"
+              ];
               "target.object" = "alsa_output.usb-BEHRINGER_UMC404HD_192k-00.pro-output-0";
               "stream.dont-remix" = "true";
               "node.passive" = "true";
@@ -158,10 +177,11 @@
       ];
     };
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
-  imports = [ 
+  imports = [
     inputs.musnix.nixosModules.default
   ];
 }

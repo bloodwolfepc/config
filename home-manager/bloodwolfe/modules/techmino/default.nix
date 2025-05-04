@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "techmino";
     packages = with pkgs; [
@@ -9,6 +15,7 @@
     ];
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

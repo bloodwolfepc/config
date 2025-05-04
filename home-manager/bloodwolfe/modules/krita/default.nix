@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "krita";
     packages = with pkgs; [
@@ -6,14 +12,15 @@
     ];
     syncDirs = [
       "krita"
-      ".local/share/krita" 
+      ".local/share/krita"
     ];
     syncFiles = [
       ".config/kritarc"
       ".config/kritadisplayrc"
     ];
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

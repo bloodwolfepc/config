@@ -1,11 +1,27 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.sysglobals.list = {
-    require-nixos = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    require-pc = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    srv-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    used-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-    gaming-progs = lib.mkOption { type = lib.types.listOf lib.types.str; default = [ ]; };
-  }; 
+    require-nixos = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    require-pc = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    srv-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    used-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+    gaming-progs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
+  };
   config = {
     sysglobals = {
       list = {

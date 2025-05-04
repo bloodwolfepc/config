@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkConfig {
     name = "locale";
     i18n = {
@@ -11,7 +17,8 @@
     };
     time.timeZone = lib.mkDefault "America/Chicago";
     inherit config;
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

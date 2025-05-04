@@ -1,4 +1,10 @@
-{ inputs, outputs, pkgs, ... }: {
+{
+  inputs,
+  outputs,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ../modules
     ./lists.nix
@@ -23,7 +29,7 @@
   system.stateVersion = "23.11";
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
-	programs.fuse.userAllowOther = true;
+  programs.fuse.userAllowOther = true;
   boot = {
     postBootCommands = ''
       mkdir /mnt

@@ -1,10 +1,11 @@
-#TODO 
-#modprobe amdgpu on post activation 
+#TODO
+#modprobe amdgpu on post activation
 #system hooks
 #usb passthough keybinds
 #emulated tpm
 
-{ lib, ... }: {
+{ lib, ... }:
+{
   imports = [
     ./gpu-detatched.nix
     ./vfio-passthrough.nix
@@ -18,5 +19,3 @@
     };
   };
 }
-    
-

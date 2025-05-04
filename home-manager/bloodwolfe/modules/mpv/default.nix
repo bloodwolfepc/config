@@ -1,11 +1,17 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "mpv";
     inherit config;
     programs.mpv = {
       enable = true;
       defaultProfiles = [
-       "gpu-hq" #TODO if video acceleration is true
+        "gpu-hq" # TODO if video acceleration is true
       ];
       config = {
         #cache-default = 4000000;
@@ -18,10 +24,11 @@
         #fs = "yes";
         hwdec = "vaapi";
         vo = "gpu";
-        gpu-context = "wayland"; #TODO if wayland is true
+        gpu-context = "wayland"; # TODO if wayland is true
       };
     };
-  }; 
-in {
+  };
+in
+{
   inherit (attrs) options config;
 }

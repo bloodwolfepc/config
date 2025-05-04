@@ -1,7 +1,13 @@
-{ lib, config, pkgs, ... }: let 
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   attrs = lib.custom.mkHomeApplication {
     name = "ssh";
-    programs.ssh = { 
+    programs.ssh = {
       enable = true;
       matchBlocks = {
         "main" = {
@@ -30,6 +36,7 @@
     #'';
     inherit config;
   };
-in {
+in
+{
   inherit (attrs) options config;
 }

@@ -1,31 +1,78 @@
-{ lib, config, pkgs, ... }: let
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
   /*
     passOneshots is a file that is sourced by hyperland when mkSubmap is used
     which causes an escape to the escape-to-mode for any key press
   */
 
   escape-to-mode = "INS";
-  mkOneShots = let
-    keys = [
-      "GRAVE" "1" "2" "3" "4" "5" "6" "7" "8" "9" "0" "MINUS" "EQUAL"
-      "q" "w" "e" "r" "t" "y" "u" "i" "o" "p" "BRACKETLEFT" "BRACKETRIGHT" "BACKSLASH"
-      "a" "s" "d" "f" "g" "h" "j" "k" "l" "SEMICOLON" "APOSTROPHE"
-      "z" "x" "c" "v" "b" "n" "m" "COMMA" "PERIOD" "SLASH"
-    ];
-  in
-    lib.concatStringsSep "\n" (map 
-      (key: "bindi = , ${key}, submap, ${escape-to-mode}") 
-      keys
-    );
+  mkOneShots =
+    let
+      keys = [
+        "GRAVE"
+        "1"
+        "2"
+        "3"
+        "4"
+        "5"
+        "6"
+        "7"
+        "8"
+        "9"
+        "0"
+        "MINUS"
+        "EQUAL"
+        "q"
+        "w"
+        "e"
+        "r"
+        "t"
+        "y"
+        "u"
+        "i"
+        "o"
+        "p"
+        "BRACKETLEFT"
+        "BRACKETRIGHT"
+        "BACKSLASH"
+        "a"
+        "s"
+        "d"
+        "f"
+        "g"
+        "h"
+        "j"
+        "k"
+        "l"
+        "SEMICOLON"
+        "APOSTROPHE"
+        "z"
+        "x"
+        "c"
+        "v"
+        "b"
+        "n"
+        "m"
+        "COMMA"
+        "PERIOD"
+        "SLASH"
+      ];
+    in
+    lib.concatStringsSep "\n" (map (key: "bindi = , ${key}, submap, ${escape-to-mode}") keys);
   passOneshots = pkgs.writeText "passOneshots" mkOneShots;
 
   submaps = [
-    "CONFIG" 
-    "WS" 
-    "DEPLOY" 
+    "CONFIG"
+    "WS"
+    "DEPLOY"
     "MIGRATE"
-    "REC" 
-    "MONITOR" 
+    "REC"
+    "MONITOR"
     "TOGGLE"
     "UTILITY"
     "COLOR"
@@ -44,8 +91,8 @@
   '';
 
   submapsNoPassOneshots = [
-    "RESIZE" 
-    "MOV" 
+    "RESIZE"
+    "MOV"
     "EXEC"
   ];
   mkSubmapNoPassOneshots = submap: ''
@@ -54,7 +101,8 @@
       bindi = , Escape, submap, ${escape-to-mode}
     submap = escape
   '';
-in {
+in
+{
   attrs = {
     extraConfig = lib.mkAfter ''
       ${lib.concatStringsSep "\n" (map mkSubmap submaps)}
