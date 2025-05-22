@@ -19,6 +19,7 @@
     ./git
     ./godot
     ./gpg
+    ./gpu-screen-recorder
     ./htop
     ./hyfetch
     ./hyprland

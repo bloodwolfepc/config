@@ -67,6 +67,6 @@ let
   };
 in
 {
-  imports = [ inputs.stylix.homeManagerModules.stylix ];
+  imports = [ inputs.stylix.homeModules.stylix ];
   inherit (attrs) options config;
 }

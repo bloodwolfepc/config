@@ -102,6 +102,9 @@
       powerManagement.powertop.enable = true;
       environment.systemPackages = with pkgs; [
         asusctl
+        gpu-screen-recorder
+        gpu-screen-recorder-gtk
       ];
+      programs.gpu-screen-recorder.enable = true;
     };
 }

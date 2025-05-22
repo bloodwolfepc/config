@@ -106,6 +106,7 @@
           "vesktop"
           "khal"
           "terminal-extras"
+          "gpu-screen-recorder"
         ];
         gaming-progs = [
           "mangohud"

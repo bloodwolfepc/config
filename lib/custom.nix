@@ -150,6 +150,7 @@ rec {
       pcEnv ? [ ],
       pcExtraConfig ? '''',
 
+      systemd ? { },
       i18n ? { },
       programs ? { },
       services ? { },
@@ -253,6 +254,7 @@ rec {
           inherit
             i18n
             programs
+            systemd
             xdg
             sops
             accounts

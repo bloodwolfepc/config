@@ -139,7 +139,7 @@ let
           #set-hook -g alert-bell 'run-shell "canberra-gtk-play --id=bell"'
         '';
       };
-    programs.zsh.initExtra = lib.mkIf config.programs.zsh.enable (
+    programs.zsh.initContent = lib.mkIf config.programs.zsh.enable (
       builtins.readFile ./tmux-autostart.sh
     );
     inherit config;

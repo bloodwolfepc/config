@@ -69,14 +69,12 @@ let
         rsync = "rsync -r --info=progress2 --info=name0";
         slowcat = ''perl -pe "system 'sleep .025'"'';
       };
-      initExtraFirst = ''
+      initContent = lib.mkBefore ''
         function zvm_config() {
           ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
           ZVM_VI_VISUAL_ESCAPE_BINDKEY=jk
           ZVM_VI_OPPEND_ESCAPE_BINDKEY=jk
         }
-      '';
-      initExtra = ''
         prompt walters 
         PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%B%~%b%f %# '
         eval "$(zoxide init zsh)"

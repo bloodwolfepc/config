@@ -48,7 +48,8 @@ let
       {
         plugins = [
           (lib.mkIf config.hl-plugins.hy3.enable inputs.hy3.packages.${pkgs.system}.hy3)
-          (lib.mkIf config.hl-plugins.hyprsplit.enable inputs.hyprsplit.packages.${pkgs.system}.hyprsplit)
+          #(lib.mkIf config.hl-plugins.hyprsplit.enable inputs.hyprsplit.packages.${pkgs.system}.hyprsplit)
+          inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
         ];
       }
       hyprland-attrs.attrs

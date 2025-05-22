@@ -45,6 +45,32 @@ in
       }
     );
 
+    openpomodoro-cli = prev.openpomodoro-cli.overrideAttrs (oldAttrs: {
+      src = final.fetchFromGitHub {
+        owner = "linus-witte";
+        repo = "openpomodoro-cli";
+        rev = "f3d838e5c9aa227cdaf7989d34966e9766c87103";
+        sha256 = "sha256-6IEgBmPBbUZLSIzrmBRXYskzpkj8dqEZOz2ghUJMf1A=";
+      };
+      vendorHash = "sha256-TSWocmOmg5ghudfJsl2bXy3E4P6htp+Bedq0zpLauvU=";
+    });
+
+    #needs wayland deps
+    # gpu-screen-recorder = prev.gpu-screen-recorder.overrideAttrs (oldAttrs: {
+    #   version = "5.5.3";
+    #   src = final.fetchurl {
+    #     url = oldAttrs.src.url;
+    #     hash = "sha256-GzwDKxX5pFSDQ/P0sHFcSUOd2J+od15p/+0iQAs5Yc8=";
+    #   };
+    # });
+    # gpu-screen-recorder-gtk = prev.gpu-screen-recorder-gtk.overrideAttrs (oldAttrs: {
+    #   version = "5.7.0";
+    #   src = final.fetchurl {
+    #     url = oldAttrs.src.url;
+    #     hash = "sha256-H2Vx1UyhYi4yk3xd0TW5IKVz+3FdS7g88Zw2W4NBbFo=";
+    #   };
+    # });
+
     plasma-overdose-kde-theme = prev.plasma-overdose-kde-theme.overrideAttrs (oldAttrs: {
       src = final.fetchFromGitHub {
         owner = "Notify-ctrl";

@@ -14,7 +14,7 @@ let
       enableScDaemon = true;
       enableSshSupport = true;
       enableExtraSocket = true;
-      pinentryPackage = pkgs.pinentry-tty;
+      pinentry.package = pkgs.pinentry-tty;
       verbose = true;
     };
     programs.gpg = {

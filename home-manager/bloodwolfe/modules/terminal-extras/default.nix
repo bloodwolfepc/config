@@ -71,14 +71,15 @@ let
         #wakatime
 
         openpomodoro-cli
+        termdown
         #others:
-        #https://github.com/24seconds/rust-cli-pomodoro
-        #https://github.com/jkallio/pomodoro-cli (waybar, notification support)
-        #https://github.com/ColorCookie-dev/porsmo
+        #https://kevinschoon.github.io/pomo/ cmd support
       ]
       ++ (with outputs.customPackages; [
         ascii-rain
         durdraw
+        #clock-tui
+        #https://github.com/puyral/custom-nix/blob/0ac49ab66662db2af076dcb6fdfe8db7b7d31917/apackages/tclock.nix#L5
       ]);
     programs = {
       irssi = {
@@ -121,6 +122,8 @@ let
             (mkSource [ "tech" ] "https://www.reddit.com/r/neovim/.rss")
             (mkSource [ "tech" ] "https://discourse.nixos.org/c/announcements/8.rss")
             (mkSource [ "tech" ] "https://github.com/NixOS/nixpkgs/commits/master.atom")
+
+            (mkSource [ "sites" ] "https://neocities.org/site/starbage.rss")
           ];
       };
     };

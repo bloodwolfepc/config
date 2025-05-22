@@ -19,14 +19,14 @@ let
       easyeffects
       qpwgraph
 
-      #ardour
+      ardour
       musescore
       #yabridge
       #yabridgectl
       carla
       sfizz
       orca-c
-      #csound
+      csound
       glicol-cli
       puredata
       plugdata
@@ -62,7 +62,7 @@ let
       airwindows-lv2
       tap-plugins
       zynaddsubfx
-      #helm #broke
+      helm # broke
       x42-gmsynth
       yoshimi
       eq10q

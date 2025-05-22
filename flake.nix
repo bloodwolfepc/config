@@ -156,7 +156,8 @@
       url = "github:Infinidoge/nix-minecraft";
     };
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
       url = "github:nix-community/NUR";
@@ -184,6 +185,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     hyprsplit = {
+      #url = "github:bloodwolfepc/hyprsplit/nix-fix";
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
     };
