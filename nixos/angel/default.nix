@@ -7,10 +7,11 @@
 }:
 {
   imports = [
-    ./hardware-configuration.nix
+    ./hardware-configuraion.nix
     ./audio
     ./extra.nix
     ./vpn.nix
+    ../modules
     ../modules/users/bloodwolfe
     inputs.hardware.nixosModules.asus-zephyrus-ga402
     inputs.home-manager.nixosModules.home-manager
@@ -53,9 +54,9 @@
   #kernel
   boot = {
     loader = {
+      efi.canTouchEfiVariables = true;
       systemd-boot = {
         enable = true;
-        efi.canTouchEfiVariables = true;
       };
     };
     kernelPackages = pkgs.linuxPackages_zen;

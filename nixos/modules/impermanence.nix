@@ -3,7 +3,6 @@
   ...
 }:
 {
-
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ];

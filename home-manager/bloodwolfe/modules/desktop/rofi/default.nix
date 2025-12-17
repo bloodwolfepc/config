@@ -8,7 +8,7 @@
   wayland.windowManager.hyprland.settings.windowrulev2 = [
     "stayfocused, class:(Rofi)"
   ];
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     rofi-network-manager
     rofi-bluetooth
     rofi-power-menu

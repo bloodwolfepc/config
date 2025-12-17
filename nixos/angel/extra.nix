@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   hardware.wooting.enable = true;
   hardware.bluetooth.enable = true;
@@ -12,23 +17,15 @@
     displaycal
     wootility
   ];
-  environment.persistence."/persist/system".directories = [
-    {
-      directory = "/var/lib/colord";
-      user = "colord";
-      group = "colord";
-      mode = "u=rwx,g=rx,o=";
-    }
-  ];
   i18n = {
-    defaultlocale = lib.mkdefault "en_us.utf-8";
-    supportedlocales = [
+    defaultLocale = lib.mkDefault "en_us.utf-8";
+    supportedLocales = [
       "en_us.utf-8/utf-8"
       "ja_jp.utf-8/utf-8"
       "ko_kr.utf-8/utf-8"
     ];
   };
-  time.timezone = lib.mkdefault "america/chicago";
+  time.timeZone = lib.mkDefault "america/chicago";
 
   networking = {
     networkmanager = {

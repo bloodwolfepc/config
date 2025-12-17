@@ -5,7 +5,7 @@
 {
   home.packages = with pkgs; [
     rpcs3
-    (retroarch.withcores (
+    (retroarch.withCores (
       cores: with cores; [
         play
         swanstation

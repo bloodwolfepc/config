@@ -5,7 +5,7 @@
   ...
 }:
 {
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     xdg-utils
     libcanberra-gtk3
     sound-theme-freedesktop
@@ -55,7 +55,6 @@
     };
   };
   qt.enable = true;
-  stylix.targets.gtk.flatpakSupport.enable = false;
   gtk = {
     enable = true;
     gtk2.extraConfig = ''

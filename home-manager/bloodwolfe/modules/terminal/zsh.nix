@@ -6,7 +6,6 @@
 }:
 {
   sops.secrets."openai-auth" = { };
-  name = "zsh";
   programs.zsh = {
     enable = true;
     plugins = [
@@ -100,5 +99,4 @@
   programs.zsh.shellAliases = {
     z = "cd";
   };
-
 }

@@ -11,7 +11,7 @@
   home.packages = with pkgs; [
     sops
     gopass
-    bitwarden
+    bitwarden-desktop
     bitwarden-cli
   ];
   sops = {

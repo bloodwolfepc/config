@@ -1,4 +1,4 @@
-{ inputs }:
+{ inputs, ... }:
 {
   additions = final: _prev: import ../packages { pkgs = final; };
   unstable-packages = final: _prev: {

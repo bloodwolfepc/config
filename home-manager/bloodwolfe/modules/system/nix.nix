@@ -13,7 +13,7 @@
     enableZshIntegration = true;
   };
 
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     nix-output-monitor
     nvd
   ];

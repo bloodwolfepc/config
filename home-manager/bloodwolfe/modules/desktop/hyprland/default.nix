@@ -1,7 +1,9 @@
 {
   pkgs,
   lib,
+  outputs,
   config,
+  ...
 }:
 {
   imports = [
@@ -96,7 +98,7 @@
         ];
       };
   };
-  packages =
+  home.packages =
     with pkgs;
     [
       (writeShellScriptBin "pc" ''

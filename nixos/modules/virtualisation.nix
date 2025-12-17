@@ -3,7 +3,7 @@
   ...
 }:
 {
-  packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     distrobox
     podman-tui
     dive

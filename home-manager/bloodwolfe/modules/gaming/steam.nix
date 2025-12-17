@@ -46,7 +46,6 @@ in
     ]
     ++ [
       steam-with-pkgs
-      steam-gamescope-session
     ];
   sops.secrets = {
     "steamguard-manifest-json" = {

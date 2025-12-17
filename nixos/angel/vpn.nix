@@ -3,13 +3,13 @@
   networking.wireguard = {
     enable = true;
   };
-  packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     wireguard-tools
   ];
-  sops.secrets."wg.conf" = {
-    format = "binary";
-    sopsFile = ../../../secrets/wg.conf;
-  };
+  #sops.secrets."wg.conf" = {
+  #  format = "binary";
+  #  sopsfile = ../../../secrets/wg.conf;
+  #};
   sops.secrets."wg-private-key" = { };
   networking.wireguard.interfaces = {
     wg0 = {

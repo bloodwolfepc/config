@@ -11,6 +11,7 @@ let
   */
 
   escape-to-mode = "INS";
+  kb_nml = "super_l";
   mkOneShots =
     let
       keys = [
@@ -84,7 +85,7 @@ let
   ];
   mkSubmap = submap: ''
     submap = ${submap}
-      bindi = , ${config.kb_NML}, submap, NML
+      bindi = , ${kb_nml}, submap, NML
       bindi = , Escape, submap, ${escape-to-mode}
       source = ${passOneshots}
     submap = escape
@@ -97,17 +98,17 @@ let
   ];
   mkSubmapNoPassOneshots = submap: ''
     submap = ${submap}
-      bindi = , ${config.kb_NML}, submap, NML
+      bindi = , ${kb_nml}, submap, NML
       bindi = , Escape, submap, ${escape-to-mode}
     submap = escape
   '';
 in
 {
-  wayland.windowManager.settings.extraConfig = lib.mkAfter ''
+  wayland.windowManager.hyprland.settings.extraConfig = lib.mkAfter ''
     ${lib.concatStringsSep "\n" (map mkSubmap submaps)}
     ${lib.concatStringsSep "\n" (map mkSubmapNoPassOneshots submapsNoPassOneshots)}
     submap = NML
-      source = ${config.globals.passOneshots}
+      source = ${passOneshots}
     submap = escape
   '';
 }

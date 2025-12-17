@@ -11,7 +11,7 @@
     ./impermanence.nix
     ./virtualisation.nix
   ]
-  ++ (builtins.attrValues outputs.customHomeManagerModules);
+  ++ (builtins.attrValues outputs.myHomeManagerModules);
   programs.home-manager.enable = true;
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

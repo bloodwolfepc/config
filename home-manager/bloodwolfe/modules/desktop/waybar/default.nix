@@ -86,7 +86,7 @@
       cp ${./style.css} "$HOME/.config/waybar/style.css"
     fi
   '';
-  wayland.windowManger.hyprland.extraConfig = ''
+  wayland.windowManager.hyprland.extraConfig = ''
     submap = TOGGLE
       bindi = , w , exec , systemctl stop --user waybar.service || systemctl start --user waybar.service
       bindi = , e , exec , systemctl start --user waybar.service

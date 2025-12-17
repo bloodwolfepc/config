@@ -1,5 +1,5 @@
 {
-  import = [
+  imports = [
     ./hyprland
     ./swaync
     ./rofi

@@ -16,7 +16,6 @@ let
     syncFiles = [
       ".config/qutebrowser/quickmarks"
     ];
-    stylix.targets.qutebrowser.enable = false;
     programs.qutebrowser = {
       enable = true;
       loadAutoconfig = true;

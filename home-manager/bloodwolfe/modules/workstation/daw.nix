@@ -72,7 +72,7 @@
     wolf-shaper
 
   ];
-  syncDirs = [
+  home.persistence."/sync/home/bloodwolfe".directories = [
     ".local/share/vital" # ~/.local/share/vital/User/{Wavetables,Presets}
     ".config/falkTX"
     ".config/ardour8"
@@ -90,11 +90,7 @@
     "sheetmusic"
     "soundfiles"
   ];
-  extraConfig = {
-    wayland.windowManager.hyprland = {
-      settings.windowrulev2 = [
-        "noinitialfocus , xwayland:1" # fixes draggables in ardour
-      ];
-    };
-  };
+  wayland.windowManager.hyprland.settings.windowrulev2 = [
+    "noinitialfocus , xwayland:1" # fixes draggables in ardour
+  ];
 }
