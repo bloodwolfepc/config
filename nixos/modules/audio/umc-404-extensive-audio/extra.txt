@@ -1,6 +1,0 @@
-
---[[
-  https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Virtual-Devices#behringer-umc404hd-microphoneguitar-virtual-sources
-  The card is placed in the "Pro Audio" profile and 2 sinks are created, one for each stereo pair. 
-  The Behringer has an option to route the second stereo pair to the headphones.
-]]

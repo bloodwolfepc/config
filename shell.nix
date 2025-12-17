@@ -1,7 +1,5 @@
-# Shell for bootstrapping flake-enabled nix and other tooling
 {
   pkgs ?
-    # If pkgs is not defined, instanciate nixpkgs from locked commit
     let
       lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
       nixpkgs = fetchTarball {
@@ -17,17 +15,11 @@
     NIX_CONFIG = "extra-experimental-features = nix-command flakes";
     nativeBuildInputs = with pkgs; [
       nix
-      #home-manager
       git
-
       sops
       ssh-to-age
       gnupg
       age
-      #gource
-      #vrrtest
-      #vkmark
-      #vkbassalt-cli
     ];
   };
 }

@@ -1,23 +1,12 @@
 {
   imports = [
-    ./audio
-    ./boot
-    ./extra-modules
-    ./gamescope
-    ./gaming
-    ./hyprland
-    ./impermanence
-    ./kanata
-    ./kernel
-    ./locale
-    ./networking
-    ./nh
-    ./nix
-    ./sops
-    ./ssh
-    ./steam
-    ./users
-    ./virtualization
-    ./yubikey
+    ./nix.nix
+    ./audio.nix
+    ./gaming.nix
+    ./kanata.nix
+    ./hyprland.nix
+    ./security.nix
+    ./impermanence.nix
+    ./virtualisation.nix
   ];
 }

@@ -1,73 +1,39 @@
-{
-  lib,
-  config,
-  inputs,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 {
   imports = [
-    ../setup
-    ../../../nixos/angel/monitors.nix
-    ../hardware/rog-zypherus-g14.nix
-    ../hardware/wacom-intuos-pro.nix
+    ../modules
   ];
-  config =
+  wayland.windowManager.hyprland =
     let
-      inherit (config.globals.list)
-        require-nixos
-        require-hm
-        require-pc
-        srv-progs
-        used-progs
-        gaming-progs
-        workstation-progs
-        ;
-      enable = {
-        list =
-          [
-            "techmino"
-          ]
-          ++ require-nixos
-          ++ require-hm
-          ++ require-pc
-          ++ srv-progs
-          ++ used-progs
-          ++ gaming-progs
-          ++ workstation-progs;
-        value = {
-          enable = true;
-          sync.enable = true;
-          persist.enable = true;
-        };
-      };
-      bwcfg = lib.listToAttrs (
-        map (name: {
-          inherit name;
-          inherit (enable) value;
-        }) enable.list
-      );
+      mon0 = "desc:LG Electronics LG ULTRAGEAR 510RMLM9B112";
+      monl1 = "desc:BOE 0x0A1D";
+      monl2 = "desc:YUK REALTEK demoset-1";
     in
     {
-      inherit bwcfg;
-      wayland.windowManager.hyprland.extraConfig = ''
+      extraConfig = ''
         submap = MONITOR
-          bindi = ,f, focusmonitor, desc:Microstep MSI G241 0x000005ED
-          bindi = ,g, focusmonitor, desc:BOE 0x0A1D
-          bindi = ,d, focusmonitor, desc:Sceptre Tech Inc Sceptre F24 0x00000001
+          bindi = ,f, focusmonitor, ${mon0}
+          bindi = ,d, focusmonitor, ${monl1}
+          bindi = ,s, focusmonitor, ${monl2}
         submap = escape
       '';
-      hl-plugins = {
-        hy3.enable = false;
-        hyprsplit.enable = false;
-      };
-      sops.secrets = {
-        "syncthing-key-angel" = { };
-        "syncthing-cert-angel" = { };
-      };
-      services.syncthing = {
-        key = config.sops.secrets."syncthing-key-angel".path;
-        cert = config.sops.secrets."syncthing-cert-angel".path;
+      settings = {
+        monitor = [
+          "${mon0}, 2560x1440@240, 0x0, 1"
+          "${monl1}, 2560x1600@120, -2560x0, 1"
+          "${monl2}, 1920x1080@60, -4480x0, 1"
+        ];
+        input.touchpad = {
+          natural_scroll = false;
+          disable_while_typing = false;
+        };
+        input.tablet = {
+          transform = "6";
+          region_size = "1920 1268";
+        };
       };
     };
+  home.packages = with pkgs; [
+    xf86_input_wacom
+  ];
 }

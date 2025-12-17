@@ -1,8 +1,0 @@
-vkbasalt
-vkbasalt-cli
-vulkan-tools
-vrrtest
-lutris
-easyrpg-player
-itch
-ryujinx

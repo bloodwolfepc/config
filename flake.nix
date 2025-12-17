@@ -32,13 +32,12 @@
     in
     {
       inherit lib;
-      customNixosModules = import ./modules/nixos;
-      customHomeManagerModules = import ./modules/home-manager;
+      myNixosModules = import ./modules/nixos;
+      myHomeManagerModules = import ./modules/home-manager;
       overlays = import ./overlays { inherit inputs outputs; };
       customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
-      #maybe use as a flake - package instead
       nixosModules.myFormats =
         {
           config,
@@ -131,65 +130,21 @@
       url = "github:nix-community/nixos-anywhere";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jovian = {
-      url = "github:Jovian-Experiments/Jovian-NixOS";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    musnix = {
-      url = "github:musnix/musnix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixarr = {
-      url = "github:rasmus-kirk/nixarr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixvim = {
-      url = "github:bloodwolfepc/nixvim";
-    };
     neovim = {
       url = "github:bloodwolfepc/neovim";
     };
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-    };
-    nix-minecraft = {
-      url = "github:Infinidoge/nix-minecraft";
-    };
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nur = {
       url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     wl-crosshair = {
       url = "github:lelgenio/wl-crosshair";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hy3 = {
-      url = "github:outfoxxed/hy3";
-      inputs.hyprland.follows = "hyprland";
-    };
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
-      inputs.hyprland.follows = "hyprland";
-    };
-    hyprsplit = {
-      #url = "github:bloodwolfepc/hyprsplit/nix-fix";
-      url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
-    };
-
   };
   description = "bloodflake";
 }

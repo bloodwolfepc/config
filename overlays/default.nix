@@ -1,11 +1,4 @@
-{ inputs, outputs }:
-let
-  addPatches =
-    pkg: patches:
-    pkg.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ patches;
-    });
-in
+{ inputs }:
 {
   additions = final: _prev: import ../packages { pkgs = final; };
   unstable-packages = final: _prev: {
@@ -15,62 +8,6 @@ in
     };
   };
   modifications = final: prev: {
-    supergfxcl = prev.supergfxcl.overrideAttrs (oldAttrs: {
-    });
-    #install with freedesktop sound theme
-
-    #mesa = prev.mesa.overrideAttrs (oldAttrs: rec {
-    #  version = "24.2.8";
-    #  src = final.fetchFromGitLab {
-    #    domain = "gitlab.freedesktop.org";
-    #    owner = "mesa";
-    #    repo = "mesa";
-    #    rev = "mesa-${version}";
-    #    hash = "sha256-70X0Ba7t8l9Vs/w/3dd4UpTR7woIvd7NRwO/ph2rKu8=";
-    #  };
-    #});
-
-    qt6Packages = prev.qt6Packages.overrideScope (
-      _: kprev: {
-        qt6gtk2 = kprev.qt6gtk2.overrideAttrs (_: {
-          version = "0.5-unstable-2025-03-04";
-          src = final.fetchFromGitLab {
-            domain = "opencode.net";
-            owner = "trialuser";
-            repo = "qt6gtk2";
-            rev = "d7c14bec2c7a3d2a37cde60ec059fc0ed4efee67";
-            hash = "sha256-6xD0lBiGWC3PXFyM2JW16/sDwicw4kWSCnjnNwUT4PI=";
-          };
-        });
-      }
-    );
-
-    openpomodoro-cli = prev.openpomodoro-cli.overrideAttrs (oldAttrs: {
-      src = final.fetchFromGitHub {
-        owner = "linus-witte";
-        repo = "openpomodoro-cli";
-        rev = "f3d838e5c9aa227cdaf7989d34966e9766c87103";
-        sha256 = "sha256-6IEgBmPBbUZLSIzrmBRXYskzpkj8dqEZOz2ghUJMf1A=";
-      };
-      vendorHash = "sha256-TSWocmOmg5ghudfJsl2bXy3E4P6htp+Bedq0zpLauvU=";
-    });
-
-    #needs wayland deps
-    # gpu-screen-recorder = prev.gpu-screen-recorder.overrideAttrs (oldAttrs: {
-    #   version = "5.5.3";
-    #   src = final.fetchurl {
-    #     url = oldAttrs.src.url;
-    #     hash = "sha256-GzwDKxX5pFSDQ/P0sHFcSUOd2J+od15p/+0iQAs5Yc8=";
-    #   };
-    # });
-    # gpu-screen-recorder-gtk = prev.gpu-screen-recorder-gtk.overrideAttrs (oldAttrs: {
-    #   version = "5.7.0";
-    #   src = final.fetchurl {
-    #     url = oldAttrs.src.url;
-    #     hash = "sha256-H2Vx1UyhYi4yk3xd0TW5IKVz+3FdS7g88Zw2W4NBbFo=";
-    #   };
-    # });
-
     plasma-overdose-kde-theme = prev.plasma-overdose-kde-theme.overrideAttrs (oldAttrs: {
       src = final.fetchFromGitHub {
         owner = "Notify-ctrl";

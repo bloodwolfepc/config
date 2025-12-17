@@ -1,27 +1,58 @@
-# https://git.iliana.fyi/nixos-configs/tree/packages/bandcamp-dl.nix
-{ fetchFromGitHub, python3, ... }:
+{
+  fetchFromGitHub,
+  python3,
+  python3Packages,
+  ...
+}:
 
-python3.pkgs.buildPythonApplication {
+let
+  python3Packages' = python3Packages.override {
+    overrides = final: prev: {
+      beautifulsoup4 = prev.buildPythonPackage rec {
+        pname = "beautifulsoup4";
+        version = "4.13.0b2";
+        format = "pyproject";
+        src = prev.fetchPypi {
+          inherit pname version;
+          sha256 = "sha256-xoTd7AcaoSCBmImqnolA+Fw/PNqgjiO5+iZRA4eJe9U=";
+        };
+        buildInputs = [
+          final.hatchling
+        ];
+        propagatedBuildInputs = with python3Packages; [
+          typing-extensions
+          soupsieve
+        ];
+      };
+    };
+  };
+in
+
+python3.pkgs.buildPythonApplication rec {
   pname = "bandcamp-dl";
-  version = "unstable-2023-04-09";
-  format = "other";
+  version = "0.0.16";
+  format = "pyproject";
 
   src = fetchFromGitHub {
-    owner = "iliana";
-    repo = "bandcamp-dl";
-    rev = "5b434a8401f51397e4cc7c9bce87f6f137d3ec90";
-    hash = "sha256-u+I/D/MNUDTQf+V2R6zJxNbIKPOuO2Qc2ZXw26q2Es8=";
+    owner = "iheanyi";
+    repo = pname;
+    rev = "v${version}";
+    sha256 = "sha256-PNyVEzwRMXE0AtTTg+JyWw6+FSuxobi3orXuxkG0kxw=";
   };
 
-  buildInputs = [ python3 ];
-
-  propagatedBuildInputs = with python3.pkgs; [
-    browser-cookie3
+  buildInputs = [
+    python3
   ];
 
-  installPhase = ''
-    runHook preInstall
-    install -Dm 0755 bandcamp-dl.py $out/bin/bandcamp-dl
-    runHook postInstall
-  '';
+  propagatedBuildInputs = with python3Packages'; [
+    setuptools
+    docopt
+    mutagen
+    requests
+    unicode-slugify
+    mock
+    chardet
+    demjson3
+    beautifulsoup4
+  ];
 }
