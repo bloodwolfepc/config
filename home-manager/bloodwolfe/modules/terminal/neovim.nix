@@ -5,7 +5,7 @@
 }:
 {
   home.packages = [
-    inputs.neovim.packages.${pkgs.system}.minimal
+    inputs.neovim.packages.${pkgs.system}.default
     pkgs.nixfmt-rfc-style
     (pkgs.aspellWithDicts (
       ds: with ds; [

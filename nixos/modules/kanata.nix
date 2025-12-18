@@ -1,8 +1,19 @@
 {
   pkgs,
+  lib,
   ...
 }:
 {
+
+  systemd.services.kanata-60-percent-default = {
+    unitConfig = {
+      After = [ "graphical-session.target" ];
+    };
+    serviceConfig = {
+      Type = lib.mkForce "idle";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
   services.kanata = {
     enable = true;
     package = pkgs.kanata-with-cmd;

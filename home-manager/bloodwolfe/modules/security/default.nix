@@ -11,7 +11,6 @@
   home.packages = with pkgs; [
     sops
     gopass
-    bitwarden-desktop
     bitwarden-cli
   ];
   sops = {
@@ -24,6 +23,7 @@
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "main" = {
         host = "gitlab.com";
@@ -85,8 +85,12 @@
 
   programs.git = {
     enable = true;
-    userName = "bloodwolfepc";
-    userEmail = "bloodwolfepc@gmail.com";
+    settings = {
+      user = {
+        name = "bloodwolfepc";
+        email = "bloodwolfepc@gmail.com";
+      };
+    };
   };
   programs.gh.enable = true;
   sops.secrets."gh-hosts" = {

@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./account.nix
@@ -9,4 +10,8 @@
     ./applications
     ./terminal
   ];
+  home.packages = with pkgs; [
+    unscii
+  ];
+  fonts.fontconfig.enable = true;
 }

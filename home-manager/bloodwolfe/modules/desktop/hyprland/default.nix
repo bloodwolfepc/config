@@ -26,6 +26,8 @@
         "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login"
         "hdrop -b -f alacritty --class alacritty_drop"
         "wl-paste -t text -w xclip -selection clipboard" # fix for clipboard
+        "hyprctl setcursor Plasma-Overdose 12"
+        "swww img ~/src/config/assets/wallpapers/black.png -t none"
       ];
       general = {
         allow_tearing = true;
@@ -86,12 +88,13 @@
         configPackages = [
           hyprland
         ];
-        config.hyprland = {
-          default = [
-            #"wlr"
-            #"gtk"
-          ];
-        };
+        # config.hyprland = {
+        #   default = [
+        #     "termfilechooser"
+        #     #"wlr"
+        #     #"gtk"
+        #   ];
+        # };
         extraPortals = with pkgs; [
           xdg-desktop-portal-wlr
           xdg-desktop-portal-gtk

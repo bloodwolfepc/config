@@ -54,10 +54,6 @@
         #cd -
         #cd -
       '';
-      sync-permissions = "
-        sudo chown -R bloodwolfe:syncthing /sync/home/bloodwolfe &&
-        sudo chmod -R 770 /sync/home/bloodwolfe
-      ";
       remove-dangling-symlinks = "find . -xtype l -delete";
       cat = "dotacat";
       nia = "nix instantiate --eval";

@@ -7,7 +7,7 @@
 {
   hardware.wooting.enable = true;
   hardware.bluetooth.enable = true;
-  services.colord.enable = true;
+  services.colord.enable = false;
   services.flatpak.enable = true;
   services.udev.packages = [ pkgs.wooting-udev-rules ];
   programs.adb.enable = true;
@@ -18,14 +18,14 @@
     wootility
   ];
   i18n = {
-    defaultLocale = lib.mkDefault "en_us.utf-8";
-    supportedLocales = [
-      "en_us.utf-8/utf-8"
-      "ja_jp.utf-8/utf-8"
-      "ko_kr.utf-8/utf-8"
+    defaultLocale = lib.mkDefault "en_US.UTF-8";
+    extraLocales = [
+      "en_US.UTF-8/UTF-8"
+      "ja_JP.UTF-8/UTF-8"
+      "ko_KR.UTF-8/UTF-8"
     ];
   };
-  time.timeZone = lib.mkDefault "america/chicago";
+  time.timeZone = lib.mkDefault "America/Chicago";
 
   networking = {
     networkmanager = {
@@ -42,4 +42,7 @@
     nssmdns4 = true;
     openFirewall = true;
   };
+
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
+  services.journald.extraConfig = "SystemMaxUse=50M";
 }

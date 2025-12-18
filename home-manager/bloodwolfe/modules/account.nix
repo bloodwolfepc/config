@@ -22,7 +22,7 @@
         ];
       };
       vdirsyncer = {
-        enable = true;
+        enable = false;
         collections = [
           "${primaryCollection}"
           "bloodconnections"
@@ -123,7 +123,7 @@
                 host = "smtp.gmail.com";
               };
               mbsync = {
-                enable = true;
+                enable = false; # fix user service startup time
                 create = "maildir";
                 expunge = "both";
               };
@@ -147,14 +147,14 @@
       startInBackground = false;
     };
     vdirsyncer = {
-      enable = true;
+      enable = false;
     };
 
     imapnotify = {
       enable = true;
     };
     mbsync = {
-      enable = true;
+      enable = false;
     };
   };
   programs = {
@@ -163,14 +163,14 @@
       enable = true;
     };
     vdirsyncer = {
-      enable = true;
+      enable = false;
     };
     khard = {
       enable = true;
     };
 
     mbsync = {
-      enable = true;
+      enable = false;
     };
     msmtp = {
       enable = true;

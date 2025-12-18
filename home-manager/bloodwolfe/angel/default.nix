@@ -16,6 +16,11 @@
           bindi = ,d, focusmonitor, ${monl1}
           bindi = ,s, focusmonitor, ${monl2}
         submap = escape
+        submap = SEND_TO_MONITOR
+          bind = , f, movecurrentworkspacetomonitor, ${mon0}
+          bind = , d, movecurrentworkspacetomonitor, ${monl1}
+          bind = , s, movecurrentworkspacetomonitor, ${monl2}
+        submap = escape
       '';
       settings = {
         monitor = [

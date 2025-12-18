@@ -7,14 +7,13 @@
     ./zsh.nix
     ./neovim.nix
     ./tmux
+    ./yazi
   ];
 
   home.persistence = {
-    "/sync/home/bloodwolfe".directories = [
-      ".config/task"
-    ];
     "/persist/home/bloodwolfe".directories = [
       ".local/share/zoxide"
+      ".config/task"
     ];
   };
   home.packages = with pkgs; [
@@ -66,17 +65,13 @@
     package = pkgs.taskwarrior3;
   };
 
-  programs.yazi = {
-    enable = true;
-  };
-
   programs.zoxide = {
     enable = true;
-    enableBashIntegration = true;
+    #enableBashIntegration = true;
     enableZshIntegration = true;
-    options = [
-      "--cmd cd"
-    ];
+    # options = [
+    #   "--cmd cd"
+    # ];
   };
   programs.zsh.shellAliases = {
     z = "cd";

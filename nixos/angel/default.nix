@@ -27,6 +27,7 @@
     };
     switcherooControl.enable = true;
     power-profiles-daemon.enable = true;
+    #services.upower.enable = true;
     auto-cpufreq.enable = false;
 
     supergfxd = {
@@ -46,20 +47,20 @@
   powerManagement.powertop.enable = true;
   environment.systemPackages = with pkgs; [
     asusctl
-    gpu-screen-recorder
-    gpu-screen-recorder-gtk
+    powertop
   ];
   programs.gpu-screen-recorder.enable = true;
 
   #kernel
   boot = {
     loader = {
-      efi.canTouchEfiVariables = true;
       systemd-boot = {
         enable = true;
       };
+      efi.canTouchEfiVariables = true;
+      timeout = 1;
     };
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
     extraModulePackages = with pkgs; [
       linuxKernel.packages.linux_zen.v4l2loopback
     ];
@@ -68,23 +69,15 @@
     ];
     kernelParams = [
       "usbcore.autosuspend=-1"
+
+      "quiet"
+      "loglevel=3"
+      "systemd.show_status=auto"
+      "rd.udev.log_level=3"
     ];
     postBootCommands = ''
       mkdir /mnt
     '';
-  };
-
-  specialisation = {
-    mainline-kernel = {
-      boot = {
-        kernelPackages = pkgs.linuxPackages;
-      };
-    };
-    cachy-kernel = {
-      boot = {
-        kernelPackages = pkgs.linuxPackages_cachyos;
-      };
-    };
   };
 
   nixpkgs = {
@@ -102,4 +95,15 @@
   programs.fuse.userAllowOther = true;
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
   boot.initrd.postDeviceCommands = lib.mkAfter (builtins.readFile ./ephemeral-btrfs.sh);
+
+  services.udev.extraRules =
+    let
+      activatePowerSaver = pkgs.writeShellScript "power-save" "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver";
+      activatePerformance = pkgs.writeShellScript "performance" "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
+    in
+    ''
+      SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", RUN+="${activatePowerSaver}"
+      SUBSYSTEM=="power_supply", ATTR{status}=="Charging", RUN+="${activatePerformance}"
+      SUBSYSTEM=="power_supply", ATTR{status}=="Full", RUN+="${activatePerformance}"
+    '';
 }

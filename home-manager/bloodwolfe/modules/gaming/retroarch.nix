@@ -24,8 +24,9 @@
     retroarch-assets
     retroarch-joypad-autoconfig
   ];
-  home.persistence."/sync/home/bloodwolfe".directories = [
-    ".config/retroarch"
+  home.persistence."/persist/home/bloodwolfe".directories = [
     "games"
+    ".config/retroarch"
+    ".config/rpcs3"
   ];
 }

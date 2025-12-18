@@ -3,7 +3,7 @@
   ...
 }:
 {
-  home.persistence."/sync/home/bloodwolfe".directories = [
+  home.persistence."/persist/home/bloodwolfe".directories = [
     ".config/fcitx5"
   ];
   wayland.windowManager.hyprland.settings.exec-once = [

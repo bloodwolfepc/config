@@ -51,8 +51,8 @@ tmux-autostart() {
         import-env tmux
         exec tmux new-session -s "bloodsession"
       fi
-    else
-      microfetch | dotacat
+    # else
+    #   microfetch | dotacat
     fi
   else
     exec tmux new-session -s "initsession"

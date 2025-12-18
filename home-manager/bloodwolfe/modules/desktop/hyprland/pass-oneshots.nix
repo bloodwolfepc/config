@@ -104,7 +104,7 @@ let
   '';
 in
 {
-  wayland.windowManager.hyprland.settings.extraConfig = lib.mkAfter ''
+  wayland.windowManager.hyprland.extraConfig = lib.mkAfter ''
     ${lib.concatStringsSep "\n" (map mkSubmap submaps)}
     ${lib.concatStringsSep "\n" (map mkSubmapNoPassOneshots submapsNoPassOneshots)}
     submap = NML

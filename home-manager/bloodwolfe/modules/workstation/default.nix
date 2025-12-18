@@ -4,24 +4,10 @@
     ./daw.nix
   ];
   home.persistence = {
-    "/sync/home/bloodwolfe" = {
+    "/persist/home/bloodwolfe" = {
       directories = [
-        "olive"
-
-        "beeref"
         ".config/BeeRef"
-
-        "cadfiles"
-        ".config/freecad"
-
-        "gimp"
         ".config/GIMP"
-
-        "godot"
-        ".config/godot"
-        ".local/share/godot"
-
-        "krita"
         ".local/share/krita"
       ];
       files = [
@@ -34,7 +20,5 @@
     beeref
     krita
     gimp
-    olive-editor
-    freecad
   ];
 }

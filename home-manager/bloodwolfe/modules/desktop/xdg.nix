@@ -12,9 +12,7 @@
     plasma-overdose-kde-theme
     kdePackages.ocean-sound-theme
   ];
-  home.persistence."/sync/home/bloodwolfe".directories = [
-    "desktop"
-    "documents"
+  home.persistence."/persist/home/bloodwolfe".directories = [
     "music"
     "pictures"
     "videos"
@@ -41,7 +39,7 @@
       };
     portal = {
       enable = true;
-      xdgOpenUsePortal = false;
+      #xdgOpenUsePortal = false;
     };
   };
   dconf = {

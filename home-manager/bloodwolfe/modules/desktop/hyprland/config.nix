@@ -32,7 +32,7 @@
       kb_deploy = "d";
       kb_resize = "r";
       kb_monitor = "m";
-      kb_sendtomonitor = "commoa";
+      kb_sendtomonitor = "comma";
       kb_config = "s";
       kb_mvws = "g";
       kb_menu = "space";
@@ -106,11 +106,7 @@
         bindi = , n, ${movetoworkspace}, +1
         bindi = , p, ${movetoworkspace}, -1
       submap = escape
-      submap = SEND_TO_MONITOR
-        bind = , d, movecurrentworkspacetomonitor, 2
-        bind = , f, movecurrentworkspacetomonitor, 1
-        bind = , g, movecurrentworkspacetomonitor, 0
-      submap = escape
+
       submap = RESIZE
         ${const}
         bindi = , m, submap, MOV 

@@ -14,17 +14,11 @@
     "workspace 3 silent, initialClass:^([Vv]esktop)$, initialTitle:^([Vv]esktop)$"
   ];
   home.persistence = {
-    "/sync/home/bloodwolfe".directories = [
-      "appimages"
-      "library"
-      "notebook"
-      "qemu"
-      "wine"
-
-      ".local/share/zathura"
-    ];
     "/persist/home/bloodwolfe".directories = [
+      "programfiles"
       "src"
+      "library"
+      "qemu"
 
       ".mozilla"
       ".cache/mozilla"
@@ -35,6 +29,8 @@
 
       ".local/share/flatpak"
       ".local/state/wireplumber"
+
+      ".local/share/zathura"
     ];
   };
   home.packages = with pkgs; [
@@ -44,7 +40,6 @@
     wineWowPackages.stagingFull
     winetricks
 
-    zathura
     xournalpp
   ];
   programs.firefox.enable = true;
