@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   ...
 }:
 {
@@ -29,4 +30,5 @@
   };
   boot.initrd.systemd.suppressedUnits = [ "systemd-machine-id-commit.service" ];
   systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+  boot.initrd.postDeviceCommands = lib.mkAfter (builtins.readFile ./ephemeral-btrfs.sh);
 }

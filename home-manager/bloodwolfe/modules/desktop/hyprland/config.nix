@@ -10,6 +10,7 @@
       menu = "${pkgs.rofi-wayland}/bin/rofi";
       movewindow = "movewindow";
       movefocus = "movefocus";
+      swapwindow = "swapwindow";
       workspace = "workspace";
       movetoworkspace = "movetoworkspace";
       movetoworkspacesilent = "movetoworkspacesilent";
@@ -124,10 +125,14 @@
         bindie = , ${kb_down}, exec, ${hl-util}/bin/hl-util.sh activewindow mv d
         bindie = , ${kb_up}, exec, ${hl-util}/bin/hl-util.sh activewindow mv u
         bindie = , ${kb_left}, exec, ${hl-util}/bin/hl-util.sh activewindow mv l
-        #binde = , Shift_L ,${kb_right}, ${movewindow}, r
-        #binde = , Shift_L ,${kb_down}, ${movewindow}, d
-        #binde = , Shift_L ,${kb_up}, ${movewindow}, u
-        #binde = , Shift_L ,${kb_left}, ${movewindow}, l
+        # binde = Shift_L ,${kb_right}, ${swapwindow}, r
+        # binde = Shift_L ,${kb_down}, ${swapwindow}, d
+        # binde = Shift_L ,${kb_up}, ${swapwindow}, u
+        # binde = Shift_L ,${kb_left}, ${swapwindow}, l
+        binde = Shift_L ,${kb_right}, ${movewindow}, r
+        binde = Shift_L ,${kb_down}, ${movewindow}, d
+        binde = Shift_L ,${kb_up}, ${movewindow}, u
+        binde = Shift_L ,${kb_left}, ${movewindow}, l
       submap = escape
 
       submap = UTILITY

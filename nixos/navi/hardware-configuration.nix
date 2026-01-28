@@ -1,0 +1,85 @@
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
+
+{
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
+
+  boot.initrd.availableKernelModules = [
+    "ehci_pci"
+    "ahci"
+    "uhci_hcd"
+    "hpsa"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+    "sr_mod"
+  ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/disk/by-id/ata-T-FORCE_240GB_TPBF2312190010101467";
+  };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/cd873114-378d-4cfd-ae08-7a2eaaa242b4";
+    fsType = "btrfs";
+    options = [ "subvol=root" ];
+  };
+
+  fileSystems."/persist" = {
+    device = "/dev/disk/by-uuid/cd873114-378d-4cfd-ae08-7a2eaaa242b4";
+    fsType = "btrfs";
+    options = [ "subvol=persist" ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/cd873114-378d-4cfd-ae08-7a2eaaa242b4";
+    fsType = "btrfs";
+    options = [ "subvol=nix" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/F511-1DCD";
+    fsType = "vfat";
+    #options = [ "fmask=0022" "dmask=0022" ];
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/c99155a0-d1eb-4531-b9d6-c02aec0fa491"; }
+  ];
+
+  #raid 1 on partition level
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/4e2e932f-e058-4e88-89ca-780492779206";
+    fsType = "btrfs";
+    options = [ "subvol=data" ];
+  };
+  fileSystems."/sync" = {
+    device = "/dev/disk/by-uuid/4e2e932f-e058-4e88-89ca-780492779206";
+    fsType = "btrfs";
+    options = [ "subvol=sync" ];
+  };
+  fileSystems."/docker" = {
+    device = "/dev/disk/by-uuid/4e2e932f-e058-4e88-89ca-780492779206";
+    fsType = "btrfs";
+    options = [ "subvol=docker" ];
+  };
+  fileSystems."/backup" = {
+    device = "/dev/disk/by-uuid/4e2e932f-e058-4e88-89ca-780492779206";
+    fsType = "btrfs";
+    options = [ "subvol=backup" ];
+  };
+
+  networking.useDHCP = lib.mkDefault true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+}

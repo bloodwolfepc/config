@@ -62,6 +62,10 @@
           modules = [ ./nixos/angel ];
           specialArgs = { inherit inputs outputs; };
         };
+        iso = lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./nixos/iso ];
+        };
       };
       homeConfigurations = {
         "bloodwolfe@angel" = lib.homeManagerConfiguration {

@@ -4,7 +4,7 @@
     ./daw.nix
   ];
   home.persistence = {
-    "/persist/home/bloodwolfe" = {
+    "/persist" = {
       directories = [
         ".config/BeeRef"
         ".config/GIMP"

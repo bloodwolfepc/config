@@ -1,6 +1,5 @@
 {
   inputs,
-  outputs,
   pkgs,
   lib,
   ...
@@ -9,27 +8,21 @@
   imports = [
     ./hardware-configuraion.nix
     ./audio
-    ./extra.nix
-    ./vpn.nix
+    ./power
+    ./networking
     ../modules
     ../modules/users/bloodwolfe
     inputs.hardware.nixosModules.asus-zephyrus-ga402
-    inputs.home-manager.nixosModules.home-manager
-  ]
-  ++ (builtins.attrValues outputs.myNixosModules);
+  ];
 
   networking.hostName = "angel";
-  services.resolved.enable = true;
+
   services = {
     asusd = {
       enable = true;
       enableUserService = true;
     };
     switcherooControl.enable = true;
-    power-profiles-daemon.enable = true;
-    #services.upower.enable = true;
-    auto-cpufreq.enable = false;
-
     supergfxd = {
       enable = true;
       settings = lib.mkDefault {
@@ -43,15 +36,7 @@
       };
     };
   };
-  programs.rog-control-center.enable = true;
-  powerManagement.powertop.enable = true;
-  environment.systemPackages = with pkgs; [
-    asusctl
-    powertop
-  ];
-  programs.gpu-screen-recorder.enable = true;
 
-  #kernel
   boot = {
     loader = {
       systemd-boot = {
@@ -69,7 +54,6 @@
     ];
     kernelParams = [
       "usbcore.autosuspend=-1"
-
       "quiet"
       "loglevel=3"
       "systemd.show_status=auto"
@@ -79,31 +63,26 @@
       mkdir /mnt
     '';
   };
-
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config.allowUnfree = true;
+  programs.rog-control-center.enable = true;
+  programs.gpu-screen-recorder.enable = true;
+  hardware.wooting.enable = true;
+  hardware.bluetooth.enable = true;
+  services.colord.enable = false;
+  services.flatpak.enable = true;
+  services.udev.packages = [ pkgs.wooting-udev-rules ];
+  programs.kdeconnect.enable = true;
+  environment.systemPackages = with pkgs; [
+    universal-android-debloater
+    displaycal
+    wootility
+  ];
+  i18n = {
+    defaultLocale = lib.mkDefault "en_US.UTF-8";
+    extraLocales = [
+      "en_US.UTF-8/UTF-8"
+      "ja_JP.UTF-8/UTF-8"
+      "ko_KR.UTF-8/UTF-8"
+    ];
   };
-  hardware.enableRedistributableFirmware = true;
-  security.sudo.extraConfig = ''
-    Defaults timestamp_timeout = 120
-  '';
-
-  system.stateVersion = "23.11";
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  programs.fuse.userAllowOther = true;
-  home-manager.extraSpecialArgs = { inherit inputs outputs; };
-  boot.initrd.postDeviceCommands = lib.mkAfter (builtins.readFile ./ephemeral-btrfs.sh);
-
-  services.udev.extraRules =
-    let
-      activatePowerSaver = pkgs.writeShellScript "power-save" "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver";
-      activatePerformance = pkgs.writeShellScript "performance" "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
-    in
-    ''
-      SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", RUN+="${activatePowerSaver}"
-      SUBSYSTEM=="power_supply", ATTR{status}=="Charging", RUN+="${activatePerformance}"
-      SUBSYSTEM=="power_supply", ATTR{status}=="Full", RUN+="${activatePerformance}"
-    '';
+  time.timeZone = lib.mkDefault "America/Chicago";
 }

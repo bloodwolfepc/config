@@ -11,7 +11,7 @@
   ];
 
   home.persistence = {
-    "/persist/home/bloodwolfe".directories = [
+    "/persist".directories = [
       ".local/share/zoxide"
       ".config/task"
     ];

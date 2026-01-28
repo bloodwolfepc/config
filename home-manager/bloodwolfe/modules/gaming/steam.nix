@@ -24,7 +24,7 @@ let
   };
 in
 {
-  home.persistence."/persist/home/bloodwolfe".directories = [
+  home.persistence."/persist".directories = [
     ".local/share/Steam"
     ".local/share/steamgames"
   ];
@@ -81,8 +81,14 @@ in
       "renderunfocused, class:^steam_app_[0-9]+$"
       "renderunfocused, initialClass:^([Cc]s2)$"
       "renderunfocused, initialClass:tf_linux64"
-      "immediate, class:^steam_app_[0-9]+$"
-      "immediate, initialClass:^(cs2)$"
       "immediate, initialClass:^(tf_linux64)$"
+      "maximize, initialClass:^(tf_linux64)$"
+
+      "immediate, initialClass:^(cs2)$"
+      "maximize, initialClass:^(cs2)$"
+      "noborder, initialClass:^(cs2)$"
+      "immediate, initialClass:^(cs2)$"
+
+      "immediate, class:^steam_app_[0-9]+$"
     ];
 }

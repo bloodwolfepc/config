@@ -5,7 +5,7 @@
   ...
 }:
 {
-  home.persistence."/persist/home/bloodwolfe".directories = [
+  home.persistence."/persist".directories = [
     ".cache/nix-index"
   ];
   programs.nix-index = {

@@ -3,10 +3,10 @@
   ...
 }:
 {
-  imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
-  ];
-  home.persistence = {
-    "/persist/home/bloodwolfe".allowOther = true;
-  };
+  # imports = [
+  #   inputs.impermanence.nixosModules.home-manager.impermanence
+  # ];
+  # home.persistence = {
+  #   "/persist".allowOther = true;
+  # };
 }

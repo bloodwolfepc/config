@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./hyprland
@@ -7,4 +8,8 @@
     ./fcitx5.nix
     ./xdg.nix
   ];
+  home.packages = with pkgs; [
+    unscii
+  ];
+  fonts.fontconfig.enable = true;
 }

@@ -12,7 +12,7 @@
       distrobox
       distrobox-tui
     ];
-    persistence."/persist/home/bloodwolfe".directories = [
+    persistence."/persist".directories = [
       ".local/share/containers" # distrobox
     ];
   };

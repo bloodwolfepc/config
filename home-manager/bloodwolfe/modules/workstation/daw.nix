@@ -49,7 +49,7 @@
     soundfont-fluid
     wolf-shaper
   ];
-  home.persistence."/persist/home/bloodwolfe".directories = [
+  home.persistence."/persist".directories = [
     "soundfiles"
     ".config/falkTX"
     ".config/ardour8"

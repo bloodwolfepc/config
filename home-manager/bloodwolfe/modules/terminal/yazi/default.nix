@@ -70,29 +70,40 @@
   xdg = {
     portal = {
       enable = true;
-      xdgOpenUsePortal = true;
+      xdgOpenUsePortal = false;
       extraPortals = with pkgs; [
         xdg-desktop-portal-termfilechooser
       ];
       config = {
-        hyprland = {
+        common = {
           default = [
             "termfilechooser"
             "gtk"
           ];
           "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
+        hyprland = {
+          default = [
+            "termfilechooser"
+            "wlr"
+            "gtk"
+          ];
+          "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+        };
       };
     };
-    configFile = {
-      "xdg-desktop-portal-termfilechooser/config" = {
-        text = ''
-          [filechooser]
-          cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
-        '';
+    configFile =
+      let
+        yazi-wrapper = pkgs.writeShellScriptBin "yazi-wrapper.sh" (builtins.readFile ./yazi-wrapper.sh);
+      in
+      {
+        "xdg-desktop-portal-termfilechooser/config" = {
+          text = ''
+            [filechooser]
+            cmd=${yazi-wrapper}/bin/yazi-wrapper.sh
+            default_dir=$XDG_DOWNLOAD_DIR
+          '';
+        };
       };
-    };
   };
 }
-
-#env=TERMCMD=foot -a yazi-float

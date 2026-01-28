@@ -7,6 +7,7 @@
   imports = [
     ./mpd.nix
     ./alacritty.nix
+    ./zathura.nix
   ];
   wayland.windowManager.hyprland.settings.windowrulev2 = [
     "workspace 2 silent, initialClass:^([Ss]potify)$"
@@ -14,7 +15,7 @@
     "workspace 3 silent, initialClass:^([Vv]esktop)$, initialTitle:^([Vv]esktop)$"
   ];
   home.persistence = {
-    "/persist/home/bloodwolfe".directories = [
+    "/persist".directories = [
       "programfiles"
       "src"
       "library"
@@ -30,7 +31,6 @@
       ".local/share/flatpak"
       ".local/state/wireplumber"
 
-      ".local/share/zathura"
     ];
   };
   home.packages = with pkgs; [

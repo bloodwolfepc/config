@@ -1,6 +1,12 @@
 {
+  pkgs,
+  inputs,
+  outputs,
+  ...
+}:
+{
   imports = [
-    ./impermanence.nix
+    ./impermanence
     ./nix.nix
     ./audio.nix
     ./gaming.nix
@@ -8,5 +14,6 @@
     ./hyprland.nix
     ./security.nix
     ./virtualisation.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 }

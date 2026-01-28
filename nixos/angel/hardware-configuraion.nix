@@ -9,6 +9,7 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+  hardware.enableRedistributableFirmware = true;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"

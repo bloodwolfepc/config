@@ -2,6 +2,7 @@
   lib,
   inputs,
   pkgs,
+  outputs,
   ...
 }:
 {
@@ -50,4 +51,18 @@
     nix-output-monitor
     nvd
   ];
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config.allowUnfree = true;
+  };
+
+  system.stateVersion = "23.11";
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+  programs.fuse.userAllowOther = true;
+  home-manager.extraSpecialArgs = { inherit inputs outputs; };
+  security.sudo.extraConfig = ''
+    Defaults timestamp_timeout = 120
+  '';
+  services.journald.extraConfig = "SystemMaxUse=50M";
 }

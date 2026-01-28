@@ -14,7 +14,7 @@
     ferium
     packwiz
   ];
-  home.persistence."/persist/home/bloodwolfe".directories = [
+  home.persistence."/persist".directories = [
     ".local/share/PrismLauncher"
   ];
 }

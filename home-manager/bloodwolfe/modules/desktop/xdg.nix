@@ -12,7 +12,7 @@
     plasma-overdose-kde-theme
     kdePackages.ocean-sound-theme
   ];
-  home.persistence."/persist/home/bloodwolfe".directories = [
+  home.persistence."/persist".directories = [
     "music"
     "pictures"
     "videos"
@@ -64,5 +64,9 @@
       gtk-enable-input-feedback-sounds = 1;
       gtk-error-bell = 1;
     };
+  };
+
+  home.sessionVariables = {
+    D = "~/downloads";
   };
 }

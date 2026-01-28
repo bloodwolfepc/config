@@ -1,15 +1,33 @@
-{ pkgs, config, ... }:
 {
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+{
+  networking = {
+    networkmanager = {
+      enable = true;
+      unmanaged = [ "interface-name:ve-*" ];
+    };
+    useDHCP = lib.mkForce false;
+  };
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [ ];
+  services.resolved.enable = true;
+
+  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   networking.wireguard = {
     enable = true;
   };
   environment.systemPackages = with pkgs; [
     wireguard-tools
   ];
-  #sops.secrets."wg.conf" = {
-  #  format = "binary";
-  #  sopsfile = ../../../secrets/wg.conf;
-  #};
   sops.secrets."wg-private-key" = { };
   networking.wireguard.interfaces = {
     wg0 = {

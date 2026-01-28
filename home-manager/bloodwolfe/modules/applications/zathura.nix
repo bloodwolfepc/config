@@ -1,6 +1,6 @@
 {
   home.persistence = {
-    "/persist/home/bloodwolfe".directories = [
+    "/persist".directories = [
       ".local/share/zathura"
     ];
   };
