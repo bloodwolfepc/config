@@ -1,4 +1,11 @@
-{ inputs, ... }:
+{ inputs, outputs, ... }:
+let
+  addPatches =
+    pkg: patches:
+    pkg.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ patches;
+    });
+in
 {
   additions = final: _prev: import ../packages { pkgs = final; };
   unstable-packages = final: _prev: {
@@ -8,6 +15,7 @@
     };
   };
   modifications = final: prev: {
+
     plasma-overdose-kde-theme = prev.plasma-overdose-kde-theme.overrideAttrs (oldAttrs: {
       src = final.fetchFromGitHub {
         owner = "Notify-ctrl";
