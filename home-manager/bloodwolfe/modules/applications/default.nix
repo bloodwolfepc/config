@@ -9,10 +9,10 @@
     ./alacritty.nix
     ./zathura.nix
   ];
-  wayland.windowManager.hyprland.settings.windowrulev2 = [
-    "workspace 2 silent, initialClass:^([Ss]potify)$"
-    "workspace 3 silent, initialClass:^([Vv]esktop)$"
-    "workspace 3 silent, initialClass:^([Vv]esktop)$, initialTitle:^([Vv]esktop)$"
+  wayland.windowManager.hyprland.settings.windowrule = [
+    "match:initial_class ^([Ss]potify)$, workspace 2 silent"
+    "match:initial_class ^([Vv]esktop)$, workspace 3 silent"
+    "match:initial_class ^([Ss]team)$, workspace 3 silent"
   ];
   home.persistence = {
     "/persist".directories = [
@@ -23,6 +23,7 @@
 
       ".mozilla"
       ".cache/mozilla"
+      ".config/mozilla"
       ".cache/flatpak"
       ".config/kdeconnect"
       ".config/spotify"

@@ -55,40 +55,18 @@ in
       path = "${config.home.homeDirectory}/.config/steamguard-cli/maFiles/1.maFile";
     };
   };
-
-  wayland.windowManager.hyprland.settings.windowrulev2 =
+  wayland.windowManager.hyprland.settings.windowrule =
     let
-      adhere-workspace = "6";
+      steam-workspace = "6";
       games-workspace = "5";
     in
     [
-      "tile, class:^([Ss]team)$, title:^([Ss]team)$"
-      "bordercolor rgb(000000), class:^([Ss]team)$"
-      "workspace ${adhere-workspace} silent, class:^([Ss]team)$, title:^([Ss]team)$"
-      "workspace ${adhere-workspace} silent, class:^([Ss]team)$, initialTitle:^([Ff]riends [Ll]ist)$"
-      "workspace ${adhere-workspace}, initialTitle:^([Ss]team)$" # updating steam... window, class is "" and title is Steam
-      "workspace 11 silent, class:^([Ss]team)$, title:^([Ss]pecial [Oo]fers)$"
-      "workspace ${adhere-workspace} silent, class:^([Ss]team)$, title:^([Ss]team [Ss]ettings)$"
-      "float, class:^([Ss]team)$, title:^([Ss]team [Ss]ettings)$"
-      "workspace ${adhere-workspace} silent, class:^([Ss]team)$, title:^([Ss]ign [Ii]n [Tt]o [Ss]team)$"
-      "workspace ${adhere-workspace} silent, class:^([Ss]team)$, title:^(notificationtoasts)"
-      "bordercolor rgb(000000), class:^steam_app_[0-9]+$"
-      "bordercolor rgb(000000), class:^([Ss]team)$"
+      "match:class ^([Ss]team)$, workspace ${steam-workspace} silent"
+      "match:class ^([Ss]team)$, border_color rgb(000000)"
+      "match:initial_title ^([Ff]riends [Ll]ist)$, border_color rgb(ff00ff)"
 
-      "workspace ${games-workspace} silent, class:^steam_app_[0-9]+$"
-      "workspace ${games-workspace} silent, initialClass:^([Cc]s2)$"
-      "workspace ${games-workspace} silent, initialClass:tf_linux64"
-      "renderunfocused, class:^steam_app_[0-9]+$"
-      "renderunfocused, initialClass:^([Cc]s2)$"
-      "renderunfocused, initialClass:tf_linux64"
-      "immediate, initialClass:^(tf_linux64)$"
-      "maximize, initialClass:^(tf_linux64)$"
-
-      "immediate, initialClass:^(cs2)$"
-      "maximize, initialClass:^(cs2)$"
-      "noborder, initialClass:^(cs2)$"
-      "immediate, initialClass:^(cs2)$"
-
-      "immediate, class:^steam_app_[0-9]+$"
+      "match:class ^steam_app_[0-9]+$, workspace ${games-workspace} silent"
+      "match:class tf_linux64, workspace ${games-workspace} silent"
+      "match:class ^([Cc]s2)$, workspace ${games-workspace} silent"
     ];
 }

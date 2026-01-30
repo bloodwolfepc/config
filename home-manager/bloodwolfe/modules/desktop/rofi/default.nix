@@ -5,9 +5,9 @@
   ...
 }:
 {
-  wayland.windowManager.hyprland.settings.windowrulev2 = [
-    "stayfocused, class:(Rofi)"
-  ];
+  #wayland.windowManager.hyprland.settings.windowrule = [
+  #  "match:class Rofi, stayfocused"
+  #];
   home.packages = with pkgs; [
     rofi-network-manager
     rofi-bluetooth

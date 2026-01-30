@@ -56,7 +56,8 @@
     ".cache/ardour8"
 
   ];
-  wayland.windowManager.hyprland.settings.windowrulev2 = [
-    "noinitialfocus , xwayland:1" # fixes draggables in ardour
+  wayland.windowManager.hyprland.settings.windowrule = [
+    # fixes draggables in ardour
+    #"match:xwayland 1, noinitialfocus"
   ];
 }
