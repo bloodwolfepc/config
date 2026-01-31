@@ -9,7 +9,7 @@
     ./hardware-configuration.nix
     ./backups.nix
     ../modules/users/bloodwolfe
-    ../modules/impermanence.nix
+    ../modules/impermanence
     ../modules/kanata.nix
     ../modules/nix.nix
     ../modules/security.nix

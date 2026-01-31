@@ -62,6 +62,10 @@
           modules = [ ./nixos/angel ];
           specialArgs = { inherit inputs outputs; };
         };
+        navi = lib.nixosSystem {
+          modules = [ ./nixos/navi ];
+          specialArgs = { inherit inputs outputs; };
+        };
         iso = lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/iso ];
@@ -70,6 +74,11 @@
       homeConfigurations = {
         "bloodwolfe@angel" = lib.homeManagerConfiguration {
           modules = [ ./home-manager/bloodwolfe/angel ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@navi" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/navi ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs lib; };
         };
