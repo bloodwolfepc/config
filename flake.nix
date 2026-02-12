@@ -11,6 +11,7 @@
       inherit (self) outputs;
       systems = [
         "x86_64-linux"
+        "aarch64-linux"
       ];
       lib' = nixpkgs.lib;
       lib = lib'.extend (
@@ -66,6 +67,10 @@
           modules = [ ./nixos/navi ];
           specialArgs = { inherit inputs outputs; };
         };
+        # fp30x = lib.nixosSystem {
+        #   modules = [ ./nixos/fp30x ];
+        #   specialArgs = { inherit inputs outputs; };
+        # };
         iso = lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/iso ];
@@ -79,6 +84,16 @@
         };
         "bloodwolfe@navi" = lib.homeManagerConfiguration {
           modules = [ ./home-manager/bloodwolfe/navi ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@fp30x" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/fp30x ];
+          pkgs = pkgsFor.aarch64_linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@iso" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/iso ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs lib; };
         };
@@ -137,6 +152,10 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-raspberrypi = {
+      url = "github:nvmd/nixos-raspberrypi/main";
+    };
+
   };
   description = "bloodflake";
 }

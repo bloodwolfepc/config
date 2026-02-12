@@ -1,147 +1,70 @@
+
 * {
-active-background: @background;
-active-foreground: @blue;
-active-text: rgba ( 0, 0, 255, 100 % );
-alternate-active-background: @lightbg;
-alternate-active-foreground: @blue;
-alternate-active-text: rgba ( 0, 0, 255, 100 % );
-alternate-normal-background: @lightbg;
-alternate-normal-foreground: @foreground;
-alternate-normal-text: rgba ( 168, 168, 168, 100 % );
-alternate-urgent-background: @lightbg;
-alternate-urgent-foreground: @red;
-alternate-urgent-text: rgba ( 255, 0, 0, 100 % );
-background: rgba ( 0, 0, 0, 100 % );
-background-color: rgba ( 0, 0, 0, 100 % );
-base-text: rgba ( 168, 168, 168, 100 % );
-blue: rgba ( 0, 0, 255, 100 % );
-border-color: @foreground;
-foreground: rgba ( 168, 168, 168, 100 % );
-lightbg: rgba ( 28, 28, 28, 100 % );
-lightfg: rgba ( 210, 210, 210, 100 % );
-normal-background: @background;
-normal-foreground: @foreground;
-normal-text: rgba ( 168, 168, 168, 100 % );
-red: rgba ( 255, 0, 0, 100 % );
-selected-active-background: @blue;
-selected-active-foreground: @background;
-selected-active-text: rgba ( 0, 0, 0, 100 % );
-selected-normal-background: @lightfg;
-selected-normal-foreground: @lightbg;
-selected-normal-text: rgba ( 28, 28, 28, 100 % );
-selected-urgent-background: @red;
-selected-urgent-foreground: @background;
-selected-urgent-text: rgba ( 0, 0, 0, 100 % );
-separatorcolor: @foreground;
-urgent-background: @background;
-urgent-foreground: @red;
-urgent-text: rgba ( 255, 0, 0, 100 % );
-}
+  base00: #ffffff;
+  base00-alpha: rgba ( 255, 255, 255, 30 % );
+  base01: #000000;
+  base01-alpha: rgba ( 0, 0, 0, 0 % );
+  base02: #550099;
+  base02-alpha: rgba ( 85, 0, 153, 60 % );
+  base03: #ff00ff;
 
-button {
-text-color: @normal-text;
-}
-
-button selected {
-background-color: @selected-normal-background;
-text-color: @selected-normal-text;
-}
-
-case-indicator {
-text-color: @normal-text;
-}
-
-element alternate.active {
-background-color: @alternate-active-background;
-text-color: @alternate-active-text;
-}
-
-element alternate.normal {
-background-color: @alternate-normal-background;
-text-color: @alternate-normal-text;
-}
-
-element alternate.urgent {
-background-color: @alternate-urgent-background;
-text-color: @alternate-urgent-text;
-}
-
-element normal.active {
-background-color: @active-background;
-text-color: @active-text;
-}
-
-element normal.normal {
-background-color: @normal-background;
-text-color: @normal-text;
-}
-
-element normal.urgent {
-background-color: @urgent-background;
-text-color: @urgent-text;
-}
-
-element selected.active {
-background-color: @selected-active-background;
-text-color: @selected-active-text;
-}
-
-element selected.normal {
-background-color: @selected-normal-background;
-text-color: @selected-normal-text;
-}
-
-element selected.urgent {
-background-color: @selected-urgent-background;
-text-color: @selected-urgent-text;
-}
-
-element-icon {
-background-color: inherit;
-text-color: inherit;
-}
-
-element-text {
-background-color: inherit;
-text-color: inherit;
-}
-
-entry {
-text-color: @normal-text;
-}
-
-inputbar {
-text-color: @normal-text;
-}
-
-listview {
-border-color: @separatorcolor;
-}
-
-message {
-border-color: @separatorcolor;
-}
-
-prompt {
-text-color: @normal-text;
-}
-
-scrollbar {
-handle-color: @normal-foreground;
-}
-
-sidebar {
-border-color: @separatorcolor;
-}
-
-textbox {
-text-color: @base-text;
-}
-
-textbox-prompt-colon {
-text-color: inherit;
+  background: @base01-alpha;
+  background-color: rgba ( 0, 0, 0, 60 % );
+  border-color: @base00;
+  text-color: @base00;
+  font: "unscii 16";
 }
 
 window {
-background-color: @background;
+  border: 2px;
+  border-color: @base00-alpha;
+  width: var( width, 15% );
+  anchor: south east;
+  location: south east;
+  x-offset: -33%;
+  y-offset: -15%;
+}
+
+mainbox {
+  padding: 8px 6px 0px 6px;
+}
+
+element selected {
+  background-color: @base02-alpha;
+}
+
+textbox-prompt-colon {
+  expand: false;
+  str: "<3 ";
+  text-color: @base03;
+}
+
+inputbar {
+  children: [ prompt, textbox-prompt-colon, entry ];
+  padding: 12px 12px 8px 12px;
+  border: 1px;
+  border-color: @base00-alpha;
+  background-color: @base01-alpha;
+}
+
+entry {
+  background-color: @base01-alpha;
+}
+
+listview {
+  padding: 6px;
+  background-color: @base01-alpha;
+}
+
+element {
+  background-color: @base01-alpha;
+}
+
+element-text {
+  background-color: @base01-alpha;
+  highlight: underline #00ffff;
+}
+
+error-message {
+  text-color: red;
 }
