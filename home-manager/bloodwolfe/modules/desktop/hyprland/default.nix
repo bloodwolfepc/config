@@ -109,7 +109,7 @@
       '')
       libnotify
       (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))
-      (writeShellScriptBin "hl-util.sh" (builtins.readFile ./sh/hl-util.sh))
+      (writeShellScriptBin "hl-util" (builtins.readFile ./sh/hl-util.sh))
       wayvnc
       wl-mirror
       grimblast
@@ -119,6 +119,7 @@
       imagemagick
       hdrop
       lxqt.lxqt-policykit
+      hyprfreeze
     ]
     ++ (with outputs.customPackages; [
       hyprfreeze

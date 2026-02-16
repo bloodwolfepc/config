@@ -68,19 +68,15 @@ let
   passOneshots = pkgs.writeText "passOneshots" mkOneShots;
 
   submaps = [
-    "CONFIG"
     "WS"
-    "DEPLOY"
-    "MIGRATE"
-    "REC"
-    "MONITOR"
-    "TOGGLE"
-    "UTILITY"
-    "COLOR"
+    "MV->WS"
     "SCREENSHOT"
     "MENU"
-    "DROP"
-    "MV->WS"
+    "UTILITY"
+    "REPOSITION"
+    "SWAPWINDOW"
+
+    "MONITOR"
     "SEND_TO_MONITOR"
   ];
   mkSubmap = submap: ''
@@ -93,8 +89,6 @@ let
 
   submapsNoPassOneshots = [
     "RESIZE"
-    "MOV"
-    "EXEC"
   ];
   mkSubmapNoPassOneshots = submap: ''
     submap = ${submap}

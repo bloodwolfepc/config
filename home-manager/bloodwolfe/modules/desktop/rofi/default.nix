@@ -39,4 +39,7 @@
       #rofi-file-browser
     ];
   };
+  wayland.windowManager.hyprland.settings.windowrule = [
+    "match:class (Rofi), stay_focused on"
+  ];
 }

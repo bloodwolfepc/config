@@ -112,6 +112,8 @@
     };
     impermanence = {
       url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "";
+      inputs.home-manager.follows = "";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";

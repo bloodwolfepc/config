@@ -33,10 +33,15 @@ element selected {
   background-color: @base02-alpha;
 }
 
+prompt {
+  background-color: @base01-alpha;
+}
+
 textbox-prompt-colon {
   expand: false;
   str: "<3 ";
   text-color: @base03;
+  background-color: @base01-alpha;
 }
 
 inputbar {
@@ -66,5 +71,13 @@ element-text {
 }
 
 error-message {
+  background-color: @base01-alpha;
   text-color: red;
+}
+
+message {
+  background-color: @base01-alpha;
+}
+textbox {
+  background-color: @base01-alpha;
 }
