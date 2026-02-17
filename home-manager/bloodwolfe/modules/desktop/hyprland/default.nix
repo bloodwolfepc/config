@@ -101,29 +101,27 @@
         ];
       };
   };
-  home.packages =
-    with pkgs;
-    [
-      (writeShellScriptBin "pc" ''
-        ${hyprland}/bin/Hyprland
-      '')
-      libnotify
-      (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))
-      (writeShellScriptBin "hl-util" (builtins.readFile ./sh/hl-util.sh))
-      wayvnc
-      wl-mirror
-      grimblast
-      wl-clipboard
-      xorg.xrandr
-      hyprpicker
-      imagemagick
-      hdrop
-      lxqt.lxqt-policykit
-      hyprfreeze
-    ]
-    ++ (with outputs.customPackages; [
-      hyprfreeze
-    ]);
+  home.packages = with pkgs; [
+    (writeShellScriptBin "pc" ''
+      ${hyprland}/bin/start-hyprland
+    '')
+    libnotify
+    (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))
+    (writeShellScriptBin "hl-util" (builtins.readFile ./sh/hl-util.sh))
+    wayvnc
+    wl-mirror
+    grimblast
+    wl-clipboard
+    xorg.xrandr
+    hyprpicker
+    imagemagick
+    hdrop
+    lxqt.lxqt-policykit
+    hyprfreeze
+  ];
+  # ++ (with outputs.customPackages; [
+  #   hyprfreeze
+  # ]);
   services.swww = {
     enable = true;
   };

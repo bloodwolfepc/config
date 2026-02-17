@@ -3,3 +3,47 @@ libratbag
 https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Virtual-Devices#behringer-umc404hd-microphoneguitar-virtual-sources
 The card is placed in the "Pro Audio" profile and 2 sinks are created, one for each stereo pair. 
 The Behringer has an option to route the second stereo pair to the headphones.
+
+let
+  homeManagerPath = "./home-manager/bloodwolfe/";
+  nixosPath = "./nixos/";
+
+  importHomeConfig = name: moduleName: 
+    lib.homeManagerConfiguration {
+      modules = [ "${homeManagerPath}/${moduleName}" ];
+      inherit pkgs;
+      extraSpecialArgs = { inherit inputs outputs lib; };
+    };
+
+  importNixosConfig = name: moduleName:
+    lib.nixosSystem {
+      modules = [ "${nixosPath}/${moduleName}" ];
+      specialArgs = { inherit inputs outputs; };
+    };
+in
+lib.eachDefaultSystem (
+  system:
+  let
+    pkgs = import nixpkgs { inherit system; };
+  in
+  rec {
+    inherit lib;
+    myNixosModules = import ./modules/nixos;
+    myHomeManagerModules = import ./modules/home-manager;
+    overlays = import ./overlays { inherit inputs outputs; };
+
+    nixosConfigurations = {
+      angel = importNixosConfig "angel" "angel";
+      navi = importNixosConfig "navi" "navi";
+      iso = importNixosConfig "iso" "iso";
+    };
+
+    homeConfigurations = {
+      "bloodwolfe@angel" = importHomeConfig "bloodwolfe@angel" "angel";
+      "bloodwolfe@navi" = importHomeConfig "bloodwolfe@navi" "navi";
+      "bloodwolfe@fp30x" = importHomeConfig "bloodwolfe@fp30x" "fp30x";
+      "bloodwolfe@iso" = importHomeConfig "bloodwolfe@iso" "iso";
+    };
+    ...
+  }
+);

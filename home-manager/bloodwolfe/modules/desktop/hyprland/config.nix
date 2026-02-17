@@ -154,7 +154,7 @@
 
       submap = UTILITY
         ${const}
-        bindi = , f, exec, hyprfreeze -a -s
+        bindi = , f, exec, ${pkgs.hyprfreeze}/bin/hyprfreeze -a -s
         bindi = , o, exec, hdrop -f alacritty --class alacritty_drop
         bindi = , c, exec, ${hl-util} color
       submap = escape
