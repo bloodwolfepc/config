@@ -1,4 +1,5 @@
 {
+  lib,
   fetchFromGitHub,
   python3,
   python3Packages,
@@ -6,53 +7,69 @@
 }:
 
 let
-  python3Packages' = python3Packages.override {
-    overrides = final: prev: {
-      beautifulsoup4 = prev.buildPythonPackage rec {
-        pname = "beautifulsoup4";
-        version = "4.13.0b2";
-        format = "pyproject";
-        src = prev.fetchPypi {
-          inherit pname version;
-          sha256 = "sha256-xoTd7AcaoSCBmImqnolA+Fw/PNqgjiO5+iZRA4eJe9U=";
-        };
-        buildInputs = [
-          final.hatchling
-        ];
-        propagatedBuildInputs = with python3Packages; [
-          typing-extensions
-          soupsieve
-        ];
-      };
-    };
-  };
-in
+  unicode-slugify =
+    let
+      pname = "unicode-slugify";
+      version = "0.1.5";
+    in
+    python3Packages.buildPythonPackage {
+      format = "setuptools";
+      inherit pname version;
 
-python3.pkgs.buildPythonApplication rec {
+      src = fetchFromGitHub {
+        owner = "mozilla";
+        repo = "unicode-slugify";
+        rev = "74d175dd4c9d21b1586842a3909118c7ec58f4ce";
+        hash = "sha256-m67ZvXr/iDOWL8UcRbKGWIw+zvV1WCUjMc3Y2hvzY0E=";
+      };
+
+      propagatedBuildInputs = with python3Packages; [
+        six
+        unidecode
+      ];
+
+      doCheck = false;
+    };
+in
+python3Packages.buildPythonPackage rec {
   pname = "bandcamp-dl";
-  version = "0.0.16";
-  format = "pyproject";
+  version = "0.0.17";
+
+  pyproject = true;
 
   src = fetchFromGitHub {
-    owner = "iheanyi";
-    repo = pname;
-    rev = "v${version}";
-    sha256 = "sha256-PNyVEzwRMXE0AtTTg+JyWw6+FSuxobi3orXuxkG0kxw=";
+    owner = "Evolution0";
+    repo = "bandcamp-dl";
+    tag = "v${version}";
+    hash = "sha256-PNyVEzwRMXE0AtTTg+JyWw6+FSuxobi3orXuxkG0kxw=";
   };
 
-  buildInputs = [
-    python3
+  build-system = with python3Packages; [
+    setuptools
+    wheel
   ];
 
-  propagatedBuildInputs = with python3Packages'; [
-    setuptools
-    docopt
+  propagatedBuildInputs = with python3Packages; [
+    beautifulsoup4
+    demjson3
     mutagen
     requests
     unicode-slugify
-    mock
-    chardet
-    demjson3
-    beautifulsoup4
   ];
+
+  meta = {
+    description = "Simple python script to download Bandcamp albums";
+    homepage = "https://github.com/Evolution0/bandcamp-dl";
+    maintainers = [ lib.maintainers.pivok ];
+    license = lib.licenses.unlicense;
+    platforms = lib.platforms.all;
+  };
 }
+# > Finished creating a wheel...
+# > Finished executing pypaBuildPhase
+# > Running phase: pythonRuntimeDepsCheckHook
+# > Executing pythonRuntimeDepsCheck
+# > Checking runtime dependencies for bandcamp_downloader-0.0.16-py3-none-any.whl
+# >   - unicode-slugify not installed
+
+#use python-slugify instead of unicode slugify as unicode slugify no longer works

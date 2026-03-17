@@ -35,6 +35,19 @@
       internalInterfaces = [ "ve-+" ];
       externalInterface = "br0";
     };
+    nameservers = [
+      "1.1.1.1"
+      "1.0.0.1"
+    ];
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        22
+        80
+        443
+        4533
+      ];
+    };
   };
   services.resolved.enable = true;
   hardware.raid.HPSmartArray.enable = true;
@@ -47,9 +60,16 @@
     enable = true;
     protocol = "namecheap";
     domains = [ "@" ];
+
     username = "waterdreamer.net";
     passwordFile = config.sops.secrets."ddnssecret".path;
-    use = "web ,web=dynamicdns.park-your-domain.com/getip";
+
     server = "dynamicdns.park-your-domain.com";
+    usev4 = "webv4, webv4=dynamicdns.park-your-domain.com/getip";
+    usev6 = "disabled";
   };
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_unprivileged_port_start" = 80;
+  };
+  users.users."bloodwolfe".linger = true;
 }

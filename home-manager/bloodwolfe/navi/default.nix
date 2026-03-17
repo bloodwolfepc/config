@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  outputs,
+  ...
+}:
 {
   imports = [
     ../modules/account.nix
@@ -7,4 +12,50 @@
     ../modules/applications
     ../modules/terminal
   ];
+  home.persistence."/persist".directories = [
+    "pictures"
+    "videos"
+  ];
+
+  home.packages = with outputs.customPackages; [
+    bandcamp-dl
+    internetarchive
+    (writeShellScriptBin "bandcamp-dl-for-navi" ''
+      ${outputs.customPackages.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/music -e -r $1
+    '')
+  ];
+
+  systemd.user.services =
+    let
+      mkPodmanService = service: {
+        "composeFiles-${service}" = {
+          Install = {
+            WantedBy = [ "default.target" ];
+          };
+          Unit = {
+            Description = "Run docker compose files for ${service}";
+            After = [ "podman.service" ];
+            Wants = [ "podman.service" ];
+          };
+          Service = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            WorkingDirectory = "%h/src/srv/${service}";
+            ExecStart = "${pkgs.gnumake}/bin/make start";
+            ExecStop = "${pkgs.gnumake}/bin/make stop";
+            Environment = [
+              "PATH=/home/bloodwolfe/.nix-profile/bin:/run/current-system/sw/bin"
+            ];
+          };
+        };
+      };
+    in
+    lib.mkMerge [
+      (mkPodmanService "proxy.waterdreamer.net")
+      (mkPodmanService "site.waterdreamer.net")
+      (mkPodmanService "library.waterdreamer.net")
+      (mkPodmanService "film.waterdreamer.net")
+      (mkPodmanService "cloud.waterdreamer.net")
+      (mkPodmanService "music.waterdreamer.net")
+    ];
 }
