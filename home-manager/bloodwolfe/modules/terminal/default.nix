@@ -26,6 +26,7 @@
     sl
     figlet
     asciicam
+    fastfetch
 
     shell-gpt
     aichat
@@ -43,6 +44,8 @@
   programs.hyfetch = {
     enable = true;
     settings = {
+      backend = "fastfetch";
+      pride_month_disable = true;
       preset = "transgender";
       mode = "rgb";
       color_align = {

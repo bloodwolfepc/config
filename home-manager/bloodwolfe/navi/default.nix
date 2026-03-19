@@ -17,14 +17,17 @@
     "videos"
   ];
 
-  home.packages = with outputs.customPackages; [
-    bandcamp-dl
-    internetarchive
-    (writeShellScriptBin "bandcamp-dl-for-navi" ''
-      ${outputs.customPackages.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/music -e -r $1
-    '')
-  ];
-
+  home.packages =
+    with pkgs;
+    [
+      internetarchive
+      (writeShellScriptBin "bandcamp-dl-for-navi" ''
+        ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/music -e -r $1
+      '')
+    ]
+    ++ (with outputs.customPackages.x86_64-linux; [
+      bandcamp-dl
+    ]);
   systemd.user.services =
     let
       mkPodmanService = service: {
