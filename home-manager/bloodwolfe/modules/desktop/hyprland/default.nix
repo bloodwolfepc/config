@@ -105,7 +105,7 @@
     with pkgs;
     [
       (writeShellScriptBin "pc" ''
-        ${hyprland}/bin/Hyprland
+        ${hyprland}/bin/start-hyprland
       '')
       libnotify
       (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))

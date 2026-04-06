@@ -8,6 +8,7 @@
     ./neovim.nix
     ./tmux
     ./yazi
+    ./subtui.nix
   ];
 
   home.persistence = {
@@ -79,4 +80,5 @@
   programs.zsh.shellAliases = {
     z = "cd";
   };
+
 }

@@ -1,0 +1,37 @@
+nixos-system-angel-26.05.20260126.bfc1b8a> building '/nix/store/h027gnqdadqdax1f3q7rnly9x1fzsfxy-nixos-system-angel-26.05.20260126.bfc1b8a.drv'
+┏━ Dependency Graph:
+┃ ┌─ ✔ perl-5.42.0-env ⏱ 3s
+┃ │        ┌─ ✔ unit-systemd-udevd.service
+┃ │        │     ┌─ ✔ activation-script
+┃ │        │     │     ┌─ ✔ home-manager-path ⏱ 11s
+┃ │        │     │  ┌─ ✔ hm_fontconfigconf.d10hmfonts.conf
+┃ │        │     ├─ ✔ home-manager-files
+┃ │        │  ┌─ ✔ home-manager-generation
+┃ │        ├─ ✔ unit-home-manager-bloodwolfe.service
+┃ │     ┌─ ✔ system-units ⏱ 1s
+┃ │  ┌─ ✔ etc
+┃ ├─ ✔ activate
+┃ ✔ nixos-system-angel-26.05.20260126.bfc1b8a
+┣━━━ Builds           │ Downloads        │ Host
+┃        │ ✔ 48 │     │     │      │     │ localhost
+┃        │      │     │     │ ↓ 12 │     │ [1]: https://cache.nixos.org
+┃        │      │     │     │ ↓  1 │     │ [2]: https://hyprland.cachix.org
+┃        │      │     │     │ ↓  6 │     │ [3]: https://nix-community.cachix.org
+┗━ ∑ ⏵ 0 │ ✔ 48 │ ⏸ 0 │ ↓ 0 │ ↓ 19 │ ⏸ 0 │ Finished at 23:11:22 after 2m37s
+<<< /run/current-system
+>>> /nix/store/lirszqgv4c802g9zbal5hv4xlxfjzir0-nixos-system-angel-26.05.20260126.bfc1b8a
+
+ADDED
+[A.] hl-util.sh                <none>
+
+REMOVED
+[R.] custom.rasi               <none>
+[R.] hl-util                   <none> ×2
+[R.] power-state.sh            <none>
+[R.] unit-power-state-.service <none>
+[R.] watchexec                 2.3.2
+
+SIZE: 36.1 GiB -> 36.1 GiB
+DIFF: -11.1 MiB
+> Activating configuration
+

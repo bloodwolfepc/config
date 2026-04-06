@@ -137,6 +137,10 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    subtui = {
+      url = "github:MattiaPun/SubTUI";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   description = "bloodflake";
 }

@@ -998,16 +998,17 @@
         "nur": "nur",
         "secrets": "secrets",
         "sops-nix": "sops-nix",
+        "subtui": "subtui",
         "wl-crosshair": "wl-crosshair"
       }
     },
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1769819488,
-        "narHash": "sha256-ihPM6Ium5VROfU8/CbU5h+ZbnHfMnNGb0njA1xMk9EM=",
+        "lastModified": 1773891980,
+        "narHash": "sha256-jsxGYNoX/kbuj9bzWMsLmKhenB8ttcx3ch/jb+felwQ=",
         "ref": "refs/heads/master",
-        "rev": "f8f55cb6525943995829917e65107e1359949850",
+        "rev": "c1c365ec252a17e9e5ad3658eb38d45441483c89",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/bloodwolfe/secrets.git"
@@ -1035,6 +1036,26 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "subtui": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773830352,
+        "narHash": "sha256-cLUWXUSQk39aH+WusWil0646b05/DciedRqZ5L4hNQk=",
+        "owner": "MattiaPun",
+        "repo": "SubTUI",
+        "rev": "0ef41ba75818a21660a1b7d8ea5347cb0aff3a07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MattiaPun",
+        "repo": "SubTUI",
         "type": "github"
       }
     },

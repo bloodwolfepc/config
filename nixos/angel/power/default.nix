@@ -31,4 +31,5 @@
   #         ExecStart = "${power-state}/bin/power-state.sh %i";
   #       };
   #     };
+
 }

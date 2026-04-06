@@ -5,9 +5,6 @@
   ...
 }:
 {
-  #wayland.windowManager.hyprland.settings.windowrule = [
-  #  "match:class Rofi, stayfocused"
-  #];
   home.packages = with pkgs; [
     rofi-network-manager
     rofi-bluetooth
@@ -25,6 +22,7 @@
     enable = true;
     package = pkgs.rofi;
     terminal = "${pkgs.alacritty}/bin/alacritty";
+    theme = "custom";
     plugins = with pkgs; [
       rofi-emoji
       (rofi-calc.override {
@@ -36,9 +34,8 @@
       (rofi-games.override {
         rofi = pkgs.rofi;
       })
-      #rofi-mpd
-      #rofi-vpn
-      #rofi-file-browser
     ];
   };
+
+  home.file.".config/rofi/custom.rasi".source = ./custom.rasi;
 }
