@@ -70,6 +70,10 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./nixos/iso ];
         };
+        fp30x = lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./nixos/fp30x ];
+        };
       };
       homeConfigurations = {
         "bloodwolfe@angel" = lib.homeManagerConfiguration {
@@ -80,6 +84,11 @@
         "bloodwolfe@navi" = lib.homeManagerConfiguration {
           modules = [ ./home-manager/bloodwolfe/navi ];
           pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@fp30x" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/fp30x ];
+          pkgs = pkgsFor.aarch64-linux;
           extraSpecialArgs = { inherit inputs outputs lib; };
         };
       };

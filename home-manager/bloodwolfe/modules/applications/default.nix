@@ -35,10 +35,10 @@
     ];
   };
   home.packages = with pkgs; [
-    spotify
+    #spotify
     vesktop
 
-    wineWowPackages.stagingFull
+    #wineWowPackages.stagingFull
     winetricks
 
     xournalpp

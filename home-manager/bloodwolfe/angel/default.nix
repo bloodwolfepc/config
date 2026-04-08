@@ -37,6 +37,8 @@
     };
   home.packages = with pkgs; [
     xf86_input_wacom
+    wineWowPackages.stagingFull
+    spotify
   ];
 }
 #   device = {
