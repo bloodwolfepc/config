@@ -39,7 +39,7 @@
       options = [ "subvol=nix" ];
     };
     "/boot" = {
-      device = "/dev/disk/by-uuid/B043-58C2";
+      device = "/dev/disk/by-uuid/CC46-177C ";
       fsType = "vfat";
     };
   };
