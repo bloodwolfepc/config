@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }:
 {
@@ -37,7 +38,14 @@
     };
   };
 
+  nix.settings = {
+    extra-platforms = config.boot.binfmt.emulatedSystems;
+    extra-sandbox-paths = [
+      "/run/binfmt"
+    ];
+  };
   boot = {
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
     loader = {
       systemd-boot = {
         enable = true;
@@ -75,6 +83,7 @@
     universal-android-debloater
     displaycal
     wootility
+    qemu-user
   ];
   i18n = {
     defaultLocale = lib.mkDefault "en_US.UTF-8";

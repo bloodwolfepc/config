@@ -30,7 +30,8 @@
         };
         input.tablet = {
           transform = "6";
-          region_size = "1920 1268";
+          #region_size = "1920 1268";
+          region_size = "2194 1440";
           output = "current";
         };
       };
