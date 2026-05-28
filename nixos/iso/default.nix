@@ -10,7 +10,6 @@
     ../modules/users/bloodwolfe
     ../modules/nix.nix
     ../modules/security.nix
-    ../modules/kanata.nix
     ../modules/impermanence
     inputs.home-manager.nixosModules.home-manager
   ];

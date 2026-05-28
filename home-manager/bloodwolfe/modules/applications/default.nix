@@ -38,8 +38,8 @@
   home.packages = with pkgs; [
     #spotify
     vesktop
-    discord-gamesdk
-    discord-rpc
+    # discord-gamesdk
+    # discord-rpc
 
     #wineWowPackages.stagingFull
     winetricks

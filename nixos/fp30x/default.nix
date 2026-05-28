@@ -6,7 +6,6 @@
     ./hardware-configuration.nix
     ../modules/users/bloodwolfe
     ../modules/impermanence
-    ../modules/kanata.nix
     ../modules/nix.nix
     ../modules/security.nix
     ../modules/hyprland.nix
