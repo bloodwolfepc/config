@@ -6,9 +6,10 @@
   imports = [
     ./zsh.nix
     ./neovim.nix
-    ./tmux
+    # ./tmux
     ./yazi
     ./subtui.nix
+    ./zellij
   ];
 
   home.persistence = {

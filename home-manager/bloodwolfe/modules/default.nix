@@ -9,5 +9,7 @@
     ./workstation
     ./applications
     ./terminal
+    ./kanata
+    ./direnv.nix
   ];
 }

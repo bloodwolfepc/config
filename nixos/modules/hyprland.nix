@@ -16,6 +16,5 @@
   xdg.portal = {
     enable = true;
   };
-  programs.light.enable = true;
   programs.ydotool.enable = true;
 }

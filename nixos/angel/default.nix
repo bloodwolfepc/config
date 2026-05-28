@@ -21,7 +21,6 @@
   services = {
     asusd = {
       enable = true;
-      enableUserService = true;
     };
     switcherooControl.enable = true;
     supergfxd = {
@@ -54,11 +53,13 @@
       timeout = 1;
     };
     kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
-    extraModulePackages = with pkgs; [
-      linuxKernel.packages.linux_zen.v4l2loopback
+    extraModulePackages = with pkgs.linuxKernel.packages.linux_zen; [
+      v4l2loopback
+      ryzen-smu
     ];
     kernelModules = [
       "v4l2loopback"
+      "ryzen-smu"
     ];
     kernelParams = [
       "usbcore.autosuspend=-1"
@@ -75,6 +76,8 @@
   programs.gpu-screen-recorder.enable = true;
   hardware.wooting.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.cpu.amd.ryzen-smu.enable = true;
+  programs.ryzen-monitor-ng.enable = true;
   services.colord.enable = false;
   services.flatpak.enable = true;
   services.udev.packages = [ pkgs.wooting-udev-rules ];

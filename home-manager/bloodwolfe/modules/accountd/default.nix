@@ -41,7 +41,6 @@ in
         remote = setRemoteForType "carddav";
         khard = {
           enable = true;
-          addressbooks = collections;
         };
         khal = {
           enable = true;

@@ -4,7 +4,7 @@
 }:
 {
   home.packages = with pkgs; [
-    rpcs3
+    #rpcs3
     (retroarch.withCores (
       cores: with cores; [
         play

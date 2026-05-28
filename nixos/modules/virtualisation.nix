@@ -19,7 +19,7 @@
     };
     spiceUSBRedirection.enable = true;
     libvirtd = {
-      enable = true;
+      enable = false;
       qemu = {
         swtpm.enable = true;
       };

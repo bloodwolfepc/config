@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    nerd-fonts.noto
+    # nerd-fonts.noto
     ffmpeg_7
     p7zip
     poppler

@@ -36,6 +36,8 @@
         "realtime"
         "ydotool"
         "adbusers"
+        "input"
+        "uinput"
       ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile ./id_angel.pub)

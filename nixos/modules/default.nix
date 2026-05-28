@@ -10,7 +10,7 @@
     ./nix.nix
     ./audio.nix
     ./gaming.nix
-    ./kanata.nix
+    # ./kanata.nix
     ./hyprland.nix
     ./security.nix
     ./virtualisation.nix

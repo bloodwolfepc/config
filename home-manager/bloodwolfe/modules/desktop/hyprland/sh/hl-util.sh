@@ -34,9 +34,9 @@ function color() {
 function grimblast_screenshot_setwallpaper() {
   grimblast save "$1" "$HYPR_CONF_DIR/wallpaper.png"
   if [ "$2" == "fit" ]; then
-    swww img "$HYPR_CONF_DIR/wallpaper.png" --transition-step 255 --resize fit
+    awww img "$HYPR_CONF_DIR/wallpaper.png" --transition-step 255 --resize fit
   else
-    swww img "$HYPR_CONF_DIR/wallpaper.png" --transition-step 255
+    awww img "$HYPR_CONF_DIR/wallpaper.png" --transition-step 255
   fi
   notify-send \
     --app-name=WALLPAPER \

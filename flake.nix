@@ -132,7 +132,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim = {
-      url = "github:bloodwolfepc/neovim";
+      url = "github:bloodwolfepc/january-nvim";
     };
     nur = {
       url = "github:nix-community/NUR";

@@ -18,16 +18,16 @@
       exec-once = [
         "hyprctl dispatch submap INS"
         "hyprctl dispatch workspace 4"
-        "${pkgs.alacritty}/bin/alacritty"
-        "systemctl restart --user swww.service"
+        "${pkgs.wezterm}/bin/wezterm"
+        "systemctl restart --user awww.service"
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "lxqt-policykit-agent"
         "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login"
-        "hdrop -b -f alacritty --class alacritty_drop"
+        "hdrop -b -f wezterm --class wez_drop"
         "wl-paste -t text -w xclip -selection clipboard" # fix for clipboard
         "hyprctl setcursor Plasma-Overdose 12"
-        "swww img ~/src/config/assets/wallpapers/black.png -t none"
+        "awww img ~/src/config/assets/wallpapers/black.png -t none"
       ];
       general = {
         allow_tearing = true;
@@ -119,11 +119,12 @@
       imagemagick
       hdrop
       lxqt.lxqt-policykit
+      ueberzugpp
     ]
     ++ (with outputs.customPackages; [
       hyprfreeze
     ]);
-  services.swww = {
+  services.awww = {
     enable = true;
   };
   services.cliphist = {

@@ -32,12 +32,11 @@
     historySubstringSearch = {
       enable = true;
     };
-    profileExtra = ''	'';
+    profileExtra = "	";
     shellAliases = {
       ns = "nix-shell --command zsh -p";
       gvi = "nix run github:evilcatlawyer/nixvim";
       lvi = "nix run /home/bloodwolfe/projects/nixvim --";
-      vi = "nvim";
       td = "task";
       syst = "systemctl status";
       systu = "systemctl status --user";
@@ -56,11 +55,12 @@
       '';
       remove-dangling-symlinks = "find . -xtype l -delete";
       cat = "dotacat";
+      cat-default = "cat";
+      cat-slow = ''perl -pe "system 'sleep .025'"'';
       nia = "nix instantiate --eval";
       nr = "nix repl";
       dirty = "watch grep -e Dirty: -e Writeback: /proc/meminfo";
       rsync = "rsync -r --info=progress2 --info=name0";
-      slowcat = ''perl -pe "system 'sleep .025'"'';
     };
     initContent = lib.mkBefore ''
       function zvm_config() {

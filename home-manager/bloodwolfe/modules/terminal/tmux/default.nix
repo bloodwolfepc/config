@@ -134,6 +134,9 @@
         #set-window-option -g visual-bell on
         #set-window-option -g bell-action other
         #set-hook -g alert-bell 'run-shell "canberra-gtk-play --id=bell"'
+        set -gq allow-passthrough on
+        set -g visual-activity off
+        set-option -g focus-events on
       '';
     };
   programs.zsh.initContent = lib.mkIf config.programs.zsh.enable (

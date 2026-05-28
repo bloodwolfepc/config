@@ -4,7 +4,6 @@
   ...
 }:
 {
-
   systemd.services.kanata-60-percent-default = {
     unitConfig = {
       After = [ "graphical-session.target" ];

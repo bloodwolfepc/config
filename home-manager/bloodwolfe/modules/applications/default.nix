@@ -7,6 +7,7 @@
   imports = [
     ./mpd.nix
     ./alacritty.nix
+    ./wezterm
     ./zathura.nix
   ];
   wayland.windowManager.hyprland.settings.windowrule = [
@@ -37,6 +38,8 @@
   home.packages = with pkgs; [
     #spotify
     vesktop
+    discord-gamesdk
+    discord-rpc
 
     #wineWowPackages.stagingFull
     winetricks
