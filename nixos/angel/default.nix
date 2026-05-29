@@ -38,13 +38,16 @@
   };
 
   nix.settings = {
-    extra-platforms = config.boot.binfmt.emulatedSystems;
-    extra-sandbox-paths = [
-      "/run/binfmt"
-    ];
+    # extra-platforms = config.boot.binfmt.emulatedSystems;
+    # extra-sandbox-paths = [
+    #   "/run/binfmt"
+    # ];
   };
   boot = {
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
+    binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "i686-linux"
+    ];
     loader = {
       systemd-boot = {
         enable = true;

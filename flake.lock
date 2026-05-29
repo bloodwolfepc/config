@@ -277,7 +277,7 @@
     },
     "flake-utils_4": {
       "inputs": {
-        "systems": "systems_5"
+        "systems": "systems_6"
       },
       "locked": {
         "lastModified": 1710146030,
@@ -1238,6 +1238,7 @@
         "secrets": "secrets",
         "sops-nix": "sops-nix",
         "subtui": "subtui",
+        "systems": "systems_5",
         "wl-crosshair": "wl-crosshair"
       }
     },
@@ -1376,6 +1377,21 @@
       }
     },
     "systems_5": {
+      "locked": {
+        "lastModified": 1689347949,
+        "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "rev": "31732fcf5e8fea42e59c2488ad31a0e651500f68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "systems_6": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

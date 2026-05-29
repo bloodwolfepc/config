@@ -1,4 +1,7 @@
-{ inputs, config, ... }:
+{
+  lib,
+  ...
+}:
 {
   boot = {
     initrd = {

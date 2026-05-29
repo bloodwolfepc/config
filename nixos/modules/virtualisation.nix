@@ -19,9 +19,12 @@
     };
     spiceUSBRedirection.enable = true;
     libvirtd = {
-      enable = false;
+      enable = true;
       qemu = {
+        package = pkgs.qemu_kvm;
+        # runAsRoot = true;
         swtpm.enable = true;
+        vhostUserPackages = with pkgs; [ virtiofsd ];
       };
     };
     waydroid.enable = false;
@@ -35,5 +38,9 @@
   environment.persistence."/persist/system".directories = [
     "/var/lib/containers"
     "/var/lib/libvirt"
+    "/var/lib/systemd" # https://github.com/NixOS/nixpkgs/issues/501336
   ];
+  systemd.services.libvirtd.serviceConfig = {
+    ReadOnlyPaths = [ "/var/lib/systemd/credential.secret" ];
+  };
 }

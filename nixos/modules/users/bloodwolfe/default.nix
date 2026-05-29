@@ -32,7 +32,6 @@
         "docker"
         "keys"
         "data"
-        "libvirtd"
         "realtime"
         "ydotool"
         "adbusers"

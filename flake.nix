@@ -5,13 +5,11 @@
       nixpkgs,
       home-manager,
       nixos-generators,
+      systems,
       ...
     }:
     let
       inherit (self) outputs;
-      systems = [
-        "x86_64-linux"
-      ];
       lib' = nixpkgs.lib;
       lib = lib'.extend (
         final: prev:
@@ -21,8 +19,8 @@
         }
         // home-manager.lib
       );
-      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-      pkgsFor = lib.genAttrs systems (
+      forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+      pkgsFor = lib.genAttrs (import systems) (
         system:
         import nixpkgs {
           inherit system;
@@ -96,6 +94,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware";
+    systems.url = "github:nix-systems/default-linux";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

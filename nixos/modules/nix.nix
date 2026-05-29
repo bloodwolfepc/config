@@ -22,6 +22,7 @@
         "kvm"
         "big-parallel"
         "nixos-test"
+        "qemu"
       ];
       flake-registry = "";
       substituters = [

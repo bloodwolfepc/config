@@ -16,7 +16,7 @@
       "/var/log"
       "/var/lib/nixos"
       "/var/lib/bluetooth"
-      "/var/lib/systemd/coredump"
+      # "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
       {
