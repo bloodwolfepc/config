@@ -11,8 +11,10 @@
       ];
     };
     loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
       grub.enable = false;
-      generic-extlinux-compatible.enable = true;
+      generic-extlinux-compatible.enable = false;
       timeout = 5;
     };
   };
@@ -27,17 +29,17 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/root_vg/root";
+      device = "/dev/root_vg_tmp/root";
       fsType = "btrfs";
       options = [ "subvol=root" ];
     };
     "/persist" = {
-      device = "/dev/root_vg/root";
+      device = "/dev/root_vg_tmp/root";
       fsType = "btrfs";
       options = [ "subvol=persist" ];
     };
     "/nix" = {
-      device = "/dev/root_vg/root";
+      device = "/dev/root_vg_tmp/root";
       fsType = "btrfs";
       options = [ "subvol=nix" ];
     };
