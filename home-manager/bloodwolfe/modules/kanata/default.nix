@@ -1,14 +1,26 @@
 {
-  config,
   pkgs,
+  outputs,
+  lib,
   ...
 }:
+let
+  hyprkan = outputs.customPackages.x86_64-linux.hyprkan;
+  hl-util = pkgs.writeShellScriptBin "hl-util" (builtins.readFile ./hl-util.sh);
+in
 {
-  home.packages = with pkgs; [
-    kanata-with-cmd
-  ];
+  home.packages =
+    with pkgs;
+    [
+      kanata-with-cmd
+    ]
+    ++ [
+      hyprkan
+      hl-util
+    ];
 
-  home.file.".config/kanata/kanata.kbd".source = ./kanata.kbd;
+  home.file.".config/kanata/kanata.kbd".source = ./config/kanata.kbd;
+  home.file.".config/kanata/hyprland.kbd".source = ./config/hyprland.kbd;
 
   systemd.user = {
     services."kanata" = {
@@ -18,12 +30,37 @@
       };
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.kanata-with-cmd}/bin/kanata";
+        ExecStart = "${pkgs.kanata-with-cmd}/bin/kanata --port 7070";
         TimeoutStopSec = "180";
         KillMode = "process";
         KillSignal = "SIGINT";
       };
       Install.WantedBy = [ "default.target" ];
+      Environment = {
+        PATH = pkgs.lib.makeBinPath [ hl-util ];
+      };
+    };
+  };
+
+  systemd.user.services.hyprkan = {
+    Unit = {
+      description = "Kanata Layer Switcher";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = lib.escapeShellArgs [
+        "${hyprkan}/bin/hyprkan"
+        "--log-level"
+        "DEBUG"
+        "-c"
+        "${./hyprkan.json}"
+      ];
+      Restart = "on-failure";
+      RestartSec = 5;
+      Type = "simple";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

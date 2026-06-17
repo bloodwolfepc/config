@@ -14,4 +14,7 @@ rec {
   libansilove = pkgs.callPackage ./durdraw/libansilove.nix { };
 
   ascii-rain = pkgs.callPackage ./ascii-rain { };
+  hyprkan = pkgs.python313Packages.callPackage ./hyprkan {
+    inherit (pkgs.python313Packages) buildPythonApplication i3ipc;
+  };
 }

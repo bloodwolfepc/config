@@ -16,6 +16,9 @@ local config1 = {
 
 	font_size = 24,
 	color_scheme = "thwump (terminal.sexy)",
+	-- colors = {},
+	window_background_opacity = 0,
+	text_background_opacity = 1,
 	default_prog = { "/home/bloodwolfe/.nix-profile/bin/zsh" },
 	launch_menu = {
 		{

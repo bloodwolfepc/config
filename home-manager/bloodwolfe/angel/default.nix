@@ -34,11 +34,11 @@ in
     in
     {
       extraConfig = ''
-        submap = MONITOR
+        submap = FMON
           bindi = ,f, focusmonitor, ${mon0}
           bindi = ,d, focusmonitor, ${monl1}
         submap = escape
-        submap = SEND_TO_MONITOR
+        submap = SWTM
           bind = , f, movecurrentworkspacetomonitor, ${mon0}
           bind = , d, movecurrentworkspacetomonitor, ${monl1}
         submap = escape
@@ -69,7 +69,7 @@ in
       xf86_input_wacom
       wine
       spotify
-
+      wiremix
     ]
     ++ [
       nc-sync-cloud

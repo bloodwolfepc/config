@@ -216,11 +216,23 @@ function move-workspace() {
     prev)
       hyprctl dispatch workspace prev
       ;;
+    *)
+      echo "Invalid arguments for move-workspace()"
+      exit 1
+      ;;
   esac
 }
 
 function move-focus() {
   hyprctl dispatch movefocus "$1"
+}
+
+function layer() {
+  hyprctl dispatch submap "$1"
+}
+
+function waybar-toggle() {
+  systemctl stop --user waybar.service || systemctl start --user waybar.service
 }
 
 function main() {
@@ -243,18 +255,24 @@ function main() {
     move-focus|mvfoc)
       move-focus "${@:2}"
       ;;
+    layer)
+      layer "${@:2}"
+      ;;
     color)
       color
       ;;
+    waybar-toggle)
+      color
+      ;;
     *)
-      echo "invalid arguments for main"
-      exit 1
+      echo "Passing command forward"
+      "${@:1}" 
+      hyprctl dispatch submap INS 
+      printf '{"ChangeLayer":{"new":"ins"}}\n' | nc -N localhost 7070
       ;;
   esac
-  # printf '{"ChangeLayer":{"new":"ins"}}' | socat - UNIX-CONNECT:/run/user/1000/kanata.sock
-  echo '{"ChangeLayer":{"new":"ins"}}' | nc localhost 7070
-
+  hyprctl dispatch submap INS
+  printf '{"ChangeLayer":{"new":"ins"}}\n' | nc -N localhost 7070
 }
 
 main "$@"
-

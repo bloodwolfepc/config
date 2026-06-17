@@ -1,3 +1,5 @@
+#TODO: zsh integration for pyprland and hyprland
+#https://hyprland-community.github.io/pyprland/Commands.html
 {
   pkgs,
   lib,
@@ -6,10 +8,35 @@
   ...
 }:
 {
+
   imports = [
     ./pass-oneshots.nix
     ./config.nix
   ];
+
+  systemd.user.services.pyprland = {
+    Unit = {
+      description = "Starts pyprland daemon";
+      After = [ "graphical-session.target" ];
+      Wants = [ "graphical-session.target" ];
+      StartLimitIntervalSec = "600";
+      StartLimitBurst = "5";
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = lib.escapeShellArgs [
+        "${pkgs.pyprland}/bin/pypr"
+        "--debug"
+      ];
+      Restart = "always";
+      RestartSec = 5;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+  home.file.".config/pypr/config.toml".source = ./pyprland.toml;
+
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
@@ -23,8 +50,7 @@
         "xrandr --output DP-1 --primary"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
         "lxqt-policykit-agent"
-        "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login"
-        "hdrop -b -f wezterm --class wez_drop"
+        # "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login"
         "wl-paste -t text -w xclip -selection clipboard" # fix for clipboard
         "hyprctl setcursor Plasma-Overdose 12"
         "awww img ~/src/config/assets/wallpapers/black.png -t none"
@@ -37,7 +63,6 @@
         disable_splash_rendering = true;
         render_unfocused_fps = 60;
         enable_anr_dialog = false;
-        #vrr = 1;
       };
       dwindle = {
         pseudotile = true;
@@ -101,29 +126,25 @@
         ];
       };
   };
-  home.packages =
-    with pkgs;
-    [
-      (writeShellScriptBin "pc" ''
-        ${hyprland}/bin/start-hyprland
-      '')
-      libnotify
-      (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))
-      (writeShellScriptBin "hl-util.sh" (builtins.readFile ./sh/hl-util.sh))
-      wayvnc
-      wl-mirror
-      grimblast
-      wl-clipboard
-      xorg.xrandr
-      hyprpicker
-      imagemagick
-      hdrop
-      lxqt.lxqt-policykit
-      ueberzugpp
-    ]
-    ++ (with outputs.customPackages; [
-      hyprfreeze
-    ]);
+  home.packages = with pkgs; [
+    (writeShellScriptBin "pc" ''
+      ${hyprland}/bin/start-hyprland
+    '')
+    libnotify
+    (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./sh/touchpad.sh))
+    wayvnc
+    wl-mirror
+    grimblast
+    wl-clipboard
+    xorg.xrandr
+    hyprpicker
+    imagemagick
+    hdrop
+    lxqt.lxqt-policykit
+    ueberzugpp
+    pyprland
+    #wl-freeze
+  ];
   services.awww = {
     enable = true;
   };

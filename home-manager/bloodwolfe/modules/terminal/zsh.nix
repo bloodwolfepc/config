@@ -6,6 +6,7 @@
 }:
 {
   sops.secrets."openai-auth" = { };
+  sops.secrets."kagi-api" = { };
   programs.zsh = {
     enable = true;
     plugins = [
@@ -72,6 +73,8 @@
       PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%B%~%b%f %# '
       eval "$(zoxide init zsh)"
       export OPENAI_API_KEY="$(cat ${config.sops.secrets."openai-auth".path})"
+      export AVANTE_OPENAI_API_KEY="$(cat ${config.sops.secrets."openai-auth".path})"
+      export KAGI_API_KEY="$(cat ${config.sops.secrets."kagi-api".path})"
     '';
   };
   #programs.atuin = {

@@ -1,0 +1,49 @@
+[pyprland]
+plugins = [
+  "scratchpads",
+  "magnify",
+  "fetch_client_menu",
+  "system_notifier",
+  "toggle_dpms",
+]
+notification_type = "notify_send"
+
+[magnify]
+factor = 2
+
+[scratchpads.wezterm-drop]
+command = "wezterm start --class wezterm-drop"
+class = "wezterm-drop"
+position = "50% 5%"
+size = "40% 40%"
+
+[fetch_client_menu]
+engine = "rofi"
+
+[system_notifier]
+use_notify_send = true
+
+[[system_notifier.sources]]
+command = "journalctl -fx"
+parser = "journal"
+
+# [[system_notifier.parsers.journal]]
+# pattern = "([a-z0-9]+): Link UP$"
+# filter = "s/.*\[\d+\]: ([a-z0-9]+): Link.*/\1 is active/"
+# color = "#00aa00"
+#
+# [[system_notifier.parsers.journal]]
+# pattern = "([a-z0-9]+): Link DOWN$"
+# filter = "s/.*\[\d+\]: ([a-z0-9]+): Link.*/\1 is inactive/"
+# color = "#ff8800"
+# duration = 15
+#
+# [[system_notifier.parsers.journal]]
+# pattern = "Process \d+ \(.*\) of .* dumped core."
+# filter = "s/.*Process \d+ \((.*)\) of .* dumped core./\1 dumped core/"
+# color = "#aa0000"
+#
+# [[system_notifier.parsers.journal]]
+# pattern = "usb \d+-[0-9.]+: Product: "
+# filter = "s/.*usb \d+-[0-9.]+: Product: (.*)/USB plugged: \1/"
+# color = "#ff66ff"

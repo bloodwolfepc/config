@@ -31,7 +31,6 @@
     fastfetch
 
     shell-gpt
-    aichat
 
     taskwarrior-tui
   ];
@@ -59,10 +58,6 @@
   programs.ripgrep = {
     enable = true;
     package = pkgs.ripgrep-all;
-  };
-
-  sops.secrets."sgpt-config" = {
-    path = "/home/bloodwolfe/.config/shell_gpt/.sgptrc";
   };
 
   programs.taskwarrior = {

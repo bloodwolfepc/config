@@ -9,6 +9,7 @@ in
 {
   home.packages = [
     nvim
+    pkgs.vectorcode
     pkgs.luaPackages.lua-utils-nvim
     pkgs.luaPackages.pathlib-nvim
   ];

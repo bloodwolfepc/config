@@ -741,11 +741,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1777988609,
-        "narHash": "sha256-sUfytk7590J3T7FdRoeUQyT990d02nkIeGmq+De3bFI=",
+        "lastModified": 1778429822,
+        "narHash": "sha256-UY2V45gprBZuLKSFD79M3FuA0DqGpTkR9WmIoGcZlVU=",
         "owner": "niveK77pur",
         "repo": "lilypond-midi-input",
-        "rev": "0b2d3c241103233675545c86bcfc53c9bca7509b",
+        "rev": "7318206e6d491da924350197476cde11405091fd",
         "type": "github"
       },
       "original": {
@@ -800,11 +800,11 @@
         "norg-meta": "norg-meta"
       },
       "locked": {
-        "lastModified": 1778359272,
-        "narHash": "sha256-yMWUH1o+iy6VDIBlL4RIs7fM7mmr70I72bJVT9NG74M=",
+        "lastModified": 1780991138,
+        "narHash": "sha256-RezRPCTSf7Iy9bynHnyYAb1EMMKlg2OmzdTSc4EwfjQ=",
         "owner": "nvim-neorg",
         "repo": "nixpkgs-neorg-overlay",
-        "rev": "d6aedd121a801944d4ab6ba7069ce79b11693f4c",
+        "rev": "830fbacbecd0300048da8b3571a118e650de241a",
         "type": "github"
       },
       "original": {
@@ -836,11 +836,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1779680086,
-        "narHash": "sha256-Qn8kbeWlCGJqTGntQZHaVp6rPnMoOQCs+tJ6r0YvyMI=",
+        "lastModified": 1781203432,
+        "narHash": "sha256-AZrWsE4NLVSEwqUs1QgyKcptBr8QcJXt+zCJwpUR720=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "dce3f6648388467d95c9280a2ecbc0461d52910c",
+        "rev": "4ec178697e0d5039bfd15af238623a3b6e12031e",
         "type": "github"
       },
       "original": {
@@ -1058,11 +1058,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1778274207,
-        "narHash": "sha256-I4puXmX1iovcCHZlRmztO3vW0mAbbRvq4F8wgIMQ1MM=",
+        "lastModified": 1780930886,
+        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b3da656039dc7a6240f27b2ef8cc6a3ef3bccae7",
+        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
         "type": "github"
       },
       "original": {
@@ -1106,11 +1106,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1778274207,
-        "narHash": "sha256-I4puXmX1iovcCHZlRmztO3vW0mAbbRvq4F8wgIMQ1MM=",
+        "lastModified": 1780930886,
+        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b3da656039dc7a6240f27b2ef8cc6a3ef3bccae7",
+        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
         "type": "github"
       },
       "original": {
@@ -1262,10 +1262,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1778380266,
-        "narHash": "sha256-YsXKAGCCz3QHzlLGuRQLGrN1AKmV09xXv56ge2cGEA8=",
+        "lastModified": 1780825220,
+        "narHash": "sha256-jhPSm0aVx26WG7KkYs3u5WF2Q2zJxwhfTxgG9JjQ+S8=",
         "ref": "refs/heads/master",
-        "rev": "f94c876abd2bddb257e4136e18cef7f544ade475",
+        "rev": "60cb74a592c2dc0e1e4d30132bcdb10638b3cf2a",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/bloodwolfe/secrets.git"

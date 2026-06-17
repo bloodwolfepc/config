@@ -10,6 +10,7 @@
     ./applications
     ./terminal
     ./kanata
+    ./aichat
     ./direnv.nix
   ];
 }
