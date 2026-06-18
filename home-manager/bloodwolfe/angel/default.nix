@@ -27,39 +27,6 @@ in
   imports = [
     ../modules
   ];
-  wayland.windowManager.hyprland =
-    let
-      mon0 = "desc:LG Electronics LG ULTRAGEAR 510RMLM9B112";
-      monl1 = "desc:BOE 0x0A1D";
-    in
-    {
-      extraConfig = ''
-        submap = FMON
-          bindi = ,f, focusmonitor, ${mon0}
-          bindi = ,d, focusmonitor, ${monl1}
-        submap = escape
-        submap = SWTM
-          bind = , f, movecurrentworkspacetomonitor, ${mon0}
-          bind = , d, movecurrentworkspacetomonitor, ${monl1}
-        submap = escape
-      '';
-      settings = {
-        monitor = [
-          "${mon0}, 2560x1440@240, 0x0, 1"
-          "${monl1}, 2560x1600@120, -2560x0, 1"
-        ];
-        input.touchpad = {
-          natural_scroll = false;
-          disable_while_typing = false;
-        };
-        input.tablet = {
-          transform = "6";
-          region_size = "2194 1440";
-          # For 1080p: region_size = "1920 1268";
-          output = "current";
-        };
-      };
-    };
   sops.secrets."cloud-waterdreamer-net-username" = { };
   sops.secrets."cloud-waterdreamer-net-password" = { };
   home.packages =

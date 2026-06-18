@@ -1,20 +1,11 @@
 { pkgs, ... }:
 {
-  imports = [
-    ./hyprland
-    ./swaync
-    ./rofi
-    ./waybar
-    ./fcitx5.nix
-    ./xdg.nix
-  ];
   home.packages = with pkgs; [
     unscii
     nerd-fonts.symbols-only
   ];
   fonts.fontconfig = {
     enable = true;
-    #antialiasing = true;
     defaultFonts = {
       emoji = [ ];
     };

@@ -87,7 +87,7 @@ Coditionals based of socket comands or direct programming
   caps nop0
   j @jk-esc
   k @kj-esc
-  lmet (multi(cmd hyprctl dispatch submap NML)(layer-switch hypr-nml)) ;;if hypr
+  ;; lmet (multi(cmd hyprctl dispatch submap NML)(layer-switch hypr-nml)) ;;if hypr
 )
 
 ;; TODO: If HYPRLAND_ENABLED=false

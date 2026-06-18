@@ -10,11 +10,6 @@
     ./wezterm
     ./zathura.nix
   ];
-  wayland.windowManager.hyprland.settings.windowrule = [
-    "match:initial_class ^([Ss]potify)$, workspace 2 silent"
-    "match:initial_class ^([Vv]esktop)$, workspace 3 silent"
-    "match:initial_class ^([Ss]team)$, workspace 3 silent"
-  ];
   home.persistence = {
     "/persist".directories = [
       "programfiles"

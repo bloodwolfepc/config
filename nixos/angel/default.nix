@@ -20,7 +20,7 @@
 
   services = {
     asusd = {
-      enable = true;
+      enable = false;
     };
     switcherooControl.enable = true;
     supergfxd = {
@@ -75,7 +75,7 @@
       mkdir /mnt
     '';
   };
-  programs.rog-control-center.enable = true;
+  programs.rog-control-center.enable = false;
   programs.gpu-screen-recorder.enable = true;
   hardware.wooting.enable = true;
   hardware.bluetooth.enable = true;

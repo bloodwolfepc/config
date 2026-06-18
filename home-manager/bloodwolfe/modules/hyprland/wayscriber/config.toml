@@ -1,0 +1,23 @@
+[ui.toolbar.items.order]
+top_tools = [
+  "top.tool.select",
+  "top.tool.pen",
+  "top.tool.marker",
+  "top.tool.eraser",
+]
+
+top_controls = [
+  "top.utility.text",
+  "top.utility.sticky-note",
+  "top.utility.screenshot",
+  "top.utility.clear-canvas",
+]
+
+side_sections = [
+  "side.group.colors",
+  "side.group.thickness",
+  "side.group.actions",
+  "side.group.pages",
+  "side.group.boards",
+  "side.group.settings",
+]

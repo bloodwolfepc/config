@@ -6,7 +6,7 @@ plugins = [
   "system_notifier",
   "toggle_dpms",
 ]
-notification_type = "notify_send"
+notification_type = "notify-send"
 
 [magnify]
 factor = 2

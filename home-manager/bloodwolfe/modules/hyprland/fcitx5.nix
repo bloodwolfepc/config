@@ -6,10 +6,6 @@
   home.persistence."/persist".directories = [
     ".config/fcitx5"
   ];
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "${pkgs.fcitx5}/bin/fcitx5 -d -r"
-    "${pkgs.fcitx5}/bin/fcitx5-remote -r"
-  ];
   i18n = {
     inputMethod = {
       type = "fcitx5";

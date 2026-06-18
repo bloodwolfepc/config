@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
+  home.sessionVariables."FLAKE" = "${config.home.homeDirectory}/src/config";
   imports = [
     ./account.nix
     ./gaming
-    ./desktop
     ./system
     ./security
     ./workstation
@@ -12,5 +12,6 @@
     ./kanata
     ./aichat
     ./direnv.nix
+    ./hyprland
   ];
 }
