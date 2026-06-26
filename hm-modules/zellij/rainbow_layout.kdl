@@ -1,0 +1,26 @@
+// https://github.com/zellij-org/zellij/issues/679layout
+session_name "rainbow_session"
+attach_to_session true
+session_serialization true
+pane_frames true
+  default_tab_template {
+    pane borderless=true
+  }
+  tab_template name="main" {
+    pane borderless=true {
+      command "zsh"
+      args "-lc" "microfetch; exec zsh"
+      size "50%"
+    }
+    pane borderless=true {
+      size "50%"
+      focus true
+    }
+  }
+  tab
+  tab
+  tab cwd="~/notebook"
+  main
+  tab
+}
+

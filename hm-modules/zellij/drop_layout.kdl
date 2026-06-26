@@ -1,0 +1,29 @@
+session_name "drop_session"
+attach_to_session true
+
+layout {
+  borderless true
+  tab {
+    pane {
+      command "zsh"
+      args "-lc" "microfetch; exec zsh"
+    }
+  }
+  tab {
+    pane command="btm"
+  }
+  tab {
+    pane command="wiremix"
+  }
+}
+
+// layout {
+//   pane size=1 borderless=true {
+//       plugin location="tab-bar"
+//   }
+//   pane
+//   pane size=1 borderless=true {
+//       plugin location="status-bar"
+//   }
+// }
+// Singular statusbar shows ative pane and info at bottom

@@ -75,6 +75,12 @@
       mkdir /mnt
     '';
   };
+  systemd.settings.Manager = {
+    DefaultTimeoutStopSec = "15s";
+  };
+  services.logind = {
+    killUserProcesses = true;
+  };
   programs.rog-control-center.enable = false;
   programs.gpu-screen-recorder.enable = true;
   hardware.wooting.enable = true;
@@ -90,7 +96,11 @@
     displaycal
     wootility
     qemu-user
+    ddcutil
   ];
+  hardware.i2c = {
+    enable = true;
+  };
   i18n = {
     defaultLocale = lib.mkDefault "en_US.UTF-8";
     extraLocales = [

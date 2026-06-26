@@ -6,16 +6,13 @@
 }:
 {
   imports = [
-    ../modules/account.nix
-    ../modules/system
-    ../modules/security
-    ../modules/applications
-    ../modules/terminal
-    ../modules/kanata
-  ];
-  home.persistence."/persist".directories = [
-    "pictures"
-    "videos"
+    # ../modules/account.nix
+    # ../modules/system
+    # ../modules/security
+    # ../modules/applications
+    # ../modules/terminal
+    # ../modules/kanata
+    ../../../hm-modules
   ];
 
   home.packages =

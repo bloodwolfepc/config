@@ -1,0 +1,141 @@
+;; vim:ft=lisp
+
+#|
+Common used sequences: 
+jj,jk,kj,fj,jf,kl,kk,jjj,kl,;;,uu,oo
+hh,ii,qq,zx,xz
+Not to be used: 
+fd,sd,as,sa,ad,da
+
+mod is the main prefix for hyprland and system
+caplock + space is the main prefix for jellig
+space is the main prefix for neovim
+
+Ideas:
+mod + caps is caps lock
+enter + caps is caps lock
+mod + esq is esq
+mod + n is num
+mod + n + n is numlock
+|#
+
+(defcfg
+  process-unmapped-keys yes
+  linux-continue-if-no-devs-found yes
+  mouse-movement-key mvmt
+  danger-enable-cmd yes
+)
+
+(defsrc
+  esc  1    2    3    4    5    6    7    8    9    0    min    eql    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    lbrc   rbrc   bksl
+  caps a    s    d    f    g    h    j    k    l    scln comm   ret
+  lsft z    x    c    v    b    n    m    apos .    /    rsft
+  lctl lmet lalt spc                      ralt rmet rctl
+)
+
+(defalias
+  ins (layer-switch ins)
+  j-qq (chord quickchord j)
+  k-qq (chord quickchord k)
+  l-qq (chord quickchord l)
+  n-qq (chord quickchord n)
+  p-qq (chord quickchord p)
+)
+
+;; Layer 0
+(deflayermap ins
+  esc grv
+  caps (one-shot-press 2000 (layer-while-held ctrl-alt-os))
+  j (chord quickchord j)
+  k (chord quickchord k)
+  l (chord quickchord l)
+  n (chord quickchord n)
+  p (chord quickchord p)
+)
+
+
+(deflayermap ctrl-alt-os
+  esc (multi lctl lalt esc)
+  1   (multi lctl lalt 1)
+  2   (multi lctl lalt 2) 3   (multi lctl lalt 3)
+  4   (multi lctl lalt 4)
+  5   (multi lctl lalt 5)
+  6   (multi lctl lalt 6)
+  7   (multi lctl lalt 7)
+  8   (multi lctl lalt 8)
+  9   (multi lctl lalt 9)
+  0   (multi lctl lalt 0)
+  min (multi lctl lalt min)
+  eql (multi lctl lalt eql)
+  bspc (multi lctl lalt bspc)
+
+  q (multi lctl lalt q)
+  w (multi lctl lalt w)
+  e (multi lctl lalt e)
+  r (multi lctl lalt r)
+  t (multi lctl lalt t)
+  y (multi lctl lalt y)
+  u (multi lctl lalt u)
+  i (multi lctl lalt i)
+  o (multi lctl lalt o)
+  p (multi lctl lalt p)
+  lbrc (multi lctl lalt lbrc)
+  rbrc (multi lctl lalt rbrc)
+  bksl (multi lctl lalt bksl)
+
+  a (multi lctl lalt a)
+  s (multi lctl lalt s)
+  d (multi lctl lalt d)
+  f (multi lctl lalt f)
+  g (multi lctl lalt g)
+  h (multi lctl lalt h)
+  j (multi lctl lalt j)
+  k (multi lctl lalt k)
+  l (multi lctl lalt l)
+  scln (multi lctl lalt scln)
+  comm (multi lctl lalt comm)
+  ret (multi lctl lalt ret)
+
+  z (multi lctl lalt z)
+  x (multi lctl lalt x)
+  c (multi lctl lalt c)
+  v (multi lctl lalt v)
+  b (multi lctl lalt b)
+  n (multi lctl lalt n)
+  m (multi lctl lalt m)
+  apos (multi lctl lalt apos)
+  . (multi lctl lalt .)
+  / (multi lctl lalt /)
+
+  spc (multi lctl lalt spc)
+)
+
+
+(defchords quickchord 75
+  (j) j
+  (k) k
+  (l) l
+  (j k) esc
+  (j l) (multi lctl y)
+  (k p) (multi lctl p)
+  (k n) (multi lctl n)
+  (n) n
+  (p) p
+)
+
+(deflayermap navigation
+  j down
+  k up
+  l rght
+  d del
+  b bspc
+)
+
+(deflayer number
+  _    S-5  S-6  S-7  S-8  _    _    _    _    _    _    _    _    _
+  _    S-1  S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9  S-0  _    _    _
+  _    1    2    3    4    5    6    7    8    9    0    1    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)

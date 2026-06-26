@@ -5,6 +5,7 @@
       nixpkgs,
       home-manager,
       nixos-generators,
+      nix-on-droid,
       systems,
       ...
     }:
@@ -64,14 +65,14 @@
           modules = [ ./nixos/navi ];
           specialArgs = { inherit inputs outputs; };
         };
-        iso = lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./nixos/iso ];
-        };
-        fp30x = lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./nixos/fp30x ];
-        };
+        # iso = lib.nixosSystem {
+        #   specialArgs = { inherit inputs outputs; };
+        #   modules = [ ./nixos/iso ];
+        # };
+        # fp30x = lib.nixosSystem {
+        #   specialArgs = { inherit inputs outputs; };
+        #   modules = [ ./nixos/fp30x ];
+        # };
       };
       homeConfigurations = {
         "bloodwolfe@angel" = lib.homeManagerConfiguration {
@@ -89,6 +90,11 @@
           pkgs = pkgsFor.aarch64-linux;
           extraSpecialArgs = { inherit inputs outputs lib; };
         };
+      };
+
+      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs { system = "aarch64-linux"; };
+        modules = [ ./droid ];
       };
     };
   inputs = {
@@ -147,6 +153,10 @@
     };
     subtui = {
       url = "github:MattiaPun/SubTUI";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -1,0 +1,55 @@
+default dump
+
+VCP code 0x02 (New control value             ): One or more new control values have been saved (0x02)
+VCP code 0x0b (Color temperature increment   ): Invalid value: 0
+VCP code 0x0c (Color temperature request     ): 3000 + 35 * (feature 0B color temp increment) degree(s) Kelvin
+VCP code 0x0e (Clock                         ): current value =    50, max value =   100
+VCP code 0x10 (Brightness                    ): current value =    45, max value =   100
+VCP code 0x12 (Contrast                      ): current value =    70, max value =   100
+VCP code 0x14 (Select color preset           ): User 1 (sl=0x0b)
+VCP code 0x16 (Video gain: Red               ): current value =    50, max value =   100
+VCP code 0x18 (Video gain: Green             ): current value =    50, max value =   100
+VCP code 0x1a (Video gain: Blue              ): current value =    50, max value =   100
+VCP code 0x1e (Auto setup                    ): Auto setup not active (sl=0x00)
+VCP code 0x20 (Horizontal Position (Phase)   ): current value =     0, max value =   100
+VCP code 0x30 (Vertical Position (Phase)     ): current value =     0, max value =   100
+VCP code 0x3e (Clock phase                   ): current value =    50, max value =   100
+VCP code 0x52 (Active control                ): Value: 0x00
+VCP code 0x60 (Input Source                  ): DisplayPort-1 (sl=0x0f)
+VCP code 0x62 (Audio speaker volume          ): current value =    30, max value =   100
+VCP code 0x6c (Video black level: Red        ): current value =   128, max value =   100
+VCP code 0x6e (Video black level: Green      ): current value =   128, max value =   100
+VCP code 0x70 (Video black level: Blue       ): current value =   128, max value =   100
+VCP code 0x72 (Gamma                         ): 0x7800 - Mode: White absolute adjustment (sl=0x00), gamma=2.20 (sh=0x78)
+VCP code 0x7a (Adjust Focal Plane            ): current value =   240, max value = 65535
+VCP code 0x87 (Sharpness                     ): current value =    50, max value =   100
+VCP code 0x8d (Audio Mute                    ): Unmute the audio (sl=0x02)
+VCP code 0xac (Horizontal frequency          ): 59420 hz
+VCP code 0xae (Vertical frequency            ): 387.10 hz
+VCP code 0xb6 (Display technology type       ): LCD (active matrix) (sl=0x03)
+VCP code 0xc0 (Display usage time            ): Usage time (hours) = 1531 (0x0005fb) mh=0xff, ml=0xff, sh=0x05, sl=0xfb
+VCP code 0xc6 (Application enable key        ): 0x0068
+VCP code 0xc8 (Display controller type       ): Mfg: Texas Instruments (sl=0x15), controller number: mh=0x00, ml=0xff, sh=0x00
+VCP code 0xc9 (Display firmware level        ): 3.3
+VCP code 0xca (OSD                           ): OSD Enabled (sl=0x02)
+VCP code 0xcc (OSD Language                  ): Reserved value, must be ignored (sl=0x00)
+VCP code 0xd6 (Power mode                    ): DPM: On,  DPMS: Off (sl=0x01)
+VCP code 0xd7 (Auxiliary power output        ): Disable auxiliary power (sl=0x01)
+VCP code 0xdf (VCP Version                   ): 2.1
+
+TIMESTAMP_TEXT 20260625-022243
+MFG_ID  GSM
+MODEL   LG ULTRAGEAR
+PRODUCT_CODE  23637
+SN      510RMLM9B112
+EDID    00FFFFFFFFFFFF001E6D555CB8D604000A230104C53C2278F989F5AE5145A3230D5054210900D1C06140454031400101010101010101565E00A0A0A029503020350058542100001A000000FD0C30F087876A010A202020202020000000FC004C4720554C545241474541520A000000FF00353130524D4C4D39423131320A02B2
+VCP_VERSION 2.1
+VCP 10    45
+VCP 12    70
+VCP 14    11
+VCP 16    50
+VCP 18    50
+VCP 1A    50
+VCP 6C   128
+VCP 6E   128
+VCP 70   128

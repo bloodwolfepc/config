@@ -37,6 +37,7 @@
         "adbusers"
         "input"
         "uinput"
+        "i2c"
       ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile ./id_angel.pub)
