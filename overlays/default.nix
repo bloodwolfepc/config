@@ -7,6 +7,7 @@ let
     });
 in
 {
+
   additions = final: _prev: import ../packages { pkgs = final; };
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {

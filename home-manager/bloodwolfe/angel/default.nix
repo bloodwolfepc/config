@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     xf86_input_wacom
     wine
-    spotify
     wiremix
 
     (writeShellScriptBin "ddc-default" ''

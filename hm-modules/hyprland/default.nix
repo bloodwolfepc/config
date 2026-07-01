@@ -20,10 +20,10 @@ lib.mkMerge [
       enable = true;
       systemd = {
         enable = true;
-        extraCommands = lib.mkBefore [
-          "systemctl --user stop graphical-session.target"
-          "systemctl --user start hyprland-session.target"
-        ];
+        # extraCommands = lib.mkBefore [
+        #   "systemctl --user stop graphical-session.target"
+        #   "systemctl --user start hyprland-session.target"
+        # ];
       };
       configType = "lua";
     };

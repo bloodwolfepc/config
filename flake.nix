@@ -33,7 +33,7 @@
       inherit lib;
       myNixosModules = import ./modules/nixos;
       myHomeManagerModules = import ./modules/home-manager;
-      overlays = import ./overlays { inherit inputs outputs; };
+      overlays = (import ./overlays { inherit inputs outputs; });
       customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
@@ -159,6 +159,7 @@
       url = "github:nix-community/nix-on-droid/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
   };
   description = "bloodflake";
 }

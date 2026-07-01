@@ -54,6 +54,7 @@
           "prismlauncher"
           "retroarch"
           "security"
+          "spotify"
           "steam"
           "subtui"
           "terminal"

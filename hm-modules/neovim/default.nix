@@ -1,10 +1,12 @@
 {
   pkgs,
   inputs,
+  config,
   ...
 }:
 let
   nvim = inputs.neovim.packages.${pkgs.system}.default;
+  envPath = "${config.xdg.configHome}/nvim/.env";
   src-nvim = (
     pkgs.writeShellScriptBin "src-nvim" ''
       exec nix run "$HOME/src/january-nvim" -- "$@"
@@ -33,6 +35,17 @@ in
       "/persist".directories = [
         ".local/share/nvim"
       ];
+    };
+  };
+
+  sops = {
+    secrets."openai-auth" = { };
+    templates."nvim.env" = {
+      content = ''
+        OPENAI_API_KEY=${config.sops.placeholder.openai-auth}
+      '';
+      path = "${envPath}";
+      mode = "0400";
     };
   };
 }

@@ -52,7 +52,9 @@
       };
     };
   };
-  qt.enable = true;
+  qt = {
+    enable = true;
+  };
   gtk = {
     enable = true;
     gtk2.extraConfig = ''

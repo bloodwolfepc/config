@@ -1,0 +1,75 @@
+[
+  {
+    "clock": {
+      "format": "{:%H:%M:%S}",
+      "interval": 1
+    },
+    "clock#date": {
+      "format": "{:%Y:%m:%d}",
+      "interval": 1
+    },
+    "cpu": {
+      "format": "cpu: {load}",
+      "interval": 1
+    },
+    "custom/lyrics": {
+      "exec-if": "which waybar-lyric",
+      "exec": "waybar-lyric --quiet",
+      "on-click": "waybar-lyric play-pause",
+      "format": "{icon} {0}",
+      "format-icons": {
+        "getting": "[DL]",
+        "lyric": "[LL]",
+        "music": "[MM]",
+        "no_lyric": "[NL]",
+        "paused": "<-",
+        "playing": "->"
+      },
+      "hide-empty-text": true,
+      "return-type": "json"
+    },
+    "gamemode": {
+      "format": "gm={count}",
+      "interval": 1
+    },
+    "height": 22,
+    "layer": "top",
+    "memory": {
+      "format": "mem: {used}",
+      "interval": 1
+    },
+    "modules-center": [
+      "image#album-art",
+      "mpris",
+      "custom/lyrics"
+    ],
+    "modules-left": [
+      "hyprland/submap",
+      "hyprland/scratchpad",
+      "hyprland/window"
+    ],
+    "modules-right": [
+      "gamemode",
+      "network",
+      "cpu",
+      "memory",
+      "battery",
+      "clock#date",
+      "clock"
+    ],
+    "mpris": {
+      "format": "{position}:{artist} - {album} - {title}",
+      "interval": 1
+    },
+    "network": {
+      "format": "^{bandwidthUpBits} v{bandwidthDownBits}",
+      "interval": 1
+    },
+    "position": "top",
+    "reload_style_on_change": true,
+    "wireplumber": {
+      "format": "{volume}",
+      "interval": 1
+    }
+  }
+]

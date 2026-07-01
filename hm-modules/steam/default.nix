@@ -4,22 +4,28 @@
   ...
 }:
 let
-  steam-with-pkgs = pkgs.steam.override {
-    extraPkgs =
-      pkgs: with pkgs; [
-        gamescope
-        xorg.libXcursor
-        xorg.libXi
-        xorg.libXinerama
-        xorg.libXScrnSaver
-        libpng
-        libpulseaudio
-        libvorbis
-        stdenv.cc.cc.lib
-        libkrb5
-        keyutils
-        dwproton-bin
-      ];
+  extraPkgs =
+    pkgs: with pkgs; [
+      gamescope
+      xorg.libXcursor
+      xorg.libXi
+      xorg.libXinerama
+      xorg.libXScrnSaver
+      libpng
+      libpulseaudio
+      libvorbis
+      stdenv.cc.cc.lib
+      libkrb5
+      keyutils
+    ];
+
+  # steam-with-pkgs = pkgs.millennium-steam.override {
+  #   inherit extraPkgs;
+  #   extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${pkgs.dwproton-bin.steamcompattool}'";
+  # };
+  millennium-with-pkgs = pkgs.millennium-steam.override {
+    inherit extraPkgs;
+    extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${pkgs.dwproton-bin.steamcompattool}'";
   };
 in
 {
@@ -41,12 +47,13 @@ in
       vkbasalt-cli
     ]
     ++ [
-      steam-with-pkgs
+      millennium-with-pkgs
     ];
-  home.sessionVariables."STEAM_EXTRA_COMPAT_TOOLS_PATHS" = "${pkgs.dwproton-bin}";
   home.persistence."/persist".directories = [
     ".local/share/Steam"
     ".local/share/steamgames"
+    ".local/share/millennium"
+    ".config/millennium"
   ];
   sops.secrets = {
     "steamguard-manifest-json" = {

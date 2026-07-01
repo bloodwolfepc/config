@@ -16,7 +16,6 @@
       ".config/mozilla"
       ".cache/flatpak"
       ".config/kdeconnect"
-      ".config/spotify"
       ".config/vesktop"
       ".config/legcord"
 
@@ -27,7 +26,6 @@
     ];
   };
   home.packages = with pkgs; [
-    #spotify
     vesktop
     legcord
 
@@ -35,6 +33,8 @@
     winetricks
 
     xournalpp
+    playerctl
+    (pavucontrol.override { withLibcanberra = true; })
   ];
   programs.firefox.enable = true;
   xdg.mimeApps.defaultApplications = {

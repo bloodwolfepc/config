@@ -3,6 +3,8 @@ session_name "rainbow_session"
 attach_to_session true
 session_serialization true
 pane_frames true
+
+layout {
   default_tab_template {
     pane borderless=true
   }

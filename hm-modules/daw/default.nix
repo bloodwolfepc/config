@@ -5,8 +5,6 @@
 {
   home.packages = with pkgs; [
     cava
-    playerctl
-    (pavucontrol.override { withLibcanberra = true; })
     easyeffects
     qpwgraph
     ardour

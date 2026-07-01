@@ -1,4 +1,5 @@
 {
+  inputs,
   outputs,
   config,
   lib,
@@ -9,7 +10,7 @@
   programs.home-manager.enable = true;
   home.sessionVariables.FLAKE = "${config.home.homeDirectory}/src/config";
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues outputs.overlays ++ [ inputs.millennium.overlays.default ];
     config = {
       allowUnfree = true;
     };

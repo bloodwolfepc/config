@@ -2,7 +2,6 @@
 {
   sops = {
     secrets."openai-auth" = { };
-    secrets."kagi-api" = { };
     templates."aichat.env" = {
       content = ''
         OPENAI_API_KEY=${config.sops.placeholder.openai-auth}
@@ -16,10 +15,6 @@
     shellAliases = {
       ai = "aichat";
       ais = "aichat -s";
-    };
-    sessionVariables = {
-      OPENAI_API_KEY = "$(cat ${config.sops.secrets."openai-auth".path})";
-      KAGI_API_KEY = "$(cat ${config.sops.secrets."kagi-api".path})";
     };
     packages = with pkgs; [
       aichat

@@ -19,7 +19,7 @@
         "inhibitors"
         "dnd"
         "notifications"
-        "mpris"
+        # "mpris"
       ];
       widget-config = {
         inhibitors = {
@@ -39,10 +39,10 @@
           max-lines = 12;
           text = "sample text";
         };
-        mpris = {
-          image-size = 96;
-          blur = false;
-        };
+        # mpris = {
+        #   image-size = 96;
+        #   blur = false;
+        # };
       };
     };
   };

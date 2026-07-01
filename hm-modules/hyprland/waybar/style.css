@@ -125,17 +125,30 @@ window#waybar {
 #window {
   color: @base07;
 }
+
+/* #custom-lyrics { */
+/*   color: @base07; */
+/*   border-left-style: solid; */
+/*   border-left-width: 3px; */
+/*   border-left-color: @base07; */
+/*   border-right-style: solid; */
+/*   border-right-width: 2px; */
+/*   border-right-color: @base07; */
+/*   padding-left: 1em; */
+/*   padding-right: 1em; */
+/* } */
+
 #custom-lyrics {
-  color: @base07;
-  border-left-style: solid;
-  border-left-width: 3px;
-  border-left-color: @base07;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: @base07;
-  padding-left: 1em;
-  padding-right: 1em;
+  color: #aaaaff;
+  margin: 0 5px;
+  padding: 0 10px;
 }
+
+#custom-lyrics.paused {
+  color: #aaffaa;
+}
+
+
 #mpris, #clock, #clock#date, #battery, #memory, #cpu, #network, #wireplumber {
   color: @base07;
   border-left-style: solid;
