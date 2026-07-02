@@ -15,8 +15,10 @@
 
  - `Shell` : ZSH, Rocket, Zellij
  - `Encryption` : SopsNix, Bitwarden, GPG
- - `Desktop` : Hyprland, Waybar, SwayNC, Rofi
- - `Applications` : Wezterm, Firefox, Legcord, Steam
+ - `Desktop` : Hyprland, Waybar:(lyrics), SwayNC, Rofi
+ - `Applications` : Wezterm, Firefox, Navidrome:(Subtui),
+   Spotify:(spotify-player), Discord:(Legcord), Nextcloud
+ - `Gaming` : Steam:(Millennium), Retroarch, Crossover:(wl-crosshair)
 
 ### Notes
 

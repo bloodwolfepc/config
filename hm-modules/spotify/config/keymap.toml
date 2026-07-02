@@ -1,0 +1,18 @@
+[[keymaps]]
+command = "NextTrack"
+key_sequence = "t n"
+[[keymaps]]
+command = "PreviousTrack"
+key_sequence = "t p"
+[[keymaps]]
+command = "SeekStart"
+key_sequence = "s g C-g"
+[[keymaps]]
+command = { SeekForward = { duration = 10 } }
+key_sequence = "C-l"
+[[keymaps]]
+command = { SeekBackward = { duration = 10 } }
+key_sequence = "C-h"
+[[keymaps]]
+command = "None"
+key_sequence = "q"

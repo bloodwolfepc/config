@@ -22,8 +22,8 @@
         "lyric": "[LL]",
         "music": "[MM]",
         "no_lyric": "[NL]",
-        "paused": "<-",
-        "playing": "->"
+        "paused": "⬅",
+        "playing": "➡"
       },
       "hide-empty-text": true,
       "return-type": "json"
@@ -58,7 +58,7 @@
       "clock"
     ],
     "mpris": {
-      "format": "{position}:{artist} - {album} - {title}",
+      "format": "[{position}] ",
       "interval": 1
     },
     "network": {

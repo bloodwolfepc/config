@@ -73,6 +73,13 @@ hl.window_rule({
 })
 hl.window_rule({
 	match = {
+		initial_class = "gamescope",
+	},
+	workspace = "5 silent",
+	immediate = true,
+})
+hl.window_rule({
+	match = {
 		initial_class = "tf_linux64",
 	},
 	workspace = "5 silent",

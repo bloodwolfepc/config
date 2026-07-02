@@ -1,6 +1,0 @@
-[[keymaps]]
-command = "NextTrack"
-key_sequence = "g n"
-[[keymaps]]
-command = "PreviousTrack"
-key_sequence = "g p"

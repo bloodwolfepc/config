@@ -1175,6 +1175,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_11": {
+      "locked": {
+        "lastModified": 1781577229,
+        "narHash": "sha256-lrp67w8AulE9Ks53n27I45ADSzbOCn4H+CNW1Ck8B+8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "567a49d1913ce81ac6e9582e3553dd90a955875f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1768564909,
@@ -1462,6 +1478,7 @@
         "sops-nix": "sops-nix",
         "subtui": "subtui",
         "systems": "systems_5",
+        "waybar-lyric": "waybar-lyric",
         "wl-crosshair": "wl-crosshair"
       }
     },
@@ -1720,6 +1737,24 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "waybar-lyric": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_11"
+      },
+      "locked": {
+        "lastModified": 1782924773,
+        "narHash": "sha256-5tMRAq37CZQYemXfJwmj9cj1gR5i9Zii9fqTPDCw45A=",
+        "owner": "Nadim147c",
+        "repo": "waybar-lyric",
+        "rev": "27823bdc69ea85c2de8ae1b69c3197f92cf28eb1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nadim147c",
+        "repo": "waybar-lyric",
         "type": "github"
       }
     },

@@ -1,10 +1,17 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   home.packages = with pkgs; [
     spotify
     spotify-player
+    # spotifyd
     (pkgs.writeShellScriptBin "src-spotify-player" ''
       ${pkgs.spotify-player}/bin/spotify_player \
-      --config-folder $FLAKE/hm-modules/spotify
+      --config-folder $FLAKE/hm-modules/spotify/config \
       "$@"
     '')
   ];
@@ -17,16 +24,19 @@
       ".cache/spotify-player"
     ];
   };
-  home.file = {
-    ".config/spotify-player/app.toml".source = ./app.toml;
-    ".config/spotify-player/keymap.toml".source = ./keymap.toml;
-    ".config/spotify-player/theme.toml".source = ./theme.toml;
+
+  home.file.".config/spotify-player" = {
+    source = ./config;
+    recursive = true;
+  };
+  home.file.".config/spotify-player-daemon" = {
+    source = ./daemon-config;
+    recursive = true;
   };
 
   systemd.user.services.spotify-player = {
     Unit = {
       Description = "Starts spotify-player daemon";
-      After = "network-online.target";
       StartLimitIntervalSec = "600";
       StartLimitBurst = "5";
     };
@@ -34,13 +44,15 @@
       Type = "forking";
       ExecStart = lib.escapeShellArgs [
         "${pkgs.spotify-player}/bin/spotify_player"
+        "--config-folder"
+        "${config.xdg.configHome}/spotify-player-daemon"
         "--daemon"
       ];
       Restart = "always";
       RestartSec = 5;
     };
     Install = {
-      WantedBy = [ "multi-user.target" ];
+      WantedBy = [ "default.target" ];
     };
   };
 }

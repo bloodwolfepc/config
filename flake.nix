@@ -160,6 +160,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    waybar-lyric.url = "github:Nadim147c/waybar-lyric";
   };
   description = "bloodflake";
 }

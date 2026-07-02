@@ -85,7 +85,6 @@ end
 local max_startup = function()
 	hl.exec_cmd("legcord")
 	hl.exec_cmd("steam > /home/bloodwolfe/steam.log 2>&1")
-	hl.exec_cmd("spotify")
 	-- ac is in and startup then run
 	-- if rerun after startup start these apps
 end

@@ -4,9 +4,16 @@
   inputs,
   ...
 }:
-
+let
+  subtui = inputs.subtui.packages.${pkgs.stdenv.hostPlatform.system}.default;
+in
 {
-  home.packages = [ (inputs.subtui.packages.${pkgs.stdenv.hostPlatform.system}.default) ];
+  home.packages = [
+    subtui
+    (pkgs.writeShellScriptBin "src-subtui" ''
+      systemctl stop --user spotify-player.service && ${subtui}/bin/subtui
+    '')
+  ];
   sops.secrets."music-waterdreamer-net-username" = { };
   sops.secrets."music-waterdreamer-net-password" = { };
 

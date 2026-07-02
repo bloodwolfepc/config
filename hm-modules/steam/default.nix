@@ -1,16 +1,16 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
   extraPkgs =
     pkgs: with pkgs; [
-      gamescope
-      xorg.libXcursor
-      xorg.libXi
-      xorg.libXinerama
-      xorg.libXScrnSaver
+      libXcursor
+      libXi
+      libXinerama
+      libXScrnSaver
       libpng
       libpulseaudio
       libvorbis
@@ -18,14 +18,22 @@ let
       libkrb5
       keyutils
     ];
+  extraCompatPackages = with pkgs; [
+    dwproton-bin
+    proton-ge-bin
+  ];
+  extraCompatPaths = lib.makeSearchPathOutput "steamcompattool" "" extraCompatPackages;
 
-  # steam-with-pkgs = pkgs.millennium-steam.override {
+  # steam-with-pkgs = pkgs.steam.override {
   #   inherit extraPkgs;
   #   extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${pkgs.dwproton-bin.steamcompattool}'";
   # };
   millennium-with-pkgs = pkgs.millennium-steam.override {
     inherit extraPkgs;
-    extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${pkgs.dwproton-bin.steamcompattool}'";
+    extraEnv = {
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = extraCompatPaths;
+    };
+    # extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${pkgs.dwproton-bin.steamcompattool}'";
   };
 in
 {
@@ -33,9 +41,21 @@ in
     with pkgs;
     [
       gamescope
+      (pkgs.writeShellScriptBin "gamescope-dynamic" ''
+        set -euo pipefail
+
+        monitor_info="$(
+          hyprctl monitors -j | jq -r '
+            (map(select(.focused == true)) | .[0] // .[0]) as $m
+            | "\($m.width) \($m.height) \($m.refreshRate | round)"
+          '
+        )"
+
+        read -r width height refresh <<< "$monitor_info"
+        exec ${pkgs.gamescope}/bin/gamescope -W "$width" -H "$height" -r "$refresh" -- "$@"
+      '')
       steamcmd
       steam-run
-      protonup-ng
       protontricks
       winetricks
       steam-rom-manager

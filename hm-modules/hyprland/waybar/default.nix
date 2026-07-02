@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -10,9 +11,9 @@
       target = "hyprland-session.target";
     };
   };
-  home.packages = with pkgs; [
-    waybar-lyric
+  home.packages = [
+    inputs.waybar-lyric.packages.${pkgs.system}.default
   ];
-  home.file.".config/waybar/config".source = ./config.json;
+  home.file.".config/waybar/config".source = ./config.jsonc;
   home.file.".config/waybar/style.css".source = ./style.css;
 }
