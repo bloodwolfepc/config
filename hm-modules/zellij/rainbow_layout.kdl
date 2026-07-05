@@ -2,26 +2,41 @@
 session_name "rainbow_session"
 attach_to_session true
 session_serialization true
-pane_frames true
+pane_frames false
 layout {
-  default_tab_template {
-    pane borderless=true
-  }
+  // default_tab_template {
+  //   pane
+  // }
   tab_template name="main" {
-    pane borderless=true {
+    pane {
       command "zsh"
       args "-lc" "microfetch; exec zsh"
       size "50%"
     }
-    pane borderless=true {
+    pane {
       size "50%"
       focus true
     }
   }
   tab
-  tab
-  tab cwd="~/notebook"
+  tab {
+    pane {
+      command "zsh"
+      args "-lc" "src-spotify-player; exec zsh"
+    }
+  }
+  tab cwd="~/notebook" {
+    pane {
+      command "zsh"
+      args "-lc" "nvim" ".; exec zsh"
+    }
+  }
   main
+  tab
+  tab
+  tab
+  tab
+  tab
   tab
 }
 

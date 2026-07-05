@@ -6,13 +6,81 @@ command = "PreviousTrack"
 key_sequence = "t p"
 [[keymaps]]
 command = "SeekStart"
-key_sequence = "s g C-g"
+key_sequence = "t g"
 [[keymaps]]
 command = { SeekForward = { duration = 10 } }
-key_sequence = "C-l"
+key_sequence = "C-n"
 [[keymaps]]
 command = { SeekBackward = { duration = 10 } }
-key_sequence = "C-h"
+key_sequence = "C-p"
+
+[[keymaps]]
+command = "PreviousPage"
+key_sequence = "b p"
+
+[[keymaps]]
+command = "OpenSpotifyLinkFromClipboard"
+key_sequence = "c o"
+[[actions]]
+action = "CopyLink"
+key_sequence = "c c"
+target = "SelectedItem"
+
+
+[[keymaps]]
+command = "ShowActionsOnSelectedItem"
+key_sequence = "a ?"
+[[keymaps]]
+command = "ShowActionsOnCurrentTrack"
+key_sequence = "A ?"
+[[actions]]
+action = "GoToAlbum"
+key_sequence = "a g a"
+target = "SelectedItem"
+[[actions]]
+action = "GoToArtist"
+key_sequence = "a g A"
+target = "SelectedItem"
+[[actions]]
+action = "GoToRadio"
+key_sequence = "a g r"
+target = "SelectedItem"
+[[actions]]
+action = "AddToQueue"
+key_sequence = "a q"
+target = "SelectedItem"
+[[actions]]
+action = "ToggleLiked"
+key_sequence = "a t"
+target = "SelectedItem"
+[[actions]]
+action = "AddToLibrary"
+key_sequence = "a l a"
+target = "SelectedItem"
+[[actions]]
+action = "DeleteFromLibrary"
+key_sequence = "a l r"
+target = "SelectedItem"
+[[actions]]
+action = "AddToPlaylist"
+key_sequence = "a p a"
+target = "SelectedItem"
+[[actions]]
+action = "DeleteFromPlaylist"
+key_sequence = "a p r"
+target = "SelectedItem"
+[[actions]]
+action = "CopyLink"
+key_sequence = "a c"
+target = "SelectedItem"
+
+
 [[keymaps]]
 command = "None"
 key_sequence = "q"
+[[keymaps]]
+command = "None"
+key_sequence = "a"
+[[keymaps]]
+command = "None"
+key_sequence = "A"

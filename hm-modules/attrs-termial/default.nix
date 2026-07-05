@@ -8,36 +8,30 @@
     "/persist".directories = [
       ".local/share/zoxide"
       ".config/task"
-      ".local/share/repeater"
     ];
   };
-  home.packages =
-    with pkgs;
-    [
-      bottom
-      htop
-      dotacat
-      bat
-      asciiquarium
-      gay
-      sl
-      figlet
-      asciicam
-      fastfetch
-      tree
-      ctags
-      fzf
-      tldr
-      jq
-      wget
-      unzip
-      alsa-utils
-      taskwarrior-tui
-      bash-snippets
-    ]
-    ++ (with outputs.customPackages.${pkgs.system}; [
-      repeater
-    ]);
+  home.packages = with pkgs; [
+    bottom
+    htop
+    dotacat
+    bat
+    asciiquarium
+    gay
+    sl
+    figlet
+    asciicam
+    fastfetch
+    tree
+    ctags
+    fzf
+    tldr
+    jq
+    wget
+    unzip
+    alsa-utils
+    taskwarrior-tui
+    bash-snippets
+  ];
 
   programs.fd = {
     enable = true;

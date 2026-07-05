@@ -36,6 +36,7 @@
           "account"
           "aichat"
           "alacritty"
+          "anki"
           "art-utils"
           "attrs-dev"
           "attrs-gaming"
