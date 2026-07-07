@@ -22,7 +22,7 @@ layout {
   tab {
     pane {
       command "zsh"
-      args "-lc" "src-spotify-player; exec zsh"
+      args "-lic" "src-spotify-player; exec zsh"
     }
   }
   tab cwd="~/notebook" {

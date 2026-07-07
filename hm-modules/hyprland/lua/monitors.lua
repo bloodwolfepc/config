@@ -2,6 +2,7 @@
 local util = require("util")
 local mon0 = "desc:LG Electronics LG ULTRAGEAR 510RMLM9B112"
 local monl1 = "desc:BOE 0x0A1D"
+local monr1 = "desc:Microstep MSI G241 0x000005ED"
 hl.monitor({
 	output = mon0,
 	mode = "2560x1440@240",
@@ -13,6 +14,13 @@ hl.monitor({
 	output = monl1,
 	mode = "2560x1600@120",
 	position = "-2560x0",
+	scale = 1,
+})
+
+hl.monitor({
+	output = monr1,
+	mode = "1920x1080@144",
+	position = "2560x0",
 	scale = 1,
 })
 
@@ -34,9 +42,11 @@ hl.device({
 util.mkNormalSubmap("FOCUS_MONITOR", function()
 	hl.bind("f", hl.dsp.focus({ monitor = mon0 }))
 	hl.bind("d", hl.dsp.focus({ monitor = monl1 }))
+	hl.bind("g", hl.dsp.focus({ monitor = monr1 }))
 end)
 
 util.mkNormalSubmap("MOVE_WORKSPACE_TO_MONITOR", function()
 	hl.bind("f", hl.dsp.workspace.move({ workspace = activeworkspace, monitor = mon0 }))
 	hl.bind("d", hl.dsp.workspace.move({ workspace = activeworkspace, monitor = monl1 }))
+	hl.bind("g", hl.dsp.workspace.move({ workspace = activeworkspace, monitor = monr1 }))
 end)

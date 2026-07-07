@@ -44,7 +44,11 @@
         22
         80
         443
-        4533
+        4533 # Steam
+        51821 # Wireguard
+      ];
+      allowedUDPPorts = [
+        51820 # Wireguard
       ];
     };
   };
@@ -67,8 +71,12 @@
     usev4 = "webv4, webv4=dynamicdns.park-your-domain.com/getip";
     usev6 = "disabled";
   };
+
   boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv4.ip_unprivileged_port_start" = 80;
   };
+
   users.users."bloodwolfe".linger = true;
 }

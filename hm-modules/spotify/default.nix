@@ -34,11 +34,6 @@
     source = ./spotifyd-config;
     recursive = true;
   };
-  # home.file.".config/spotify-player-daemon" = {
-  #   source = ./daemon-config;
-  #   recursive = true;
-  # };
-
   systemd.user.services.spotifyd = {
     Unit = {
       Description = "A spotify playing daemon";
@@ -56,26 +51,4 @@
       WantedBy = [ "default.target" ];
     };
   };
-
-  # systemd.user.services.spotify-player = {
-  #   Unit = {
-  #     Description = "Starts spotify-player daemon";
-  #     StartLimitIntervalSec = "600";
-  #     StartLimitBurst = "5";
-  #   };
-  #   Service = {
-  #     Type = "forking";
-  #     ExecStart = lib.escapeShellArgs [
-  #       "${pkgs.spotify-player}/bin/spotify_player"
-  #       "--config-folder"
-  #       "${config.xdg.configHome}/spotify-player-daemon"
-  #       "--daemon"
-  #     ];
-  #     Restart = "always";
-  #     RestartSec = 5;
-  #   };
-  #   Install = {
-  #     WantedBy = [ "default.target" ];
-  #   };
-  # };
 }

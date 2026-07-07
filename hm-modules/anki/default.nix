@@ -11,6 +11,11 @@
           fsrs4anki-helper
           ajt-card-management
           anki-connect
+          (adjust-sound-volume.withConfig {
+            config = {
+              volume = 0;
+            };
+          })
           # local-audio-yomichan
         ]
       ))

@@ -895,11 +895,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1782447094,
-        "narHash": "sha256-WEPpi1oP17I3DS2vV4JvpgmlQZzg468SfRHXn5agbps=",
+        "lastModified": 1783289684,
+        "narHash": "sha256-dplviC475Pjnz0hbwVBDRZ+hJB/q9s/duv++/e3CBEo=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "8c0c9925b709ff5e6e0d149fc890a259df160306",
+        "rev": "61bcf80ea4c0b22ce20e2eabdf2df911b37d6453",
         "type": "github"
       },
       "original": {

@@ -22,6 +22,10 @@
       (writeShellScriptBin "bandcamp-dl-for-navi" ''
         ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/music -e -r $1
       '')
+      (pkgs.writeShellScriptBin "make-bcrypt-hash" ''
+        set -euo pipefail
+        ${pkgs.apacheHttpd}/bin/htpasswd -nbB "" "$1" | cut -d: -f2
+      '')
     ]
     ++ (with outputs.customPackages.x86_64-linux; [
       bandcamp-dl

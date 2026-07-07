@@ -71,6 +71,7 @@ lib.mkMerge [
       pyprland
       wl-freeze
       wayscriber
+      (writeShellScriptBin "hyprvol" (builtins.readFile ./hyprvol.sh))
     ];
     services.awww = {
       enable = true;
