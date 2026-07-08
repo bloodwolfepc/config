@@ -33,22 +33,15 @@
           enable = true;
         };
         list = [
-
-          # ../modules/account.nix
-          # ../modules/system
-          # ../modules/security
-          # ../modules/applications
-          # ../modules/terminal
-          # ../modules/kanata
           "account"
           "aichat"
           "attrs-dev"
+          "attrs-programs"
           "attrs-termial"
           "direnv"
           "kanata"
           "main"
           "neovim"
-          # "nextcloud"
           "security"
           "terminal"
           "virtualisation"
