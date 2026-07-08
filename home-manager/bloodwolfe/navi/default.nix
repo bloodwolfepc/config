@@ -12,7 +12,7 @@
     # ../modules/applications
     # ../modules/terminal
     # ../modules/kanata
-    ../../../hm-modules
+    ../../../hm-modules/navi.nix
   ];
 
   home.packages =
