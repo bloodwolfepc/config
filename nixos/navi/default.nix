@@ -81,4 +81,5 @@
   users.users."bloodwolfe".linger = true;
 
   services.tailscale.enable = true;
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
 }
