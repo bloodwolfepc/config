@@ -79,4 +79,6 @@
   };
 
   users.users."bloodwolfe".linger = true;
+
+  services.tailscale.enable = true;
 }

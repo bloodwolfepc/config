@@ -110,4 +110,6 @@
     ];
   };
   time.timeZone = lib.mkDefault "America/Chicago";
+
+  services.tailscale.enable = true;
 }

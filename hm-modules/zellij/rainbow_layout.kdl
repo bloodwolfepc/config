@@ -4,39 +4,50 @@ attach_to_session true
 session_serialization true
 pane_frames false
 layout {
-  // default_tab_template {
-  //   pane
-  // }
-  tab_template name="main" {
+  tab_template name="ftft" {
+    pane {
+      size "50%"
+    }
+    pane {
+      size "50%"
+    }
+  }
+  ftft
+  tab {
+    pane {
+      command "zsh"
+      args "-c" "src-spotify-player; exec zsh -i"
+    }
+    pane {
+      size "30%"
+      command "zsh"
+      args "-c" "wiremix; exec zsh -i"
+    }
+  }
+  tab cwd="~/notebook" {
+    pane {
+      size "30%"
+    }
+    pane {
+      command "zsh"
+      args "-c" "nvim" "./index.norg; exec zsh -i"
+    }
+  }
+  tab name="main" {
     pane {
       command "zsh"
       args "-lc" "microfetch; exec zsh"
       size "50%"
     }
-    pane {
+    pane focus=true {
       size "50%"
-      focus true
     }
   }
-  tab
-  tab {
-    pane {
-      command "zsh"
-      args "-lic" "src-spotify-player; exec zsh"
-    }
-  }
-  tab cwd="~/notebook" {
-    pane {
-      command "zsh"
-      args "-lc" "nvim" ".; exec zsh"
-    }
-  }
-  main
-  tab
-  tab
-  tab
-  tab
-  tab
-  tab
+  ftft
+  ftft
+  ftft
+  ftft
+  ftft
+  ftft
 }
 

@@ -161,20 +161,24 @@ keybinds clear-defaults=true {
       GoToTab 5
       SwitchToMode "Normal"
     }
-    bind "j" {
+    bind "h" {
       GoToTab 6
       SwitchToMode "Normal"
     }
-    bind "k" {
+    bind "j" {
       GoToTab 7
       SwitchToMode "Normal"
     }
-    bind "l" {
+    bind "k" {
       GoToTab 8
       SwitchToMode "Normal"
     }
-    bind ";" {
+    bind "l" {
       GoToTab 9
+      SwitchToMode "Normal"
+    }
+    bind ";" {
+      GoToTab 10
       SwitchToMode "Normal"
     }
   }
@@ -555,4 +559,7 @@ osc8_hyperlinks true
 web_client {
   font "monospace"
 }
+pane_frames false
+ // attach_to_session true
+// session_serialization true
 
