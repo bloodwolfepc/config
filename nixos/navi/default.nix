@@ -46,9 +46,13 @@
         443
         4533 # Steam
         51821 # Wireguard
+        8080
+        8443
       ];
       allowedUDPPorts = [
         51820 # Wireguard
+        8080
+        8443
       ];
     };
   };
