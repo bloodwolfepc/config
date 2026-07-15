@@ -76,9 +76,9 @@
             WantedBy = [ "default.target" ];
           };
           Unit = {
-            Description = "Run docker compose files for ${service}";
-            After = [ "podman.service" ];
-            Wants = [ "podman.service" ];
+            Description = "Run compose files for ${service}";
+            After = [ "podman.socket" ];
+            Wants = [ "podman.socket" ];
           };
           Service = {
             Type = "oneshot";
