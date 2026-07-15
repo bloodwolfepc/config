@@ -57,6 +57,8 @@ lib.mkMerge [
         ${hyprland}/bin/hyprland --config $FLAKE/hm-modules/hyprland/lua/hyprland.lua
       '')
       (writeShellScriptBin "toggle-touchpad" (builtins.readFile ./touchpad.sh))
+      (writeShellScriptBin "ocr-screenshot" (builtins.readFile ./ocr-screenshot.sh))
+      tesseract
       libnotify
       wayvnc
       wl-mirror

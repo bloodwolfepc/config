@@ -6,12 +6,6 @@
 }:
 {
   imports = [
-    # ../modules/account.nix
-    # ../modules/system
-    # ../modules/security
-    # ../modules/applications
-    # ../modules/terminal
-    # ../modules/kanata
     ../../../hm-modules/navi.nix
   ];
 
@@ -33,7 +27,7 @@
   systemd.user.services =
     let
       mkPodmanService = service: {
-        "composeFiles-${service}" = {
+        "srv-${service}" = {
           Install = {
             WantedBy = [ "default.target" ];
           };

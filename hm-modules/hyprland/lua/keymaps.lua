@@ -93,6 +93,7 @@ end)
 
 util.mkNormalSubmap("SCREENSHOT", function()
 	hl.bind("s", hl.dsp.exec_cmd("grimblast copy area"))
+	hl.bind("o", hl.dsp.exec_cmd("ocr-screenshot"))
 end)
 
 util.mkNormalSubmap("MENU", function()
