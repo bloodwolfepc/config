@@ -2,6 +2,8 @@
 {
   home.packages = with pkgs; [
     unscii
+    ark-pixel-font
+    migu
     nerd-fonts.symbols-only
   ];
   fonts.fontconfig = {

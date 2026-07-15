@@ -28,7 +28,8 @@ local config1 = {
 		},
 	},
 
-	font = wezterm.font_with_fallback({ "helloworld", "Symbols Nerd Font Mono" }),
+	font = wezterm.font_with_fallback({ "helloworld", "Migu 2M", "Symbols Nerd Font Mono" }),
+	--"Ark Pixel 16px P ja"
 }
 for key, val in pairs(config1) do
 	config[key] = val

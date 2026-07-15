@@ -19,6 +19,7 @@
       # "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
+      "/var/lib/tailscale"
       {
         directory = "/var/lib/flatpak";
         user = "root";

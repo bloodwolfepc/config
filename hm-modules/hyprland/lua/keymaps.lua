@@ -92,7 +92,9 @@ util.mkNormalSubmap("MOVE_ACTIVE_WINDOW", function()
 end)
 
 util.mkNormalSubmap("SCREENSHOT", function()
-	hl.bind("s", hl.dsp.exec_cmd("grimblast copy area"))
+	hl.bind("s", hl.dsp.exec_cmd("grimblast copysave area /tmp/screenshot.jpg"))
+	hl.bind("w", hl.dsp.exec_cmd("grimblast copysave screen /tmp/screenshot.jpg"))
+	hl.bind("c", hl.dsp.exec_cmd("grimblast copysave active /tmp/screenshot.jpg"))
 	hl.bind("o", hl.dsp.exec_cmd("ocr-screenshot"))
 end)
 
