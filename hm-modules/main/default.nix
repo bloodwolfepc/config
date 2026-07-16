@@ -27,7 +27,7 @@
   };
 
   home.persistence."/persist".directories = [
-    ".cache/nix-index"
+    ".cache/nix-index/files"
   ];
 
   programs.nix-index = {

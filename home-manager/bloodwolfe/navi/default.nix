@@ -87,7 +87,7 @@
             ExecStart = "${srv}/bin/srv up";
             ExecStop = "${srv}/bin/srv down";
             Environment = [
-              "PATH=/home/bloodwolfe/.nix-profile/bin:/run/current-system/sw/bin"
+              "PATH=/run/wrappers/bin:/home/bloodwolfe/.nix-profile/bin:/run/current-system/sw/bin"
             ];
           };
         };

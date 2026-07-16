@@ -96,13 +96,19 @@
 
     gs = "git status";
     ga = "git add";
-    gc = "git commit";
+    gad = "git add .";
+    gc = "git commit -m";
     gp = "git push";
     gl = "git log --oneline --graph --decorate --all";
 
     ".." = "cd ..";
     "..." = "cd ../..";
     "...." = "cd ../../..";
+
+    s-stat = "systemctl status --no-pager -l";
+    s-stat-usr = "systemctl status --no-pager --user -l";
+    s-up = "systemctl start";
+    s-up-usr = "systemctl start --user";
   };
 
   #programs.atuin = {
