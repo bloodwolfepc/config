@@ -26,9 +26,9 @@
     };
   };
 
-  home.persistence."/persist".directories = [
-    ".cache/nix-index/files"
-  ];
+  # home.persistence."/persist".directories = [
+  #   ".cache/nix-index/files"
+  # ];
 
   programs.nix-index = {
     enable = true;

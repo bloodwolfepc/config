@@ -873,11 +873,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1783289684,
-        "narHash": "sha256-dplviC475Pjnz0hbwVBDRZ+hJB/q9s/duv++/e3CBEo=",
+        "lastModified": 1784247561,
+        "narHash": "sha256-wi8L9g05Oehuv8AbUK2WjyJ/7hxuB6PupPHcW5dnQHk=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "61bcf80ea4c0b22ce20e2eabdf2df911b37d6453",
+        "rev": "6af3f7e0b50c55aeafa069266057e4910f427cb0",
         "type": "github"
       },
       "original": {
