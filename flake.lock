@@ -1155,6 +1155,22 @@
     },
     "nixpkgs_11": {
       "locked": {
+        "lastModified": 1784120854,
+        "narHash": "sha256-KesHgItiZPgGX740axSiQLcIQ8D24MDqNpkKYWIek8k=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "753cc8a3a87467296ddd1fa93f0cc3e81120ee46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_12": {
+      "locked": {
         "lastModified": 1781577229,
         "narHash": "sha256-lrp67w8AulE9Ks53n27I45ADSzbOCn4H+CNW1Ck8B+8=",
         "owner": "NixOS",
@@ -1453,6 +1469,7 @@
         "nur": "nur",
         "secrets": "secrets",
         "sops-nix": "sops-nix",
+        "srv": "srv",
         "subtui": "subtui",
         "systems": "systems_5",
         "waybar-lyric": "waybar-lyric",
@@ -1495,10 +1512,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1780825220,
-        "narHash": "sha256-jhPSm0aVx26WG7KkYs3u5WF2Q2zJxwhfTxgG9JjQ+S8=",
+        "lastModified": 1784515456,
+        "narHash": "sha256-Bvt0blyJfK5ztZ1VnlZRhVjIsvLPjnpzn+ITYHvkI48=",
         "ref": "refs/heads/master",
-        "rev": "60cb74a592c2dc0e1e4d30132bcdb10638b3cf2a",
+        "rev": "37af9cbe81bb5aa9dde5aee39bba496288a0c1d3",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/bloodwolfe/secrets.git"
@@ -1527,6 +1544,25 @@
         "owner": "Mic92",
         "repo": "sops-nix",
         "type": "github"
+      }
+    },
+    "srv": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_11"
+      },
+      "locked": {
+        "lastModified": 1784515471,
+        "narHash": "sha256-aFxabReZOguHxVRjGu77Y5G7l9UhKe2W+RsxsqGNZXU=",
+        "ref": "refs/heads/main",
+        "rev": "34a2e36d7ed4ef114e994ea880b5c2355fefd2e5",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/bloodwolfe/srv.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/bloodwolfe/srv.git"
       }
     },
     "subtui": {
@@ -1719,7 +1755,7 @@
     },
     "waybar-lyric": {
       "inputs": {
-        "nixpkgs": "nixpkgs_11"
+        "nixpkgs": "nixpkgs_12"
       },
       "locked": {
         "lastModified": 1783429600,

@@ -120,6 +120,9 @@
       url = "git+ssh://git@gitlab.com/bloodwolfe/secrets.git?shallow=1";
       flake = false;
     };
+    srv = {
+      url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?shallow=1";
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
