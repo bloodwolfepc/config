@@ -27,6 +27,12 @@
     path = "${config.home.homeDirectory}/compose-auth.env";
     mode = "0400";
   };
+  sops.secrets."compose-cs2-env" = {
+    sopsFile = "${inputs.secrets}/secrets/compose-auth.env";
+    format = "dotenv";
+    path = "${config.home.homeDirectory}/compose-auth.env";
+    mode = "0400";
+  };
   home.packages =
     with pkgs;
     [
