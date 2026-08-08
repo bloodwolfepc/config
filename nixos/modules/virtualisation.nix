@@ -8,6 +8,8 @@
     podman-tui
     dive
     qemu
+    opentofu
+    virt-viewer
   ];
   virtualisation = {
     containers.enable = true;

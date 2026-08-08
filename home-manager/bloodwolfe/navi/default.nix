@@ -15,6 +15,12 @@
     enable = true;
     servicesPath = "${config.home.homeDirectory}/src/srv/services";
   };
+  sops.secrets."PG_PASS" = { };
+
+  programs.zsh.initContent = ''
+    export PG_PASS="$(cat ${config.sops.secrets."PG_PASS".path})"
+  '';
+
   sops.secrets."compose-env" = {
     sopsFile = "${inputs.secrets}/secrets/compose.env";
     format = "dotenv";
@@ -28,9 +34,9 @@
     mode = "0400";
   };
   sops.secrets."compose-cs2-env" = {
-    sopsFile = "${inputs.secrets}/secrets/compose-auth.env";
+    sopsFile = "${inputs.secrets}/secrets/compose-cs2.env";
     format = "dotenv";
-    path = "${config.home.homeDirectory}/compose-auth.env";
+    path = "${config.home.homeDirectory}/compose-cs2.env";
     mode = "0400";
   };
   home.packages =

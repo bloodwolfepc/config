@@ -873,11 +873,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1784247561,
-        "narHash": "sha256-wi8L9g05Oehuv8AbUK2WjyJ/7hxuB6PupPHcW5dnQHk=",
+        "lastModified": 1785733986,
+        "narHash": "sha256-2z+JK7Ks6u+jYiz1ObXY1IGLeLyPRRLYLpwWCCeRc7s=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "6af3f7e0b50c55aeafa069266057e4910f427cb0",
+        "rev": "dec430f17535caee7cc8db09143a700e4e69da2d",
         "type": "github"
       },
       "original": {
@@ -1512,10 +1512,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1784515456,
-        "narHash": "sha256-Bvt0blyJfK5ztZ1VnlZRhVjIsvLPjnpzn+ITYHvkI48=",
+        "lastModified": 1784876181,
+        "narHash": "sha256-NLLs776+URHh8hrgkWVhKHxSP7BQcxz5PwZGHW9f72U=",
         "ref": "refs/heads/master",
-        "rev": "37af9cbe81bb5aa9dde5aee39bba496288a0c1d3",
+        "rev": "1719b892ef1c0551da268bb6afbed40f3e202b31",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/bloodwolfe/secrets.git"

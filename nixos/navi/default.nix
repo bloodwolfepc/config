@@ -48,11 +48,15 @@
         51821 # Wireguard
         8080
         8443
+        27015 # hl2
+        27020 # hl2
       ];
       allowedUDPPorts = [
         51820 # Wireguard
         8080
         8443
+        27015 # hl2
+        27020 # hl2
       ];
     };
   };
