@@ -39,21 +39,19 @@
     path = "${config.home.homeDirectory}/compose-cs2.env";
     mode = "0400";
   };
-  home.packages =
-    with pkgs;
-    [
-      internetarchive
-      (writeShellScriptBin "bandcamp-dl-for-navi" ''
-        ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/1/library/music -e -r "$@"
-      '')
-      (pkgs.writeShellScriptBin "mk-crypt-hash" ''
-        set -euo pipefail
-        ${pkgs.apacheHttpd}/bin/htpasswd -nbB "" "$1" | cut -d: -f2
-      '')
-    ]
-    ++ (with outputs.customPackages.x86_64-linux; [
-      bandcamp-dl
-    ]);
+  home.packages = with pkgs; [
+    internetarchive
+    # (writeShellScriptBin "bandcamp-dl-for-navi" ''
+    #   ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/1/library/music -e -r "$@"
+    # '')
+    (pkgs.writeShellScriptBin "mk-crypt-hash" ''
+      set -euo pipefail
+      ${pkgs.apacheHttpd}/bin/htpasswd -nbB "" "$1" | cut -d: -f2
+    '')
+  ];
+  # ++ (with outputs.customPackages.x86_64-linux; [
+  #   bandcamp-dl
+  # ]);
 
   # home.packages =
   #   with pkgs;
