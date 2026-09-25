@@ -38,8 +38,8 @@
   };
 
   nix.settings = {
-    max-jobs = 2;
-    cores = 8;
+    max-jobs = 4;
+    cores = 4;
     auto-optimise-store = false;
     # extra-platforms = config.boot.binfmt.emulatedSystems;
     # extra-sandbox-paths = [
