@@ -1,0 +1,81 @@
+{
+  pkgs,
+  lib,
+  ...
+}:
+{
+  home.persistence = {
+    "/persist".directories = [
+      "programfiles"
+      "src"
+      "library"
+      "qemu"
+
+      ".mozilla"
+      ".cache/mozilla"
+      ".config/mozilla"
+      ".cache/flatpak"
+      ".config/kdeconnect"
+      ".config/vesktop"
+      ".config/legcord"
+
+      ".local/share/flatpak"
+      ".local/state/wireplumber"
+
+      ".local/share/zathura"
+      ".local/share/dolhin"
+    ];
+    "/persist".files = [
+      ".config/dolphinrc"
+    ];
+  };
+  home.packages = with pkgs; [
+    vesktop
+    legcord
+    kdePackages.dolphin
+
+    #wineWowPackages.stagingFull
+    winetricks
+
+    xournalpp
+    playerctl
+    (pavucontrol.override { withLibcanberra = true; })
+  ];
+  programs.firefox = {
+    enable = true;
+    configPath = ".mozilla/firefox";
+  };
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = [ "firefox.desktop" ];
+    "text/xml" = [ "firefox.desktop" ];
+    "x-scheme-handler/http" = [ "firefox.desktop" ];
+    "x-scheme-handler/https" = [ "firefox.desktop" ];
+  };
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
+
+  programs.mpv = {
+    enable = true;
+    defaultProfiles = [
+      "gpu-hq"
+    ];
+    config = {
+      ytdl-format = "bestvideo[height<=?1080][vcodec!*=av01]+bestaudio/best";
+      profile = lib.mkDefault "gpu-hq";
+      scale = "ewa_lanczossharp";
+      cscale = "ewa_lanczossharp";
+      slang = "en";
+      sub-auto = "all";
+      hwdec = "vaapi";
+      vo = "gpu";
+      gpu-context = "wayland";
+    };
+  };
+
+  programs.zathura = {
+    enable = true;
+  };
+}

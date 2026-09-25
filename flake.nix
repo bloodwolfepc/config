@@ -12,14 +12,7 @@
     let
       inherit (self) outputs;
       lib' = nixpkgs.lib;
-      lib = lib'.extend (
-        final: prev:
-        import ./lib {
-          lib = final;
-          config = outputs.config;
-        }
-        // home-manager.lib
-      );
+      lib = lib'.extend (_: _: home-manager.lib);
       forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
       pkgsFor = lib.genAttrs (import systems) (
         system:
@@ -31,8 +24,6 @@
     in
     {
       inherit lib;
-      myNixosModules = import ./modules/nixos;
-      myHomeManagerModules = import ./modules/home-manager;
       overlays = (import ./overlays { inherit inputs outputs; });
       customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
@@ -61,6 +52,15 @@
           modules = [ ./nixos/angel ];
           specialArgs = { inherit inputs outputs; };
         };
+        angelstuck = lib.nixosSystem {
+          modules = [
+            ./nixos/angel
+            {
+              home-manager.users.bloodwolfe.dotfiles.mutable = lib.mkForce false;
+            }
+          ];
+          specialArgs = { inherit inputs outputs; };
+        };
         navi = lib.nixosSystem {
           modules = [ ./nixos/navi ];
           specialArgs = { inherit inputs outputs; };
@@ -77,6 +77,11 @@
       homeConfigurations = {
         "bloodwolfe@angel" = lib.homeManagerConfiguration {
           modules = [ ./home-manager/bloodwolfe/angel ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs lib; };
+        };
+        "bloodwolfe@angelstuck" = lib.homeManagerConfiguration {
+          modules = [ ./home-manager/bloodwolfe/angelstuck ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs lib; };
         };

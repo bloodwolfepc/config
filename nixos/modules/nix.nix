@@ -65,5 +65,5 @@
   security.sudo.extraConfig = ''
     Defaults timestamp_timeout = 120
   '';
-  services.journald.extraConfig = "SystemMaxUse=50M";
+  services.journald.settings.Journal.SystemMaxUse = "50M";
 }

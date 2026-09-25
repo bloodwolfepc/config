@@ -38,6 +38,9 @@
   };
 
   nix.settings = {
+    max-jobs = 2;
+    cores = 8;
+    auto-optimise-store = false;
     # extra-platforms = config.boot.binfmt.emulatedSystems;
     # extra-sandbox-paths = [
     #   "/run/binfmt"
@@ -78,9 +81,7 @@
   systemd.settings.Manager = {
     DefaultTimeoutStopSec = "15s";
   };
-  services.logind = {
-    killUserProcesses = true;
-  };
+  services.logind.settings.Login.KillUserProcesses = true;
   programs.rog-control-center.enable = false;
   programs.gpu-screen-recorder.enable = true;
   hardware.wooting.enable = true;

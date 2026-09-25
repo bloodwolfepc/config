@@ -1,0 +1,39 @@
+{ inputs, ... }:
+{
+  imports = [
+    inputs.sops-nix.homeManagerModules.sops
+    ./dotfiles.nix
+    ./pi/packages
+
+    ./account
+    ./pi
+    ./aichat
+    ./alacritty
+    ./anki
+    ./art-utils
+    ./attrs-gaming
+    ./attrs-programs
+    ./attrs-termial
+    ./daw
+    ./direnv
+    ./gpu-screen-recorder
+    ./hyprland
+    ./kanata
+    ./main
+    ./mangohud
+    ./mpd
+    ./neovim
+    ./nextcloud
+    ./prismlauncher
+    ./retroarch
+    ./security
+    ./spotify
+    ./steam
+    ./subtui
+    ./virtualisation
+    ./wezterm
+    ./yazi
+    ./zellij
+    ./zsh
+  ];
+}

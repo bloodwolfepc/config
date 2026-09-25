@@ -11,7 +11,7 @@
     # ../modules/terminal/yazi
     # ../modules/terminal/subtui.nix
     # ../modules/terminal/zellij
-    ../../../hm-modules
+    ../modules
   ];
 
   home.packages = with pkgs; [

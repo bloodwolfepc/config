@@ -6,6 +6,6 @@
     # ../modules/security
     # ../modules/applications
     # ../modules/terminal
-    ../../../hm-modules
+    ../modules
   ];
 }

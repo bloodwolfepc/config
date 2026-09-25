@@ -1,12 +1,14 @@
 { pkgs, ... }: {
   imports = [
-    # ../modules
-    ../../../hm-modules
+    ../modules
   ];
+  dotfiles.mutable = true;
+
   home.packages = with pkgs; [
     xf86_input_wacom
     wine
     wiremix
+    ego
 
     (writeShellScriptBin "ddc-default" ''
       ddcutil setvcp 10 45

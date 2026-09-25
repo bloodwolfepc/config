@@ -22,4 +22,4 @@
 
 ### Notes
 
-User configuration is under `hm-modules`
+User configuration is under `home-manager/bloodwolfe/modules`

@@ -1,0 +1,24 @@
+// https://github.com/zellij-org/zellij/issues/679layout
+session_name "rainbow_session"
+attach_to_session true
+session_serialization true
+pane_frames false
+layout {
+  tab_template name="workspace" {
+    pane split_direction="horizontal" {
+      pane
+      pane
+    }
+  }
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+  workspace
+}
+

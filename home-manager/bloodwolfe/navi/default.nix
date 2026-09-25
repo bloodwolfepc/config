@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  outputs,
   inputs,
   config,
   ...
@@ -9,8 +8,10 @@
 {
   imports = [
     inputs.srv.homeManagerModules.default
-    ../../../hm-modules/navi.nix
+    ../modules/navi.nix
   ];
+  dotfiles.mutable = false;
+
   srv = {
     enable = true;
     servicesPath = "${config.home.homeDirectory}/src/srv/services";
@@ -41,33 +42,11 @@
   };
   home.packages = with pkgs; [
     internetarchive
-    # (writeShellScriptBin "bandcamp-dl-for-navi" ''
-    #   ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/1/library/music -e -r "$@"
-    # '')
     (pkgs.writeShellScriptBin "mk-crypt-hash" ''
       set -euo pipefail
       ${pkgs.apacheHttpd}/bin/htpasswd -nbB "" "$1" | cut -d: -f2
     '')
   ];
-  # ++ (with outputs.customPackages.x86_64-linux; [
-  #   bandcamp-dl
-  # ]);
-
-  # home.packages =
-  #   with pkgs;
-  #   [
-  #     internetarchive
-  #     (writeShellScriptBin "bandcamp-dl-for-navi" ''
-  #       ${outputs.customPackages.x86_64-linux.bandcamp-dl}/bin/bandcamp-dl --base-dir /data/1/library/music -e -r "$@"
-  #     '')
-  #     (pkgs.writeShellScriptBin "mk-crypt-hash" ''
-  #       set -euo pipefail
-  #       ${pkgs.apacheHttpd}/bin/htpasswd -nbB "" "$1" | cut -d: -f2
-  #     '')
-  #   ]
-  #   ++ (with outputs.customPackages.x86_64-linux; [
-  #     bandcamp-dl
-  #   ]);
   # systemd.user.services =
   #   let
   #     srv = pkgs.writeShellScriptBin "srv" ''

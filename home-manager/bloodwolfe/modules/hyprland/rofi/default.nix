@@ -1,0 +1,41 @@
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  home.packages = with pkgs; [
+    rofi-network-manager
+    rofi-bluetooth
+    rofi-power-menu
+    (rofi-pulse-select.override {
+      rofi-unwrapped = pkgs.rofi;
+    })
+    (rofi-systemd.override {
+      rofi = pkgs.rofi;
+    })
+  ];
+
+  programs.rofi = {
+    enable = true;
+    package = pkgs.rofi;
+    settings.terminal = "${pkgs.alacritty}/bin/alacritty";
+    theme = "custom";
+    plugins = with pkgs; [
+      rofi-emoji
+      (rofi-calc.override {
+        rofi-unwrapped = pkgs.rofi;
+      })
+      (rofi-top.override {
+        rofi-unwrapped = pkgs.rofi;
+      })
+      (rofi-games.override {
+        rofi = pkgs.rofi;
+      })
+    ];
+  };
+
+  home.file.".config/rofi/custom.rasi".source =
+    config.dotfiles.source "hyprland/rofi/custom.rasi" ./custom.rasi;
+}
