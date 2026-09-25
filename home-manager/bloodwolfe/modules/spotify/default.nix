@@ -6,7 +6,6 @@
 }:
 let
   playerConfig = config.dotfiles.source "spotify/config" ./config;
-  daemonConfig = config.dotfiles.source "spotify/spotifyd-config" ./spotifyd-config;
 in
 {
   home.packages = with pkgs; [
@@ -31,13 +30,15 @@ in
     ];
   };
 
-  home.file.".config/spotify-player" = {
-    source = playerConfig;
-    recursive = true;
-  };
-  home.file.".config/spotifyd" = {
-    source = daemonConfig;
-    recursive = true;
+  home.file = {
+    ".config/spotify-player/app.toml".source =
+      config.dotfiles.source "spotify/config/app.toml" ./config/app.toml;
+    ".config/spotify-player/keymap.toml".source =
+      config.dotfiles.source "spotify/config/keymap.toml" ./config/keymap.toml;
+    ".config/spotify-player/theme.toml".source =
+      config.dotfiles.source "spotify/config/theme.toml" ./config/theme.toml;
+    ".config/spotifyd/spotifyd.conf".source =
+      config.dotfiles.source "spotify/spotifyd-config/spotifyd.conf" ./spotifyd-config/spotifyd.conf;
   };
   systemd.user.services.spotifyd = {
     Unit = {
