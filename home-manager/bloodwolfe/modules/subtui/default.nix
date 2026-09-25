@@ -8,12 +8,7 @@ let
   subtui = inputs.subtui.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
-  home.packages = [
-    subtui
-    (pkgs.writeShellScriptBin "src-subtui" ''
-      systemctl stop --user spotify-player.service && ${subtui}/bin/subtui
-    '')
-  ];
+  home.packages = [ subtui ];
   sops.secrets."music-waterdreamer-net-username" = { };
   sops.secrets."music-waterdreamer-net-password" = { };
 

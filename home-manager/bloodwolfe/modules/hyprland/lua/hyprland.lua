@@ -77,7 +77,7 @@ Opts = {
 --https://github.com/micha4w/Hypr-DarkWindow
 --https://github.com/overlayeddev/overlayed
 local min_startup = function()
-	hl.exec_cmd("src-wezterm", { workspace = 4 })
+	hl.exec_cmd("wezterm", { workspace = 4 })
 	hl.exec_cmd("firefox", { workspace = 4 })
 	-- ac is not in and startup then run
 	-- if rerun after startup close all max apps and keep these

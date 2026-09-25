@@ -13,15 +13,12 @@ in
     zellij
     microfetch
     hayabusa
-    (pkgs.writeShellScriptBin "src-zellij" ''
-      zellij --config ${configFile} "$@"
-    '')
-    (pkgs.writeShellScriptBin "src-zellij-rainbow" ''
+    (pkgs.writeShellScriptBin "zellij-rainbow" ''
       zellij \
       --config ${configFile} \
       --layout ${rainbowLayout} "$@"
     '')
-    (pkgs.writeShellScriptBin "src-zellij-drop" ''
+    (pkgs.writeShellScriptBin "zellij-drop" ''
       zellij \
       --config ${configFile} \
       --layout ${dropLayout} "$@"

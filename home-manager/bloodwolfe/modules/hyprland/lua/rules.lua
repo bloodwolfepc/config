@@ -24,13 +24,6 @@ hl.window_rule({
 
 hl.window_rule({
 	match = {
-		class = "src-wezterm",
-	},
-	workspace = 4,
-})
-
-hl.window_rule({
-	match = {
 		initial_class = "^([Ss]potify)$",
 	},
 	workspace = "2 silent",

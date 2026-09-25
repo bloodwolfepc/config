@@ -4,19 +4,11 @@
   lib,
   ...
 }:
-let
-  playerConfig = config.dotfiles.source "spotify/config" ./config;
-in
 {
   home.packages = with pkgs; [
     spotify
     spotify-player
     spotifyd
-    (pkgs.writeShellScriptBin "src-spotify-player" ''
-      ${pkgs.spotify-player}/bin/spotify_player \
-      --config-folder ${playerConfig} \
-      "$@"
-    '')
   ];
 
   home.persistence = {
