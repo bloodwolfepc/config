@@ -5,16 +5,23 @@
   ...
 }:
 let
-  nvim = inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  nvim = inputs.neovim.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+    configPath = config.dotfiles.sourceAt "${config.home.homeDirectory}/src/january-nvim" inputs.neovim.outPath;
+  };
   envPath = "${config.xdg.configHome}/nvim/.env";
 in
 {
   home.packages = [
     nvim
+    pkgs.lemonade
     pkgs.vectorcode
     pkgs.luaPackages.lua-utils-nvim
     pkgs.luaPackages.pathlib-nvim
   ];
+  xdg.configFile."lemonade.toml".text = ''
+    host = '127.0.0.1'
+  '';
+
   home = {
     sessionVariables = {
       EDITOR = "${nvim}/bin/nvim";

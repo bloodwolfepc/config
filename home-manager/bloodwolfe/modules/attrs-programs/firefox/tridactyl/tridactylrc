@@ -1,0 +1,4 @@
+colours blackpurple
+unset newtab
+autocmddelete DocLoad newtab.html
+autocmd DocStart newtab.html js -r newtab.js

@@ -4,6 +4,8 @@
   ...
 }:
 {
+  imports = [ ./firefox ];
+
   home.persistence = {
     "/persist".directories = [
       "programfiles"
@@ -11,9 +13,6 @@
       "library"
       "qemu"
 
-      ".mozilla"
-      ".cache/mozilla"
-      ".config/mozilla"
       ".cache/flatpak"
       ".config/kdeconnect"
       ".config/vesktop"
@@ -41,17 +40,6 @@
     playerctl
     (pavucontrol.override { withLibcanberra = true; })
   ];
-  programs.firefox = {
-    enable = true;
-    configPath = ".mozilla/firefox";
-  };
-  xdg.mimeApps.defaultApplications = {
-    "text/html" = [ "firefox.desktop" ];
-    "text/xml" = [ "firefox.desktop" ];
-    "x-scheme-handler/http" = [ "firefox.desktop" ];
-    "x-scheme-handler/https" = [ "firefox.desktop" ];
-  };
-
   services.kdeconnect = {
     enable = true;
     indicator = true;

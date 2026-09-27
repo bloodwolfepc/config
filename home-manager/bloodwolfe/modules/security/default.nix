@@ -24,12 +24,18 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    settings.gitlab = {
-      header = "Host gitlab.com";
-      IdentitiesOnly = true;
-      IdentityFile = [
-        "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
-      ];
+    settings = {
+      gitlab = {
+        header = "Host gitlab.com";
+        IdentitiesOnly = true;
+        IdentityFile = [
+          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+        ];
+      };
+      navi = {
+        header = "Host navi navi.srvctl.ts.net";
+        RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
+      };
     };
   };
   sops.secrets = {

@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Tridactyl Unscii";
+    src: local("unscii-16");
+}
+
+:root {
+    --tridactyl-font-family: "Tridactyl Unscii", monospace;
+    --tridactyl-font-family-sans: "Tridactyl Unscii", monospace;
+
+    --tridactyl-bg: #000;
+    --tridactyl-fg: #d7d7db;
+    --tridactyl-status-bg: #000;
+    --tridactyl-cmdl-bg: #000;
+    --tridactyl-cmdl-fg: #d7d7db;
+    --tridactyl-cmplt-bg: #000;
+    --tridactyl-cmplt-fg: #d7d7db;
+    --tridactyl-header-first-bg: #333;
+    --tridactyl-header-second-bg: #222;
+    --tridactyl-header-third-bg: #111;
+    --tridactyl-url-bg: #000;
+    --tridactyl-url-fg: #86de74;
+
+    --tridactyl-hintspan-fg: #fff;
+    --tridactyl-hintspan-bg: #2e1065;
+    --tridactyl-hintspan-active-fg: #fff;
+    --tridactyl-hintspan-active-bg: #4c1d95;
+    --tridactyl-hint-bg: rgb(192 132 252 / 40%);
+    --tridactyl-hint-outline: 1px solid #e879f9;
+    --tridactyl-hint-active-bg: rgb(216 180 254 / 55%);
+    --tridactyl-hint-active-outline: 1px solid #f5d0fe;
+}
+
+#trinewtab h1 {
+    color: #0f0;
+    font-family: "Tridactyl Unscii", monospace;
+    font-size: 48px;
+    font-weight: normal;
+    left: 1rem;
+    margin: 0;
+    position: fixed;
+    top: 1rem;
+}
