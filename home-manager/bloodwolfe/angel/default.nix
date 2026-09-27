@@ -12,7 +12,12 @@
     };
     Service = {
       ExecStart = "${pkgs.lemonade}/bin/lemonade server --allow=127.0.0.1,::1";
-      Environment = "PATH=${pkgs.lib.makeBinPath [ pkgs.wl-clipboard ]}";
+      Environment = "PATH=${
+        pkgs.lib.makeBinPath [
+          pkgs.coreutils
+          pkgs.wl-clipboard
+        ]
+      }";
       Restart = "on-failure";
     };
     Install.WantedBy = [ "graphical-session.target" ];

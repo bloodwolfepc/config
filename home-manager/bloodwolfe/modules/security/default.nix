@@ -33,7 +33,7 @@
         ];
       };
       navi = {
-        header = "Host navi navi.srvctl.ts.net";
+        header = "Host navi navi.srvctl.ts.net waterdreamer.net";
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
       };
     };
