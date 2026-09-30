@@ -72,6 +72,12 @@
     fsType = "btrfs";
     options = [ "subvol=backup" ];
   };
+  fileSystems."/srv/libvirt" = {
+    device = "/data/libvirt";
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/data" ];
+  };
 
   networking.useDHCP = lib.mkDefault true;
 

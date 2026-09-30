@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ./backups.nix
+    ./openbao-unseal.nix
     ../modules/users/bloodwolfe
     ../modules/impermanence
     ../modules/nix.nix
@@ -42,31 +43,15 @@
       enable = true;
       allowedTCPPorts = [
         22
-        80
-        443
         4533 # Steam
         51821 # Wireguard
-        8080
-        8443
-        27015 # hl2
-        27020 # hl2
-        7777
-        7778
-        7779
-        7780
-        25565
+        27015 # CS2 remains on navi
+        27020 # CS2 remains on navi
       ];
       allowedUDPPorts = [
         51820 # Wireguard
-        8080
-        8443
-        27015 # hl2
-        27020 # hl2
-        7777
-        7778
-        7779
-        7780
-        25565
+        27015 # CS2 remains on navi
+        27020 # CS2 remains on navi
       ];
     };
   };

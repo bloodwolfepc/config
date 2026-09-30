@@ -12,10 +12,8 @@
   ];
   dotfiles.mutable = false;
 
-  srv = {
-    enable = true;
-    servicesPath = "${config.home.homeDirectory}/src/srv/services";
-  };
+  # Containers moved to the OpenTofu-managed service VM.
+  srv.enable = false;
   sops.secrets."PG_PASS" = { };
 
   programs.zsh.initContent = ''
