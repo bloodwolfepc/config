@@ -70,6 +70,18 @@ Do not defer this check until commit time; edits and tool-generated changes alre
 
 **Every commit you create MUST include the `Assisted-by: <harness> (<model>)` trailer** (e.g. `Assisted-by: claude-code (opus-4.8)`) in the commit message. This applies to any commit you add a description to in any repo.
 
+## User-run scripts
+
+When Gabs needs to run operational commands, put them in an executable script
+under `/tmp` instead of giving inline commands. Validate shell scripts with
+`bash -n` before handing them over.
+
+For remote scripts that prompt interactively, upload the helper in one
+non-interactive SSH connection, then execute it in a separate `ssh -t` session.
+Never pipe or heredoc a script into the same SSH session that reads credentials:
+the script owns stdin, so the prompt consumes script text instead of keyboard
+input.
+
 ## Privileged commands
 
 When a command needs interactive password entry (e.g. `sudo`), don't run it directly — the non-interactive TTY can't handle it. Spawn a terminal instead. `handlr` already forks, so don't append `&`; pass the command as split args rather than one quoted shell string:
