@@ -1,4 +1,19 @@
 { pkgs, ... }:
+let
+  editMusic = pkgs.writeShellApplication {
+    name = "edit-music";
+    runtimeInputs = [ pkgs.openssh ];
+    text = ''
+      target=bloodwolfe@srv-vm.srvctl.ts.net
+      theme="$HOME/.config/starship.toml"
+      [[ -r "$theme" ]] || { echo "missing Starship config: $theme" >&2; exit 1; }
+      ssh "$target" srv-compose --services-root /etc/srv/services/arr \
+        exec -T music-editor tee /config/starship.toml <"$theme" >/dev/null
+      exec ssh -t "$target" srv-compose --services-root /etc/srv/services/arr \
+        exec music-editor zsh -l
+    '';
+  };
+in
 {
   imports = [
     ../modules
@@ -28,6 +43,7 @@
     wine
     wiremix
     ego
+    editMusic
 
     (writeShellScriptBin "ddc-default" ''
       ddcutil setvcp 10 45
