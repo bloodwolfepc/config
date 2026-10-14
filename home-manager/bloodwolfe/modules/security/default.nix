@@ -25,6 +25,13 @@
     enable = true;
     enableDefaultConfig = false;
     settings = {
+      github = {
+        header = "Host github.com";
+        IdentitiesOnly = true;
+        IdentityFile = [
+          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+        ];
+      };
       gitlab = {
         header = "Host gitlab.com";
         IdentitiesOnly = true;
