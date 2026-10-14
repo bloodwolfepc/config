@@ -1,0 +1,28 @@
+set header_cache = "~/.cache/neomutt/headers/"
+set message_cachedir = "~/.cache/neomutt/messages/"
+set editor = "$EDITOR"
+set implicit_autoview = yes
+set crypt_use_gpgme = yes
+set crypt_autosign = yes
+set crypt_opportunistic_encrypt = no
+set pgp_use_gpg_agent = yes
+set ssl_force_tls = yes
+set certificate_file = /etc/ssl/certs/ca-certificates.crt
+set mbox_type = Maildir
+set sort = threads
+set delete = yes
+
+alternative_order text/enriched text/plain text
+mailboxes "/persist/home/bloodwolfe/.mail/bloodwolfe/inbox"
+
+set smtp_pass = "`cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0`"
+set smtp_url = "smtps://bloodwolfe@smtp.gmail.com:465"
+set folder = "/persist/home/bloodwolfe/.mail/bloodwolfe"
+set from = "bloodwolfepc@gmail.com"
+set postponed = "+drafts"
+set realname = "Marley Schabert"
+set record = "+sent"
+set spoolfile = "+inbox"
+set trash = "+trash"
+
+set signature = "~/.config/neomutt/signature"

@@ -17,7 +17,6 @@ in
     ./waybar
     ./fcitx5
     ./xdg
-    ./font
   ];
 
   config = {
@@ -38,6 +37,7 @@ in
 
     home.sessionVariables = {
       AQ_DRM_DEVICES = "/dev/dri/card1"; # /dev/dri/by-path/pci-0000:07:00.0-card
+      AWWW_DEFAULT_WALLPAPER = ../../../assets/wallpapers/black.png;
     };
 
     xdg = {

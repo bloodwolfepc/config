@@ -11,7 +11,7 @@
   background-color: rgba ( 0, 0, 0, 60 % );
   border-color: @base00;
   text-color: @base00;
-  font: "unscii 16";
+  font: "unscii-16-full 16";
 }
 
 window {

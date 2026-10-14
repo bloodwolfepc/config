@@ -20,7 +20,7 @@
 @define-color base0F #ffaaff;
 
 * {
-    font-family: "Unscii";
+    font-family: "unscii-16-full";
     font-size: 10pt;
     border-radius: 0;
 }

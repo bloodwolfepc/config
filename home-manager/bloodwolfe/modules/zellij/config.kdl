@@ -533,7 +533,7 @@ scrollback_lines_to_serialize 10000
 theme "default"
 default_layout "default"
 default_mode "normal"
-mouse_mode true
+mouse_mode false
 scroll_buffer_size 10000
 copy_command "wl-copy"
 copy_clipboard "system"

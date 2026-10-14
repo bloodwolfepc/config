@@ -1,0 +1,11 @@
+{
+  "boxes": ["inbox"],
+  "host": "imap.gmail.com",
+  "onNewMail": "mbsync -a",
+  "onNewMailPost": "notify-send \"mail\"",
+  "passwordCmd": "cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0",
+  "port": 993,
+  "tls": true,
+  "tlsOptions": { "starttls": false },
+  "username": "bloodwolfe"
+}

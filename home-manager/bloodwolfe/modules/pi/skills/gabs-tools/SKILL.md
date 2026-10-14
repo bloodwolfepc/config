@@ -1,112 +1,74 @@
 ---
 name: gabs-tools
-description: Manage Gabs's todos (todomd), appointments (khal), contacts (khard), notes (~/Atelier/notes), and email (~/Mail)
+description: Manage Gabs's todos (Taskwarrior), appointments (khal), contacts (khard), notes (~/Atelier/notes), and email (~/Mail)
 ---
 
 ## Syncing vdir-backed data
 
-After creating, editing, moving, or deleting anything backed by vdir (todos, calendar events, or contacts), start vdirsyncer so the change propagates:
+After creating, editing, moving, or deleting a calendar event or contact backed by vdir, start vdirsyncer so the change propagates:
 
 ```bash
 systemctl --user start vdirsyncer
 ```
 
-## Todos (todomd + `.ics`)
+## Todos (Taskwarrior)
 
-Todos live in a vdir at `~/Calendars/personal/`. `todomd` is the CLI, and `todo`
-is a fish abbreviation for it. Todoman is no longer installed.
+Taskwarrior is the canonical task store. `task` is the CLI; `td` aliases it and
+`todo` shows the next-task report. Its data lives in `~/.local/share/task/`.
+Normal reports show pending work, so completed tasks stay out of sight.
 
 ### Reading
 
-`todomd show` prints tasks as JSON. It is read-only: no editor, no hooks, no
-terminal needed.
+Use exports for reliable, non-interactive agent access. UUIDs are stable; the
+numeric IDs shown in reports are not.
 
 ```bash
-todomd show                       # active tasks in every list
-todomd show Postgrad Casa         # chosen lists
-todomd show --completed Postgrad  # include completed and cancelled
+task status:pending export
+task project:config status:pending export
+task <uuid> export
 ```
 
-Each entry has `list`, `uid`, `summary`, `completed`, and `file`:
+### Projects
 
-```json
-{
-  "list": "Casa",
-  "uid": "542812992406319126",
-  "summary": "Arrumar fechadura escritório",
-  "completed": false,
-  "file": "/home/gabriel/Calendars/personal/7eebf97d-.../542812992406319126.ics"
-}
-```
-
-Use `file` to reach an item. Filenames are chosen by whatever created the task,
-so a UID is not a path: don't construct one, and don't grep for the summary.
-`list` is already the display name, so there is no need to map UUID directories
-through their `displayname` files.
-
-`SUMMARY` is optional in iCalendar. A task without one cannot be rendered, so
-`todomd` skips it and reports the path on stderr.
-
-### Do not run `todomd edit`
-
-`todomd edit`, and bare `todomd`, opens `$VISUAL` and asks `[y/N]` on an
-interactive terminal. It also stops vdirsyncer for the duration. That is Gabs's
-path, not an agent's. Write through the `.ics` file instead.
-
-### Writing
-
-Edit the `.ics` at `file`, then sync. Increment `SEQUENCE` on every change.
-
-| Field | Purpose |
-|---|---|
-| `SUMMARY:` | Todo title |
-| `DESCRIPTION:` | Body text |
-| `PRIORITY:` | 1=high/`!!!`, 5=medium/`!!`, 9=low/`!` (ical default: 1 highest) |
-| `CATEGORIES:` | Comma-separated tags (delete line to remove all categories) |
-| `DUE:` | Due date (`YYYYMMDDTHHMMSSZ`, or `DUE;VALUE=DATE:YYYYMMDD`) |
-| `STATUS:` | `NEEDS-ACTION`, `IN-PROCESS`, `COMPLETED`, `CANCELLED` |
-| `RELATED-TO;RELTYPE=PARENT:` | Parent task's UID, set on the child |
-| `SEQUENCE:` | Bump on each edit |
-
-**Completing:** set `STATUS:COMPLETED`, `COMPLETED:<timestamp>`, and
-`PERCENT-COMPLETE:100`. Reopening means `STATUS:NEEDS-ACTION` with `COMPLETED`
-and `PERCENT-COMPLETE` removed.
-
-**Creating:** write a new `<uid>.ics` in the list's directory. Minimum viable
-VTODO:
-
-```ics
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//agent//EN
-BEGIN:VTODO
-UID:<fresh uuid>
-DTSTAMP:20260906T010239Z
-CREATED:20260906T010239Z
-LAST-MODIFIED:20260906T010239Z
-SEQUENCE:0
-STATUS:NEEDS-ACTION
-SUMMARY:Task text
-END:VTODO
-END:VCALENDAR
-```
-
-**Subtasks:** create the parent first, then put
-`RELATED-TO;RELTYPE=PARENT:<parent-uid>` in each child. Use this for shopping
-batches: one parent like `mercado` in `Casa`, one child per item.
-
-**Moving between lists:** move the file into the target list's directory.
+Every new task gets a project. Inside a repository, default to its root directory
+name unless Gabs names another project:
 
 ```bash
-mv ~/Calendars/personal/<from-dir>/<uid>.ics ~/Calendars/personal/<to-dir>/
+root=$(jj root 2>/dev/null || git rev-parse --show-toplevel 2>/dev/null)
+project=$(basename "$root")
+task add project:"$project" "Task text"
 ```
 
-### Conventions
+Use hierarchical names for established subprojects, such as `config.neovim` or
+`learning.nix`. Outside a repository, infer the project from the request; use
+`project:inbox` only when there is no honest inference. Do not interrupt a
+low-risk task creation merely to ask for a project name.
 
-Gabs uses categories as tags.
+For a task tied to source code, add `+code` and annotate its location:
 
-Priority markers: `!!!` (high), `!!` (medium), `!` (low), `Quick Win` (category).
-Status markers: `Blocked` (category) — means an **external** dependency prevents progress (e.g. out of supplies, waiting on someone else). NOT "I haven't gotten to it" or "it's my turn." If Gabs could do it right now but hasn't, that's not blocked — that's just pending.
+```bash
+task add project:"$project" +code "Handle empty input"
+task rc.confirmation=off +LATEST annotate "src/parser.rs:42"
+```
+
+Keep code comments local to the implementation. Do not bulk-import every
+`TODO`/`FIXME` comment or create a duplicate Taskwarrior item unless Gabs asks.
+
+### Changing tasks
+
+Inspect first, then target the stable UUID. Disable confirmation only on the
+specific mutation so agent commands cannot block on a prompt.
+
+```bash
+task rc.confirmation=off <uuid> modify project:config.navi +blocked
+task rc.confirmation=off <uuid> annotate "Waiting for replacement hardware"
+task rc.confirmation=off <uuid> done
+task rc.confirmation=off <uuid> delete
+```
+
+Use `+blocked` only for an external dependency, not merely pending work. Use
+Taskwarrior priorities `H`, `M`, and `L`; do not invent urgency when Gabs did not
+state it.
 
 ## Appointments (khal)
 

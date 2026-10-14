@@ -18,13 +18,13 @@
       };
       font = {
         size = lib.mkForce 12.0;
-        normal.family = lib.mkForce "unscii";
+        normal.family = lib.mkForce "unscii-16-full";
         normal.style = lib.mkForce "16-full";
-        italic.family = lib.mkForce "unscii";
+        italic.family = lib.mkForce "unscii-16-full";
         italic.style = lib.mkForce "16-full";
-        bold_italic.family = lib.mkForce "unscii";
+        bold_italic.family = lib.mkForce "unscii-16-full";
         bold_italic.style = lib.mkForce "16-full";
-        bold.family = lib.mkForce "unscii";
+        bold.family = lib.mkForce "unscii-16-full";
         bold.style = lib.mkForce "16-full";
       };
       window = {

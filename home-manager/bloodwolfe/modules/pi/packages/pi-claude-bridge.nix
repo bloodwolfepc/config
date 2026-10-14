@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 let
   piClaudeBridge = pkgs.buildPiPackage {
     pname = "pi-claude-bridge";
@@ -17,13 +13,5 @@ let
   };
 in
 {
-  programs.pi-coding-agent.settings.packages = [ piClaudeBridge ];
-  home.file.".pi/agent/claude-bridge.json".text = builtins.toJSON {
-    askClaude.enabled = false;
-    provider = {
-      plan = "max";
-      stripctMcpConfig = true;
-      pathToClaudeCodeExecutable = lib.getExe pkgs.claude-code;
-    };
-  };
+  home.file.".pi/agent/nix-packages/pi-claude-bridge".source = piClaudeBridge;
 }

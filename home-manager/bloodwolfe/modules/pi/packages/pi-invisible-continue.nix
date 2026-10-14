@@ -12,5 +12,5 @@ let
   };
 in
 {
-  programs.pi-coding-agent.settings.packages = [ piInvisibleContinue ];
+  home.file.".pi/agent/nix-packages/pi-invisible-continue".source = piInvisibleContinue;
 }

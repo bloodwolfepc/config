@@ -17,6 +17,7 @@ in
 {
   imports = [
     ../modules
+    ../modules/audio
   ];
   dotfiles.mutable = true;
 

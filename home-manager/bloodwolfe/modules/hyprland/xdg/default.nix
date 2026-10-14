@@ -53,22 +53,6 @@
       };
     };
   };
-  qt = {
-    enable = true;
-  };
-  gtk = {
-    enable = true;
-    gtk2.extraConfig = ''
-      gtk-sound-theme-name = "Plasma-Overdose"
-    '';
-    gtk3.extraConfig = {
-      gtk-sound-theme-name = "Plasma-Overdose";
-      gtk-enable-event-sounds = 1;
-      gtk-enable-input-feedback-sounds = 1;
-      gtk-error-bell = 1;
-    };
-  };
-
   home.sessionVariables = {
     D = "~/downloads";
   };

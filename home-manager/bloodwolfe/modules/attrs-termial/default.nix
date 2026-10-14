@@ -7,6 +7,7 @@
   home.persistence = {
     "/persist".directories = [
       ".local/share/zoxide"
+      ".local/share/task"
       ".config/task"
     ];
   };
@@ -86,6 +87,7 @@
       nix flake update secrets 
     '';
     td = "task";
+    todo = "task next";
     undangle = "find . -xtype l -delete";
     dirty = "watch grep -e Dirty: -e Writeback: /proc/meminfo";
     rsync = "rsync -r --info=progress2 --info=name0";

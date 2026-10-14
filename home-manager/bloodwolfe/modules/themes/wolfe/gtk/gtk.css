@@ -1,0 +1,95 @@
+/* Wolfe GTK template: keep the palette here and the geometry square. */
+@define-color background #000000;
+@define-color surface #080808;
+@define-color raised #101010;
+@define-color border #303030;
+@define-color foreground #ffffff;
+@define-color disabled #707070;
+@define-color accent #b000ff;
+
+* {
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+window,
+dialog,
+.background,
+.view,
+textview text,
+treeview.view,
+list,
+listview {
+  background-color: @background;
+  color: @foreground;
+}
+
+headerbar,
+toolbar,
+menubar,
+.menu,
+menu,
+popover,
+popover contents {
+  background-color: @surface;
+  color: @foreground;
+  border-color: @border;
+}
+
+button,
+entry,
+spinbutton,
+combobox,
+.dropdown,
+checkbutton,
+radiobutton {
+  background-color: @surface;
+  color: @foreground;
+  border: 1px solid @border;
+}
+
+button:hover,
+button:focus,
+entry:focus,
+row:selected,
+*:selected {
+  background-color: @raised;
+  border-color: @accent;
+  color: @foreground;
+}
+
+button:active,
+button:checked,
+checkbutton:checked,
+radiobutton:checked {
+  background-color: @accent;
+  color: @background;
+}
+
+*:disabled {
+  color: @disabled;
+}
+
+separator {
+  background-color: @border;
+  min-width: 1px;
+  min-height: 1px;
+}
+
+scrollbar,
+scrollbar trough {
+  background-color: @background;
+}
+
+scrollbar slider {
+  background-color: @border;
+  min-width: 8px;
+  min-height: 8px;
+}
+
+selection {
+  background-color: @accent;
+  color: @background;
+}

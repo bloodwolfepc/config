@@ -1,0 +1,10 @@
+{
+  "askClaude": {
+    "enabled": false
+  },
+  "provider": {
+    "pathToClaudeCodeExecutable": "/home/bloodwolfe/.nix-profile/bin/claude",
+    "plan": "max",
+    "stripctMcpConfig": true
+  }
+}

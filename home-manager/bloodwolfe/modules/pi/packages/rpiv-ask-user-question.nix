@@ -22,5 +22,5 @@ let
   };
 in
 {
-  programs.pi-coding-agent.settings.packages = [ rpivAskUserQuestion ];
+  home.file.".pi/agent/nix-packages/rpiv-ask-user-question".source = rpivAskUserQuestion;
 }

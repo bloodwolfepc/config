@@ -89,15 +89,20 @@ local max_startup = function()
 	-- if rerun after startup start these apps
 end
 
+local set_wallpaper = function()
+	hl.exec_cmd('systemctl --user start awww.service && wallpaper="$HOME/.config/hypr/wallpaper.png"; test -f "$wallpaper" || wallpaper="$AWWW_DEFAULT_WALLPAPER"; awww img "$wallpaper" -t none')
+end
+
+hl.on("monitor.added", set_wallpaper)
+
 hl.on("hyprland.start", function()
 	-- hl.dispatch(hl.dsp.submap("INSERT"))
 	hl.exec_cmd("hyprctl dispatch \"hl.dsp.submap('INSERT')\"")
 	hl.dsp.focus({ workspace = "4" })
-	hl.exec_cmd("systemctl restart --user awww.service")
+	set_wallpaper()
 	hl.exec_cmd("systemctl restart --user waybar.service")
 	hl.exec_cmd("systemctl restart --user hyprpolkitagent.service")
 	hl.exec_cmd("systemctl restart --user pyprland.service")
-	hl.exec_cmd("awww img /home/bloodwolfe/src/config/assets/wallpapers/black.png -t none")
 	hl.exec_cmd("hyprctl setcursor Plasma-Overdose 12")
 	hl.exec_cmd("xrandr --output DP-1 --primary")
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")

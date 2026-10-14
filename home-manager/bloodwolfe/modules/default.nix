@@ -17,6 +17,7 @@
     ./daw
     ./direnv
     ./gpu-screen-recorder
+    ./font
     ./hyprland
     ./kanata
     ./main
@@ -30,6 +31,7 @@
     ./spotify
     ./steam
     ./subtui
+    ./themes
     ./virtualisation
     ./wezterm
     ./yazi

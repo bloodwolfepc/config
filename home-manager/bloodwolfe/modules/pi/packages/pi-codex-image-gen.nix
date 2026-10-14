@@ -12,5 +12,5 @@ let
   };
 in
 {
-  programs.pi-coding-agent.settings.packages = [ piCodexImageGen ];
+  home.file.".pi/agent/nix-packages/pi-codex-image-gen".source = piCodexImageGen;
 }

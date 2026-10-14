@@ -1,0 +1,24 @@
+IMAPAccount bloodwolfe
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+Host imap.gmail.com
+PassCmd "cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0"
+Port 993
+TLSType IMAPS
+User bloodwolfe
+
+IMAPStore bloodwolfe-remote
+Account bloodwolfe
+
+MaildirStore bloodwolfe-local
+Inbox /persist/home/bloodwolfe/.mail/bloodwolfe/inbox
+Path /persist/home/bloodwolfe/.mail/bloodwolfe/
+SubFolders Verbatim
+
+Channel bloodwolfe
+Create Near
+Expunge Both
+Far :bloodwolfe-remote:
+Near :bloodwolfe-local:
+Patterns *
+Remove None
+SyncState *

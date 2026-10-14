@@ -19,7 +19,7 @@
 @define-color base0F #00a800;
 
 * {
-    font-family: "Unscii";
+    font-family: "unscii-16-full";
     font-size: 10pt;
     color: @base07txt
 }
@@ -116,7 +116,7 @@ tooltip {
 * {
   border: none;
   border-radius: 0;
-  font-family: unscii;
+  font-family: "unscii-16-full";
 }
 window#waybar {
   background: #000000;

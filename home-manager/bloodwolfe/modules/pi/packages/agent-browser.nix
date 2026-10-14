@@ -1,6 +1,6 @@
 { pkgs, ... }: {
-  # Install skill
-  programs.pi-coding-agent.settings.packages = [ pkgs.agent-browser ];
-  # Make CLI available globally on the user
-  home.packages = [ pkgs.agent-browser ];
+  home = {
+    file.".pi/agent/nix-packages/agent-browser".source = pkgs.agent-browser;
+    packages = [ pkgs.agent-browser ];
+  };
 }

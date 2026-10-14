@@ -125,7 +125,14 @@ hl.window_rule({
 	immediate = true,
 })
 
--- FIXES: Draggables in ardour
+hl.window_rule({
+	match = {
+		initial_class = "^(Ardour|raysession)$",
+	},
+	workspace = "7 silent",
+})
+
+-- fixes draggables in ardour
 hl.window_rule({
 	match = {
 		xwayland = 1,
