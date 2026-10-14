@@ -116,9 +116,6 @@
     };
   };
   programs.gh.enable = true;
-  sops.secrets."gh-hosts" = {
-    path = "/home/bloodwolfe/.config/gh/hosts.yml";
-  };
 
   programs.rbw = {
     enable = true;
