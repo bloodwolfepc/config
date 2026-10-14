@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }:
 {
@@ -13,13 +12,7 @@
     gopass
     bitwarden-cli
   ];
-  sops = {
-    age = {
-      keyFile = "/persist${config.home.homeDirectory}/.config/sops/age/key.txt";
-    };
-    defaultSopsFile = "${builtins.toString inputs.secrets}/secrets/secrets.yaml";
-    validateSopsFiles = false;
-  };
+  sops.age.keyFile = "/persist${config.home.homeDirectory}/.config/sops/age/key.txt";
 
   programs.ssh = {
     enable = true;
@@ -30,7 +23,7 @@
         User = "git";
         IdentitiesOnly = true;
         IdentityFile = [
-          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+          "${config.home.homeDirectory}/.ssh/id_ed25519_sk_angel"
         ];
       };
       gitlab = {
@@ -38,7 +31,7 @@
         User = "git";
         IdentitiesOnly = true;
         IdentityFile = [
-          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+          "${config.home.homeDirectory}/.ssh/id_ed25519_sk_angel"
         ];
       };
       forgejo = {
@@ -48,7 +41,7 @@
         User = "git";
         IdentitiesOnly = true;
         IdentityFile = [
-          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+          "${config.home.homeDirectory}/.ssh/id_ed25519_sk_angel"
         ];
       };
       navi = {
@@ -56,29 +49,6 @@
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
       };
     };
-  };
-  sops.secrets = {
-    "ssh-angel" = {
-      path = "${config.home.homeDirectory}/.ssh/id_ed25519";
-    };
-    "gitlab_id_ed25519" = {
-      path = "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519";
-    };
-  };
-
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [
-      exts.pass-otp
-      exts.pass-import
-    ]);
-    settings = {
-      PASSWORD_STORE_DIR = "${config.home.homeDirectory}/src/secrets/password-store";
-    };
-  };
-  services.pass-secret-service = {
-    enable = true;
-    storePath = "${config.home.homeDirectory}/src/secrets/password-store"; # or ${secrets}/.password-store
   };
 
   services.gpg-agent = {

@@ -55,16 +55,7 @@ in
         ZVM_VI_OPPEND_ESCAPE_BINDKEY=jk
       }
       eval "$(starship init zsh)"
-
-      export OPENAI_API_KEY="$(cat ${config.sops.secrets."openai-auth".path})"
-      export ANTHROPIC_API_KEY="$(cat ${config.sops.secrets."anthropic-api-key".path})"
-      export KAGI_API_KEY="$(cat ${config.sops.secrets."kagi-api".path})"
     '';
-  };
-  sops.secrets = {
-    "openai-auth" = { };
-    "kagi-api" = { };
-    "anthropic-api-key" = { };
   };
   home = {
     packages = with pkgs; [

@@ -16,6 +16,8 @@
     ../modules/virtualisation.nix
     inputs.home-manager.nixosModules.home-manager
   ];
+  sops.defaultSopsFile = "${inputs.secrets}/sops/hosts/navi/system.yaml";
+
   networking = {
     hostName = "navi";
     useDHCP = lib.mkForce false;

@@ -17,6 +17,7 @@
   ];
 
   networking.hostName = "angel";
+  sops.defaultSopsFile = "${inputs.secrets}/sops/hosts/angel/system.yaml";
 
   services = {
     asusd = {

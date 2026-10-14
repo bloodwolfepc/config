@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 let
   editMusic = pkgs.writeShellApplication {
     name = "edit-music";
@@ -20,6 +25,11 @@ in
     ../modules/audio
   ];
   dotfiles.mutable = true;
+
+  sops = {
+    defaultSopsFile = "${inputs.secrets}/sops/users/bloodwolfe/angel.yaml";
+    secrets."ssh-angel".path = "${config.home.homeDirectory}/.ssh/id_ed25519";
+  };
 
   systemd.user.services.lemonade = {
     Unit = {
