@@ -27,6 +27,7 @@
     settings = {
       github = {
         header = "Host github.com";
+        User = "git";
         IdentitiesOnly = true;
         IdentityFile = [
           "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
@@ -34,6 +35,7 @@
       };
       gitlab = {
         header = "Host gitlab.com";
+        User = "git";
         IdentitiesOnly = true;
         IdentityFile = [
           "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
