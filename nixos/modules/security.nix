@@ -12,9 +12,15 @@
       enable = true;
       enableSSHSupport = true;
     };
-    ssh.knownHosts.gitlab = {
-      hostNames = [ "gitlab.com" ];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
+    ssh.knownHosts = {
+      gitlab = {
+        hostNames = [ "gitlab.com" ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf";
+      };
+      forgejo = {
+        hostNames = [ "[git.waterdreamer.net]:2222" ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpOVkRYHUVQngsZsZxYiN2auXnRJtll7IURhUkYMDOH";
+      };
     };
   };
 

@@ -32,6 +32,16 @@
           "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
         ];
       };
+      forgejo = {
+        header = "Host forgejo";
+        HostName = "git.waterdreamer.net";
+        Port = 2222;
+        User = "git";
+        IdentitiesOnly = true;
+        IdentityFile = [
+          "${config.home.homeDirectory}/.ssh/gitlab_id_ed25519"
+        ];
+      };
       navi = {
         header = "Host navi navi.srvctl.ts.net waterdreamer.net";
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
