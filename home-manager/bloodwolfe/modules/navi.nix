@@ -8,7 +8,6 @@
     ./attrs-programs
     ./attrs-termial
     ./direnv
-    ./kanata
     ./main
     ./security
     ./virtualisation
