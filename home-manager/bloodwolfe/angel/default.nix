@@ -31,6 +31,11 @@ in
     secrets."ssh-angel".path = "${config.home.homeDirectory}/.ssh/id_ed25519";
   };
 
+  home.persistence."/persist".files = [
+    ".ssh/id_ed25519_sk_angel"
+    ".ssh/id_ed25519_sk_angel.pub"
+  ];
+
   systemd.user.services.lemonade = {
     Unit = {
       Description = "Local clipboard bridge for SSH sessions";
