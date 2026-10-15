@@ -25,6 +25,14 @@
         hostNames = [ "[git.waterdreamer.net]:2222" ];
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpOVkRYHUVQngsZsZxYiN2auXnRJtll7IURhUkYMDOH";
       };
+      navi = {
+        hostNames = [
+          "navi"
+          "navi.srvctl.ts.net"
+          "100.64.0.1"
+        ];
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQ52guuLRczgvdymn9TgXVXo5hUBXD2/GsVa0h7kHeS";
+      };
     };
   };
 
