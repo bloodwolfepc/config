@@ -70,7 +70,7 @@
     };
   };
   systemd.tmpfiles.rules = [
-    "d /data/storage 0755 root root -"
+    "d /data/storage 0750 bloodwolfe users -"
     "d /data/storage/library 0755 bloodwolfe users -"
     "f /data/storage/.srv-storage 0644 root root - navi-storage"
   ];
