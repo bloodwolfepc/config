@@ -43,6 +43,9 @@
     ];
     firewall = {
       enable = true;
+      extraInputRules = ''
+        ip saddr 192.168.5.3 tcp dport 2049 accept
+      '';
       allowedTCPPorts = [
         22
         4533 # Steam
@@ -57,7 +60,20 @@
       ];
     };
   };
-  services.resolved.enable = true;
+  services = {
+    resolved.enable = true;
+    nfs.server = {
+      enable = true;
+      exports = ''
+        /data/storage 192.168.5.3(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=100,fsid=0)
+      '';
+    };
+  };
+  systemd.tmpfiles.rules = [
+    "d /data/storage 0755 root root -"
+    "d /data/storage/library 0755 bloodwolfe users -"
+    "f /data/storage/.srv-storage 0644 root root - navi-storage"
+  ];
   hardware.raid.HPSmartArray.enable = true;
 
   sops.secrets = {
