@@ -20,10 +20,6 @@
   sops.defaultSopsFile = "${inputs.secrets}/sops/hosts/angel/system.yaml";
 
   services = {
-    gnome = {
-      gnome-keyring.enable = true;
-      gcr-ssh-agent.enable = false;
-    };
     asusd = {
       enable = false;
     };
