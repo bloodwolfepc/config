@@ -43,8 +43,8 @@
     ];
     firewall = {
       enable = true;
-      extraInputRules = ''
-        ip saddr 192.168.5.3 tcp dport 2049 accept
+      extraCommands = ''
+        iptables -A nixos-fw -s 192.168.5.3/32 -p tcp --dport 2049 -j nixos-fw-accept
       '';
       allowedTCPPorts = [
         22
