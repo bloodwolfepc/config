@@ -23,5 +23,10 @@ in
     pkgs.keepassxc
   ];
 
-  home.persistence."/persist".directories = [ "Secrets" ];
+  home.persistence."/persist".directories = [
+    {
+      directory = "Secrets";
+      mode = "0700";
+    }
+  ];
 }
