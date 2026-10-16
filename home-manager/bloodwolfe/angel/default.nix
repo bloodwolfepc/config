@@ -23,6 +23,7 @@ in
   imports = [
     ../modules
     ../modules/audio
+    ../modules/keepassxc
   ];
   dotfiles.mutable = true;
 

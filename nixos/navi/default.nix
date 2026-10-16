@@ -72,6 +72,7 @@
   systemd.tmpfiles.rules = [
     "d /data/storage 0750 bloodwolfe users -"
     "d /data/storage/library 0755 bloodwolfe users -"
+    "d /data/storage/nextcloud 0750 bloodwolfe users -"
     "f /data/storage/.srv-storage 0644 root root - navi-storage"
   ];
   hardware.raid.HPSmartArray.enable = true;
