@@ -23,7 +23,7 @@ in
   imports = [
     ../modules
     ../modules/audio
-    ../modules/keepassxc
+    ../modules/bitwarden
   ];
   dotfiles.mutable = true;
 

@@ -10,7 +10,6 @@
   home.packages = with pkgs; [
     sops
     gopass
-    bitwarden-cli
   ];
   sops.age.keyFile = "/persist${config.home.homeDirectory}/.config/sops/age/key.txt";
 
@@ -86,8 +85,4 @@
     };
   };
   programs.gh.enable = true;
-
-  programs.rbw = {
-    enable = true;
-  };
 }

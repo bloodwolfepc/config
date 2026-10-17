@@ -22,25 +22,6 @@ let
       https://cloud.waterdreamer.net
     ''
   );
-  nc-sync-secrets = (
-    pkgs.writeShellScriptBin "nc-sync-secrets" ''
-      USERNAME="$(cat ${config.sops.secrets.cloud-waterdreamer-net-username.path})"
-      PASSWORD="$(cat ${config.sops.secrets.cloud-waterdreamer-net-password.path})"
-      ${pkgs.nextcloud-client}/bin/nextcloudcmd -h \
-      --user "$USERNAME" \
-      --password "$PASSWORD" \
-      --path /Secrets /persist/home/bloodwolfe/Secrets \
-      https://cloud.waterdreamer.net
-    ''
-  );
-  nc-sync-all = (
-    pkgs.writeShellScriptBin "nc-sync-all" ''
-      status=0
-      ${nc-sync-notes}/bin/nc-sync-notes || status=$?
-      ${nc-sync-secrets}/bin/nc-sync-secrets || status=$?
-      exit "$status"
-    ''
-  );
 in
 {
   sops.secrets."cloud-waterdreamer-net-username" = { };
@@ -48,7 +29,6 @@ in
   home.packages = [
     nc-sync-cloud
     nc-sync-notes
-    nc-sync-secrets
   ];
 
   systemd.user = {
@@ -59,7 +39,7 @@ in
       };
       Service = {
         Type = "simple";
-        ExecStart = "${nc-sync-all}/bin/nc-sync-all";
+        ExecStart = "${nc-sync-notes}/bin/nc-sync-notes";
         TimeoutStopSec = "180";
         KillMode = "process";
         KillSignal = "SIGINT";
