@@ -1354,10 +1354,10 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1792023188,
-        "narHash": "sha256-tj4mXUcXV8VOC7CwzIGUc9OuCP5esIVaE0aHl1lu7KU=",
+        "lastModified": 1792196781,
+        "narHash": "sha256-3BmqDVNH1q+KELMxUBTMdv8DcollwxSd7rCNiYYKQCI=",
         "ref": "refs/heads/master",
-        "rev": "d0916bf9cda02c9321926f59d28d50fec8eee288",
+        "rev": "914a66bc73a0a61ed1867c68d40ac107b90e08cf",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@gitlab.com/bloodwolfe/secrets.git"
