@@ -6,7 +6,7 @@
 }:
 {
   networking = {
-    hosts."100.64.0.4" = [ "vault.waterdreamer.net" ];
+    hosts."100.64.0.4" = [ "vault.tinywolfe.net" ];
     networkmanager = {
       enable = true;
       unmanaged = [ "interface-name:ve-*" ];

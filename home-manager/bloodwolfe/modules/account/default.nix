@@ -9,8 +9,8 @@ let
 in
 {
   sops.secrets = {
-    cloud-waterdreamer-net-username = { };
-    cloud-waterdreamer-net-password = { };
+    cloud-tinywolfe-net-username = { };
+    cloud-tinywolfe-net-password = { };
     google-app_0 = { };
   };
 

@@ -2,30 +2,30 @@
 let
   nc-sync-cloud = (
     pkgs.writeShellScriptBin "nc-sync-cloud" ''
-      USERNAME="$(cat ${config.sops.secrets.cloud-waterdreamer-net-username.path})"
-      PASSWORD="$(cat ${config.sops.secrets.cloud-waterdreamer-net-password.path})"
+      USERNAME="$(cat ${config.sops.secrets.cloud-tinywolfe-net-username.path})"
+      PASSWORD="$(cat ${config.sops.secrets.cloud-tinywolfe-net-password.path})"
       ${pkgs.nextcloud-client}/bin/nextcloudcmd -h \
       --user "$USERNAME" \
       --password "$PASSWORD" \
       --path /cloud /persist/home/bloodwolfe/cloud \
-      https://cloud.waterdreamer.net
+      https://cloud.tinywolfe.net
     ''
   );
   nc-sync-notes = (
     pkgs.writeShellScriptBin "nc-sync-notes" ''
-      USERNAME="$(cat ${config.sops.secrets.cloud-waterdreamer-net-username.path})"
-      PASSWORD="$(cat ${config.sops.secrets.cloud-waterdreamer-net-password.path})"
+      USERNAME="$(cat ${config.sops.secrets.cloud-tinywolfe-net-username.path})"
+      PASSWORD="$(cat ${config.sops.secrets.cloud-tinywolfe-net-password.path})"
       ${pkgs.nextcloud-client}/bin/nextcloudcmd -h \
       --user "$USERNAME" \
       --password "$PASSWORD" \
       --path /notebook /persist/home/bloodwolfe/notebook \
-      https://cloud.waterdreamer.net
+      https://cloud.tinywolfe.net
     ''
   );
 in
 {
-  sops.secrets."cloud-waterdreamer-net-username" = { };
-  sops.secrets."cloud-waterdreamer-net-password" = { };
+  sops.secrets."cloud-tinywolfe-net-username" = { };
+  sops.secrets."cloud-tinywolfe-net-password" = { };
   home.packages = [
     nc-sync-cloud
     nc-sync-notes

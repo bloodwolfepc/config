@@ -35,7 +35,7 @@
       };
       forgejo = {
         header = "Host forgejo";
-        HostName = "git.waterdreamer.net";
+        HostName = "git.tinywolfe.net";
         Port = 2222;
         User = "git";
         IdentitiesOnly = true;
@@ -44,7 +44,7 @@
         ];
       };
       navi = {
-        header = "Host navi navi.srvctl.ts.net waterdreamer.net";
+        header = "Host navi navi.srvctl.ts.net tinywolfe.net";
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
       };
     };

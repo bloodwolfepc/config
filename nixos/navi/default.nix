@@ -86,7 +86,7 @@
     protocol = "namecheap";
     domains = [ "@" ];
 
-    username = "waterdreamer.net";
+    username = "tinywolfe.net";
     passwordFile = config.sops.secrets."ddnssecret".path;
 
     server = "dynamicdns.park-your-domain.com";

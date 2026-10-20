@@ -22,7 +22,7 @@
     config="$HOME/.config/Bitwarden CLI/data.json"
     if [[ ! -e "$config" ]]; then
       $DRY_RUN_CMD mkdir -p "$(dirname "$config")"
-      $DRY_RUN_CMD ${pkgs.bitwarden-cli}/bin/bw config server https://vault.waterdreamer.net
+      $DRY_RUN_CMD ${pkgs.bitwarden-cli}/bin/bw config server https://vault.tinywolfe.net
     fi
   '';
 }
