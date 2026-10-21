@@ -35,7 +35,8 @@
       };
       forgejo = {
         header = "Host forgejo";
-        HostName = "git.tinywolfe.net";
+        HostName = "srv-vm.srvctl.ts.net";
+        HostKeyAlias = "git.tinywolfe.net";
         Port = 2222;
         User = "git";
         IdentitiesOnly = true;
