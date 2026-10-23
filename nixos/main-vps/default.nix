@@ -12,6 +12,7 @@ in
   imports = [
     ./disk.nix
     ./impermanence.nix
+    ./kopia-recovery.nix
     ./mail.nix
     ./recovery.nix
     ./wireguard.nix

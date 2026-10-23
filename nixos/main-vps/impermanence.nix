@@ -29,6 +29,7 @@ in
       "/var/lib/redis-rspamd"
       "/var/lib/rspamd"
       "/var/lib/tailscale"
+      "/srv/dr"
       "/var/log"
     ];
     files = [ "/etc/machine-id" ];

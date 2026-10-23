@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ./backups.nix
+    ./kopia.nix
     ./openbao-unseal.nix
     ../modules/users/bloodwolfe
     ../modules/impermanence
