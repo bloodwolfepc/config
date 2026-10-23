@@ -58,6 +58,12 @@ it to one or two lines.
 
 # Operations
 
+## Browser automation
+
+- Never install, launch, or automate Chrome or Chromium.
+- When a task requires a visible browser tab, use the existing Firefox installation only.
+- If available automation cannot drive Firefox, stop and ask Gabs to complete the browser interaction in Firefox; do not install a Chromium-based fallback.
+
 ## Version control
 
 **Before creating, modifying, deleting, formatting, or generating any file, check for version control from the target file's repository:**
