@@ -4,8 +4,7 @@
   ...
 }:
 let
-  # Set to the home peer's public key after both private keys exist.
-  homePublicKey = null;
+  homePublicKey = "EXw5GNhM+m+L8rM3Ip35dtLJDDMfegmMcPONI+H93EY=";
 in
 {
   networking = {
