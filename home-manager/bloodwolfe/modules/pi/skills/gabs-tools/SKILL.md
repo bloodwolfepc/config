@@ -1,6 +1,6 @@
 ---
 name: gabs-tools
-description: Manage Gabs's todos (Taskwarrior), appointments (khal), contacts (khard), notes (~/Atelier/notes), and email (~/Mail)
+description: Manage Gabs's todos (Taskwarrior), appointments (khal), contacts (khard), notes (~/Atelier/notes), and synchronized email
 ---
 
 ## Syncing vdir-backed data
@@ -146,25 +146,26 @@ grep -rl "<name>" ~/Contacts/Main/
 
 Then edit the `.vcf` file directly. `NOTE:` is the notes field.
 
-## Email (~/Mail)
+## Email (`/persist/home/bloodwolfe/.mail`)
 
-Mail lives in `~/Mail/` as a Maildir. Each account gets a subdirectory:
+Mail lives in persistent Maildirs. Tinywolfe is the primary account; Google is secondary:
 
 | Path | Account |
 |---|---|
-| `~/Mail/personal/` | hi@m7.rs (forwards from gabriel@gsfontes.com) |
-| `~/Mail/usp/` | g.fontes@usp.br |
+| `/persist/home/bloodwolfe/.mail/tinywolfe/` | bloodwolfe@tinywolfe.net |
+| `/persist/home/bloodwolfe/.mail/bloodwolfe/` | bloodwolfepc@gmail.com |
 
 ### Maildir layout
 
-Standard Maildir: `Inbox/{cur,new,tmp}` plus `Archive/`, `Drafts/`, `Junk/`, `Sent/`, `Trash/`.
+Each mailbox contains `cur`, `new`, and `tmp`. Tinywolfe uses `inbox`, `Drafts`, `Junk Mail`, `Sent Items`, and `Deleted Items`; Gmail's special folders are under `[Gmail]`.
 
-**Syncing:** mbsync syncs automatically via a systemd timer. To force an immediate sync:
+**Syncing:** each account has an independent mbsync timer and IMAP IDLE watcher. To force an immediate sync:
 ```bash
-systemctl --user start mbsync
+systemctl --user start mbsync-tinywolfe.service
+systemctl --user start mbsync-google.service
 ```
 
-All mail in `new/` has already been synced by mbsync — `new/` and `cur/` both contain read mail. Email files are named like:
+`new/` contains newly delivered messages; `cur/` contains messages already handled by a mail client. Check both directories. Email files are named like:
 
 ```
 <unix_ts>.<seq>_<host>,U=<uid>:2,<flags>
@@ -208,20 +209,20 @@ f="${src##*/}" && mv "$src" "$dest/${f//,U=[0-9]*:/:}"
 
 ```bash
 # Step 1: overview
-grep '^Subject:' ~/Mail/personal/Inbox/cur/*
-grep '^Subject:' ~/Mail/usp/Inbox/cur/*
+grep '^Subject:' /persist/home/bloodwolfe/.mail/tinywolfe/inbox/{cur,new}/*
+grep '^Subject:' /persist/home/bloodwolfe/.mail/bloodwolfe/inbox/{cur,new}/*
 
 # Step 2: check sizes, then read
-read ~/Mail/personal/Inbox/cur/ <-- check file sizes
-read ~/Mail/personal/Inbox/cur/<file> limit=160  <-- read one
+read /persist/home/bloodwolfe/.mail/tinywolfe/inbox/cur/ <-- check file sizes
+read /persist/home/bloodwolfe/.mail/tinywolfe/inbox/cur/<file> limit=160  <-- read one
 
 # Step 3: expand if needed
-read ~/Mail/personal/Inbox/cur/<file> offset=161 limit=200
+read /persist/home/bloodwolfe/.mail/tinywolfe/inbox/cur/<file> offset=161 limit=200
 ```
 
 ### Sending email
 
-Gabs uses a desktop email client. To compose a new message, use:
+NeoMutt starts on Tinywolfe. `F2` selects Tinywolfe and `F3` selects Google. To open the configured composer with a recipient, use:
 
 ```bash
 handlr open mailto:<address>
@@ -235,7 +236,7 @@ handlr open mailto:
 
 ### Drafts and Sent
 
-- `~/Mail/personal/Sent/cur/`
-- `~/Mail/usp/Sent/cur/`
+- Tinywolfe: `Drafts/` and `Sent Items/`
+- Google: `[Gmail]/Drafts/` and `[Gmail]/Sent Mail/`
 
 These use the same Maildir layout. Read them the same way.
