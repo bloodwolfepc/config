@@ -1,0 +1,11 @@
+set folder = "/persist/home/bloodwolfe/.mail/bloodwolfe"
+set spoolfile = "+inbox"
+set postponed = "+drafts"
+set record = "+sent"
+set trash = "+trash"
+set from = "bloodwolfepc@gmail.com"
+set realname = "Bloodwolfe"
+set use_from = yes
+set envelope_from = yes
+set smtp_url = "smtps://bloodwolfepc%40gmail.com@smtp.gmail.com:465/"
+set smtp_pass = "`cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0`"

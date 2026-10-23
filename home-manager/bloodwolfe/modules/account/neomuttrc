@@ -11,18 +11,14 @@ set certificate_file = /etc/ssl/certs/ca-certificates.crt
 set mbox_type = Maildir
 set sort = threads
 set delete = yes
+set signature = "~/.config/neomutt/signature"
 
 alternative_order text/enriched text/plain text
-mailboxes "/persist/home/bloodwolfe/.mail/bloodwolfe/inbox"
+mailboxes "/persist/home/bloodwolfe/.mail/tinywolfe/inbox" "/persist/home/bloodwolfe/.mail/bloodwolfe/inbox"
 
-set smtp_pass = "`cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0`"
-set smtp_url = "smtps://bloodwolfe@smtp.gmail.com:465"
-set folder = "/persist/home/bloodwolfe/.mail/bloodwolfe"
-set from = "bloodwolfepc@gmail.com"
-set postponed = "+drafts"
-set realname = "Marley Schabert"
-set record = "+sent"
-set spoolfile = "+inbox"
-set trash = "+trash"
+folder-hook /tinywolfe/ "source ~/.config/neomutt/accounts/tinywolfe"
+folder-hook /bloodwolfe/ "source ~/.config/neomutt/accounts/google"
+macro index,pager <f2> "<sync-mailbox><enter-command>source ~/.config/neomutt/accounts/tinywolfe<enter><change-folder>/persist/home/bloodwolfe/.mail/tinywolfe/inbox<enter>" "Tinywolfe account"
+macro index,pager <f3> "<sync-mailbox><enter-command>source ~/.config/neomutt/accounts/google<enter><change-folder>/persist/home/bloodwolfe/.mail/bloodwolfe/inbox<enter>" "Google account"
 
-set signature = "~/.config/neomutt/signature"
+source ~/.config/neomutt/accounts/tinywolfe

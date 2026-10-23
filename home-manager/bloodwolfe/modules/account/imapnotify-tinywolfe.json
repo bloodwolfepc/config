@@ -1,0 +1,11 @@
+{
+  "boxes": ["INBOX"],
+  "host": "mail.tinywolfe.net",
+  "onNewMail": "systemctl --user start mbsync-tinywolfe.service",
+  "onNewMailPost": "notify-send \"mail: tinywolfe\"",
+  "passwordCmd": "cat /home/bloodwolfe/.config/sops-nix/secrets/tinywolfe-mail-password",
+  "port": 993,
+  "tls": true,
+  "tlsOptions": { "starttls": false },
+  "username": "bloodwolfe@tinywolfe.net"
+}

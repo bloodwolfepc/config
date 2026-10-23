@@ -1,0 +1,11 @@
+set folder = "/persist/home/bloodwolfe/.mail/tinywolfe"
+set spoolfile = "+inbox"
+set postponed = "+Drafts"
+set record = "+Sent"
+set trash = "+Trash"
+set from = "bloodwolfe@tinywolfe.net"
+set realname = "Bloodwolfe"
+set use_from = yes
+set envelope_from = yes
+set smtp_url = "smtps://bloodwolfe%40tinywolfe.net@mail.tinywolfe.net:465/"
+set smtp_pass = "`cat /home/bloodwolfe/.config/sops-nix/secrets/tinywolfe-mail-password`"

@@ -1,24 +1,49 @@
-IMAPAccount bloodwolfe
+IMAPAccount tinywolfe
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+Host mail.tinywolfe.net
+PassCmd "cat /home/bloodwolfe/.config/sops-nix/secrets/tinywolfe-mail-password"
+Port 993
+TLSType IMAPS
+User bloodwolfe@tinywolfe.net
+
+IMAPStore tinywolfe-remote
+Account tinywolfe
+
+MaildirStore tinywolfe-local
+Inbox /persist/home/bloodwolfe/.mail/tinywolfe/inbox
+Path /persist/home/bloodwolfe/.mail/tinywolfe/
+SubFolders Verbatim
+
+Channel tinywolfe
+Create Both
+Expunge Both
+Far :tinywolfe-remote:
+Near :tinywolfe-local:
+Patterns *
+Remove None
+SyncState *
+
+IMAPAccount google
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 Host imap.gmail.com
 PassCmd "cat /home/bloodwolfe/.config/sops-nix/secrets/google-app_0"
 Port 993
 TLSType IMAPS
-User bloodwolfe
+User bloodwolfepc@gmail.com
 
-IMAPStore bloodwolfe-remote
-Account bloodwolfe
+IMAPStore google-remote
+Account google
 
-MaildirStore bloodwolfe-local
+MaildirStore google-local
 Inbox /persist/home/bloodwolfe/.mail/bloodwolfe/inbox
 Path /persist/home/bloodwolfe/.mail/bloodwolfe/
 SubFolders Verbatim
 
-Channel bloodwolfe
+Channel google
 Create Near
 Expunge Both
-Far :bloodwolfe-remote:
-Near :bloodwolfe-local:
+Far :google-remote:
+Near :google-local:
 Patterns *
 Remove None
 SyncState *
