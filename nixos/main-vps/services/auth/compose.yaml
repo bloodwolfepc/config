@@ -1,0 +1,61 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    restart: "no"
+    env_file:
+      - /run/main-vps/secrets/auth.env
+    environment:
+      POSTGRES_DB: authentik
+      POSTGRES_USER: authentik
+    volumes:
+      - /srv/dr/auth/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authentik -d authentik"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [auth]
+
+  server:
+    image: ghcr.io/goauthentik/server:2026.5.3@sha256:377ee38726785f98aafc3665202ad198a366fa979b0f61c0660a9c05e3a9b1b3
+    command: server
+    restart: "no"
+    env_file:
+      - /run/main-vps/secrets/auth.env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: authentik
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    shm_size: 512mb
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - /srv/dr/auth/data:/data
+      - /srv/dr/auth/templates:/templates
+    networks: [auth]
+
+  worker:
+    image: ghcr.io/goauthentik/server:2026.5.3@sha256:377ee38726785f98aafc3665202ad198a366fa979b0f61c0660a9c05e3a9b1b3
+    command: worker
+    restart: "no"
+    env_file:
+      - /run/main-vps/secrets/auth.env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${POSTGRES_PASSWORD}
+      AUTHENTIK_POSTGRESQL__USER: authentik
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    volumes:
+      - /srv/dr/auth/data:/data
+      - /srv/dr/auth/templates:/templates
+    networks: [auth]
+
+networks:
+  auth:

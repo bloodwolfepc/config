@@ -1,0 +1,48 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:18@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722
+    restart: "no"
+    env_file:
+      - /run/main-vps/secrets/vaultwarden.env
+    environment:
+      POSTGRES_DB: vaultwarden
+      POSTGRES_USER: vaultwarden
+      POSTGRES_PASSWORD: ${VAULTWARDEN_POSTGRES_PASSWORD}
+    volumes:
+      - /srv/dr/vaultwarden/postgresql:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vaultwarden -d vaultwarden"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [vaultwarden]
+
+  vaultwarden:
+    image: docker.io/vaultwarden/server:1.37.4-alpine@sha256:19ea2b669945d842dadc3d500f2d6a795866a003330f59a47b9634658bae98bb
+    restart: "no"
+    env_file:
+      - /run/main-vps/secrets/vaultwarden.env
+    environment:
+      ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN}
+      DATABASE_URL: postgresql://vaultwarden:${VAULTWARDEN_POSTGRES_PASSWORD}@postgresql:5432/vaultwarden
+      DOMAIN: https://vault.tinywolfe.net
+      SSO_ENABLED: "true"
+      SSO_ONLY: "false"
+      SSO_AUTHORITY: https://auth.tinywolfe.net/application/o/vaultwarden/
+      SSO_CLIENT_ID: ${VAULTWARDEN_OIDC_CLIENT_ID}
+      SSO_CLIENT_SECRET: ${VAULTWARDEN_OIDC_CLIENT_SECRET}
+      SSO_SCOPES: email profile offline_access
+      SSO_SIGNUPS_MATCH_EMAIL: "true"
+      SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: "false"
+      SSO_CLIENT_CACHE_EXPIRATION: "0"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8223:80"
+    volumes:
+      - /srv/dr/vaultwarden/data:/data
+    networks: [vaultwarden]
+
+networks:
+  vaultwarden:

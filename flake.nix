@@ -65,6 +65,10 @@
           modules = [ ./nixos/navi ];
           specialArgs = { inherit inputs outputs; };
         };
+        main-vps = lib.nixosSystem {
+          modules = [ ./nixos/main-vps ];
+          specialArgs = { inherit inputs outputs; };
+        };
         # iso = lib.nixosSystem {
         #   specialArgs = { inherit inputs outputs; };
         #   modules = [ ./nixos/iso ];
