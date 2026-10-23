@@ -72,12 +72,31 @@ in
     };
   };
 
+  services.unbound = {
+    enable = true;
+    resolveLocalQueries = false;
+    settings.server.interface = [ "127.0.0.1" ];
+  };
+
   services.rspamd = {
     enable = true;
     postfix.enable = true;
-    locals."redis.conf".text = ''
-      servers = "/run/redis-rspamd/redis.sock";
-    '';
+    locals = {
+      "options.inc".text = ''
+        dns {
+          nameserver = ["127.0.0.1"];
+        }
+        task_timeout = 15s;
+      '';
+      "redis.conf".text = ''
+        servers = "/run/redis-rspamd/redis.sock";
+      '';
+    };
+  };
+
+  systemd.services.rspamd = {
+    after = [ "unbound.service" ];
+    requires = [ "unbound.service" ];
   };
 
   services.redis.servers.rspamd = {
