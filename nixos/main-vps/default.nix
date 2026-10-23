@@ -58,6 +58,7 @@ in
   services = {
     openssh = {
       enable = true;
+      openFirewall = false;
       hostKeys = [
         {
           path = "/persist/system/etc/ssh/ssh_host_ed25519_key";
