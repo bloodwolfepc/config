@@ -58,7 +58,7 @@ in
       sections.srv-incoming = {
         path = "/backup/srv-incoming";
         "read only" = false;
-        "hosts allow" = "100.64.0.4";
+        "hosts allow" = "100.64.0.9";
       };
     };
   };
