@@ -1,8 +1,8 @@
 set folder = "/persist/home/bloodwolfe/.mail/bloodwolfe"
 set spoolfile = "+inbox"
-set postponed = "+drafts"
-set record = "+sent"
-set trash = "+trash"
+set postponed = "+[Gmail]/Drafts"
+set record = "+[Gmail]/Sent Mail"
+set trash = "+[Gmail]/Trash"
 set from = "bloodwolfepc@gmail.com"
 set realname = "Bloodwolfe"
 set use_from = yes

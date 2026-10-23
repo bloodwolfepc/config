@@ -44,6 +44,6 @@ Create Near
 Expunge Both
 Far :google-remote:
 Near :google-local:
-Patterns *
+Patterns * !drafts !sent
 Remove None
 SyncState *

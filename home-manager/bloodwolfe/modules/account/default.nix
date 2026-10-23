@@ -80,6 +80,7 @@ in
         ExecStart = "${pkgs.goimapnotify}/bin/goimapnotify -conf ${config.xdg.configHome}/imapnotify/tinywolfe.json";
         Environment = "PATH=${
           lib.makeBinPath [
+            pkgs.coreutils
             pkgs.systemd
             pkgs.libnotify
           ]
@@ -100,6 +101,7 @@ in
         ExecStart = "${pkgs.goimapnotify}/bin/goimapnotify -conf ${config.xdg.configHome}/imapnotify/google.json";
         Environment = "PATH=${
           lib.makeBinPath [
+            pkgs.coreutils
             pkgs.systemd
             pkgs.libnotify
           ]
