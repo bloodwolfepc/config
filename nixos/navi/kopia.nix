@@ -97,6 +97,7 @@ let
       stateDir
       cacheDir
       metricDir
+      "/run/lock/srv-backup.lock"
     ];
   };
 in
@@ -110,6 +111,7 @@ in
   systemd.tmpfiles.rules = [
     "d ${stateDir} 0700 root root -"
     "d ${cacheDir} 0700 root root -"
+    "f /run/lock/srv-backup.lock 0600 root root -"
   ];
 
   systemd.services = {
