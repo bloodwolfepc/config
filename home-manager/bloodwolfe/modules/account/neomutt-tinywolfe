@@ -3,9 +3,11 @@ set spoolfile = "+inbox"
 set postponed = "+Drafts"
 set record = "+Sent Items"
 set trash = "+Deleted Items"
-set from = "bloodwolfe@tinywolfe.net"
-set realname = "Bloodwolfe"
+set from = "january@tinywolfe.net"
+set realname = "January"
 set use_from = yes
 set envelope_from = yes
+set reverse_name = yes
+alternates ^(bloodwolfe|january|tinywolfe|janvv|betawolfe[123])@tinywolfe\.net$
 set smtp_url = "smtps://bloodwolfe%40tinywolfe.net@mail.tinywolfe.net:465/"
 set smtp_pass = "`cat /home/bloodwolfe/.config/sops-nix/secrets/tinywolfe-mail-password`"
