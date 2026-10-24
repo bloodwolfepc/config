@@ -21,6 +21,18 @@ Do not copy another host's private SSH key to the phone. Run `phone-enroll` on t
 
 Run `phone-config-sync` for routine updates. It clones the public configuration on first use, requires fast-forward updates thereafter, and applies the pinned local Android subflake.
 
+## Application inventory
+
+Droid-ify remains the installer and updater; `apps.txt` records intent but does not enforce package state. In AppListBackup, create a CSV export with the **Package** field included, save it to shared storage, and run:
+
+```console
+$ phone-app-audit ~/storage/shared/Download/AppListBackup.csv
+```
+
+The audit reports declared-and-installed, declared-but-missing, and installed-but-undeclared package IDs. It does not install, remove, upload, or commit anything. Review discrepancies manually; do not commit the full export because an installed-application list can disclose sensitive information.
+
+True unattended application enforcement requires root, device-owner privileges, or custom-ROM integration. Stock Android still requires user approval for installations, so a home-grown APK installer would merely be a worse Droid-ify.
+
 ## Remote development
 
 The declared `angel` SSH host uses Angel's current Headscale address and pins its ED25519 host key. `angel-zellij` attaches to, or creates, Angel's `rainbow_session` over SSH; `angel-mosh-zellij` does the same over Mosh for unreliable mobile links.

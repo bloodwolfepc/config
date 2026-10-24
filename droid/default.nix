@@ -14,6 +14,13 @@ let
       exec mosh angel -- zellij attach --create rainbow_session
     '';
   };
+  phoneAppAudit = pkgs.writeShellApplication {
+    name = "phone-app-audit";
+    runtimeInputs = [ pkgs.python3Minimal ];
+    text = ''
+      exec python3 ${./app-audit.py} ${./apps.txt} "$@"
+    '';
+  };
   phoneConfigSync = pkgs.writeShellApplication {
     name = "phone-config-sync";
     runtimeInputs = [ pkgs.git ];
@@ -85,6 +92,7 @@ in
           mosh
           neovim
           openssh
+          phoneAppAudit
           phoneConfigSync
           phoneEnroll
           ripgrep
