@@ -4,8 +4,14 @@ let
   hostname = "mx.${domain}";
   relayRecipients = pkgs.writeText "postfix-relay-recipients" ''
     abuse@${domain} OK
+    betawolfe1@${domain} OK
+    betawolfe2@${domain} OK
+    betawolfe3@${domain} OK
     bloodwolfe@${domain} OK
+    january@${domain} OK
+    janvv@${domain} OK
     postmaster@${domain} OK
+    tinywolfe@${domain} OK
   '';
 in
 {
