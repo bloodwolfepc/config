@@ -72,6 +72,7 @@ let
     printf 'kopia_offsite_backup_last_success_unixtime %s\n' "$(${pkgs.coreutils}/bin/date +%s)" \
       >"$output.tmp"
     mv "$output.tmp" "$output"
+    ${pkgs.coreutils}/bin/chmod 0644 "$output"
   '';
   maintenance = pkgs.writeShellScript "kopia-b2-maintenance" ''
     set -euo pipefail
@@ -84,6 +85,7 @@ let
     printf 'kopia_offsite_maintenance_last_success_unixtime %s\n' "$(${pkgs.coreutils}/bin/date +%s)" \
       >"$output.tmp"
     mv "$output.tmp" "$output"
+    ${pkgs.coreutils}/bin/chmod 0644 "$output"
   '';
   serviceConfig = {
     Type = "oneshot";
@@ -112,6 +114,8 @@ in
     "d ${stateDir} 0700 root root -"
     "d ${cacheDir} 0700 root root -"
     "f /run/lock/srv-backup.lock 0600 root root -"
+    "z ${metricDir}/kopia-offsite-backup.prom 0644 root root -"
+    "z ${metricDir}/kopia-offsite-maintenance.prom 0644 root root -"
   ];
 
   systemd.services = {

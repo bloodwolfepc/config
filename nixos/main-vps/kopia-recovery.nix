@@ -74,6 +74,7 @@ let
     printf 'kopia_recovery_last_success_unixtime %s\n' "$(${pkgs.coreutils}/bin/date +%s)" \
       >"$output.tmp"
     mv "$output.tmp" "$output"
+    ${pkgs.coreutils}/bin/chmod 0644 "$output"
   '';
 in
 {
@@ -91,6 +92,7 @@ in
     "d ${cacheDir} 0700 root root -"
     "d ${recoveryDir} 0700 root root -"
     "d ${metricDir} 0755 root root -"
+    "z ${metricDir}/kopia-recovery.prom 0644 root root -"
   ];
 
   systemd.services.kopia-b2-recovery = {
