@@ -2,6 +2,8 @@
 
 `nixOnDroidConfigurations.phone` is the reproducible command-line environment for the Android phone. Android applications remain outside Nix; `apps.txt` is their auditable recovery inventory and `repositories.txt` pins the non-default repository trust root.
 
+The standalone `droid/flake.nix` deliberately has only public inputs, so a blank phone can bootstrap without credentials for the root flake's private infrastructure inputs. Use `github:bloodwolfepc/config?dir=droid#phone` for the initial switch and `~/src/config/droid#phone` after cloning the repository.
+
 ## Recovery boundary
 
 | State | Source of truth |

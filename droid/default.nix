@@ -176,7 +176,6 @@ in
           ".ssh/known_hosts.d/navi".text = ''
             navi ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQ52guuLRczgvdymn9TgXVXo5hUBXD2/GsVa0h7kHeS
           '';
-          ".config/zellij/config.kdl".source = ../home-manager/bloodwolfe/modules/zellij/config.kdl;
         };
       };
   };
