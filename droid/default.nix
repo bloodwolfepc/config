@@ -96,6 +96,17 @@ in
                 ServerAliveInterval = 30;
                 ServerAliveCountMax = 3;
               };
+              admin-vm = {
+                header = "Host admin-vm";
+                HostName = "192.168.5.4";
+                HostKeyAlias = "admin-vm";
+                ProxyJump = "navi";
+                User = "bloodwolfe";
+                IdentityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_phone" ];
+                IdentitiesOnly = true;
+                StrictHostKeyChecking = "yes";
+                UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/admin-vm";
+              };
               angel = {
                 header = "Host angel";
                 HostName = "100.64.0.8";
@@ -125,6 +136,16 @@ in
                 StrictHostKeyChecking = "yes";
                 UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/github";
               };
+              navi = {
+                header = "Host navi";
+                HostName = "100.64.0.4";
+                HostKeyAlias = "navi";
+                User = "bloodwolfe";
+                IdentityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_phone" ];
+                IdentitiesOnly = true;
+                StrictHostKeyChecking = "yes";
+                UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/navi";
+              };
             };
           };
           starship = {
@@ -140,6 +161,9 @@ in
         };
 
         home.file = {
+          ".ssh/known_hosts.d/admin-vm".text = ''
+            admin-vm ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5usOlyWjopfqK4XocBSTtztxSin0taRIiwhy7F/Eg5
+          '';
           ".ssh/known_hosts.d/angel".text = ''
             angel ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINU+1l0MzwIS056Xilr29bo/14fwRlgcdx4FnMScXcBt
           '';
@@ -148,6 +172,9 @@ in
           '';
           ".ssh/known_hosts.d/github".text = ''
             github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+          '';
+          ".ssh/known_hosts.d/navi".text = ''
+            navi ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQ52guuLRczgvdymn9TgXVXo5hUBXD2/GsVa0h7kHeS
           '';
           ".config/zellij/config.kdl".source = ../home-manager/bloodwolfe/modules/zellij/config.kdl;
         };

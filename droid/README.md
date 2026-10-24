@@ -21,6 +21,8 @@ Do not copy another host's private SSH key to the phone. Generate `~/.ssh/id_ed2
 
 The declared `angel` SSH host uses Angel's current Headscale address and pins its ED25519 host key. `angel-zellij` attaches to, or creates, Angel's `rainbow_session` over SSH; `angel-mosh-zellij` does the same over Mosh for unreliable mobile links.
 
-The Headscale address is stable while the current node registration exists. Update both the SSH configuration and documentation after intentionally re-enrolling Angel.
+The declared `admin-vm` host reaches the development VM through the pinned `navi` SSH jump host because admin-vm's old tailnet node is offline. Both hops enforce pinned ED25519 host keys.
+
+The Headscale addresses are stable while the current node registrations exist. Update both the SSH configuration and documentation after intentionally re-enrolling Angel.
 
 Nix-on-Droid has no service manager. Treat local daemons and background jobs as opportunistic; Android may stop them. Authoritative work belongs on Angel or `admin-vm`, with repositories pushed to GitHub or Forgejo.
