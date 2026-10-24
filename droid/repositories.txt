@@ -1,0 +1,5 @@
+# Official F-Droid repository
+https://f-droid.org/repo
+
+# Official Bitwarden repository; fingerprint is part of the trust root
+https://mobileapp.bitwarden.com/fdroid/repo?fingerprint=BC54EA6FD1CD5175BCCCC47C561C5726E1C3ED7E686B6DB4B18BAC843A3EFE6C

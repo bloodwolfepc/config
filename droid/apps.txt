@@ -1,0 +1,21 @@
+# Bootstrap and package management
+com.looker.droidify
+com.termux.nix
+
+# Private connectivity and remote development
+com.tailscale.ipn
+org.connectbot
+
+# Secrets and authentication
+com.x8bit.bitwarden
+com.beemdevelopment.aegis
+
+# Tinywolfe data
+at.bitfire.davdroid
+com.nextcloud.client
+org.tasks
+net.thunderbird.android
+
+# Explicit file synchronization and recovery inventory
+de.felixnuesse.extract
+org.androidlabs.applistbackup

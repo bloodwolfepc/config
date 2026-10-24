@@ -94,6 +94,7 @@
   services.udev.packages = [ pkgs.wooting-udev-rules ];
   programs.kdeconnect.enable = true;
   environment.systemPackages = with pkgs; [
+    mosh
     universal-android-debloater
     displaycal
     wootility
@@ -114,4 +115,10 @@
   time.timeZone = lib.mkDefault "America/Chicago";
 
   services.tailscale.enable = true;
+  networking.firewall.interfaces.tailscale0.allowedUDPPortRanges = [
+    {
+      from = 60000;
+      to = 61000;
+    }
+  ];
 }
