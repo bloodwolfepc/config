@@ -1,6 +1,6 @@
 # Android environment
 
-`nixOnDroidConfigurations.phone` is the reproducible command-line environment for the Android phone. Android applications remain outside Nix; `apps.txt` is their auditable recovery inventory and `repositories.txt` pins the non-default repository trust root.
+`nixOnDroidConfigurations.phone` is the reproducible command-line environment for the Android phone. Android applications remain outside Nix; Droid-ify favourites provide the human recovery list and `repositories.txt` records the non-default repository trust root.
 
 The standalone `droid/flake.nix` deliberately has only public inputs, so a blank phone can bootstrap without credentials for the root flake's private infrastructure inputs. Use `github:bloodwolfepc/config?dir=droid#phone` for the initial switch and `~/src/config/droid#phone` after cloning the repository.
 
@@ -14,24 +14,20 @@ The standalone `droid/flake.nix` deliberately has only public inputs, so a blank
 | Calendar, contacts, and tasks | DAVx5 and Nextcloud |
 | Files and photos | Nextcloud |
 | TOTP seeds | Encrypted Aegis export in Nextcloud |
-| Android application inventory | `apps.txt` |
+| Android application memory | Droid-ify favourites backup in Nextcloud |
 | Phone SSH private key | The phone; regenerate after loss |
 
 Do not copy another host's private SSH key to the phone. Run `phone-enroll` on the device to generate `~/.ssh/id_ed25519_phone`, authorize its printed public key declaratively on the required hosts, and revoke it when the device is retired or lost. The helper refuses to overwrite or silently repair an incomplete keypair.
 
 Run `phone-config-sync` for routine updates. It clones the public configuration on first use, requires fast-forward updates thereafter, and applies the pinned local Android subflake.
 
-## Application inventory
+## Android applications
 
-Droid-ify remains the installer and updater; `apps.txt` records intent but does not enforce package state. In AppListBackup, create a CSV export with the **Package** field included, save it to shared storage, and run:
+Droid-ify is the installer, updater, and recovery memory. Mark each application worth restoring as a favourite. After changing favourites or repositories, use **Settings → Backup and restore** to export both **Favourites and settings** and **Repositories** directly into the phone-backup directory in Nextcloud.
 
-```console
-$ phone-app-audit ~/storage/shared/Download/AppListBackup.csv
-```
+After a wipe, install Droid-ify, import both files, and reinstall the restored favourites. Droid-ify does not batch-install the list on stock Android, so Android still requires approval for each installation. Applications installed outside Droid-ify are remembered only if they are also available and marked as favourites there.
 
-The audit reports declared-and-installed, declared-but-missing, and installed-but-undeclared package IDs. It does not install, remove, upload, or commit anything. Review discrepancies manually; do not commit the full export because an installed-application list can disclose sensitive information.
-
-True unattended application enforcement requires root, device-owner privileges, or custom-ROM integration. Stock Android still requires user approval for installations, so a home-grown APK installer would merely be a worse Droid-ify.
+There is intentionally no Git-maintained application manifest or custom comparison tool. The Droid-ify backup is the source of truth for application memory; Git declares only the reproducible terminal environment.
 
 ## Remote development
 

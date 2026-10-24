@@ -22,27 +22,6 @@
       nix-on-droid,
     }:
     {
-      checks =
-        nixpkgs.lib.genAttrs
-          [
-            "aarch64-linux"
-            "x86_64-linux"
-          ]
-          (
-            system:
-            let
-              pkgs = import nixpkgs { inherit system; };
-            in
-            {
-              app-audit =
-                pkgs.runCommand "phone-app-audit-test" { nativeBuildInputs = [ pkgs.python3Minimal ]; }
-                  ''
-                    APP_AUDIT_PATH=${./app-audit.py} python3 ${./app-audit_test.py}
-                    touch $out
-                  '';
-            }
-          );
-
       nixOnDroidConfigurations.phone = nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
           system = "aarch64-linux";
