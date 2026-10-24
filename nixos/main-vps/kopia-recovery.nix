@@ -100,6 +100,7 @@ in
       Type = "oneshot";
       User = "root";
       UMask = "0077";
+      Environment = "HOME=${cacheDir}";
       ExecStartPre = connect;
       PrivateTmp = true;
       ProtectHome = true;
