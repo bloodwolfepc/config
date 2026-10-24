@@ -89,6 +89,7 @@ let
     Type = "oneshot";
     User = "root";
     UMask = "0077";
+    Environment = "HOME=${cacheDir}";
     PrivateTmp = true;
     ProtectHome = true;
     ProtectSystem = "strict";
