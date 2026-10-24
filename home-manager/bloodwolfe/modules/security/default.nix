@@ -45,7 +45,12 @@
         ];
       };
       navi = {
-        header = "Host navi navi.srvctl.ts.net tinywolfe.net";
+        header = "Host navi";
+        HostName = "tinywolfe.net";
+        RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
+      };
+      navi-hostnames = {
+        header = "Host navi.srvctl.ts.net tinywolfe.net";
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
       };
     };
