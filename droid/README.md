@@ -17,7 +17,9 @@ The standalone `droid/flake.nix` deliberately has only public inputs, so a blank
 | Android application inventory | `apps.txt` |
 | Phone SSH private key | The phone; regenerate after loss |
 
-Do not copy another host's private SSH key to the phone. Generate `~/.ssh/id_ed25519_phone` on the device, authorize its public key declaratively on the required hosts, and revoke it when the device is retired or lost.
+Do not copy another host's private SSH key to the phone. Run `phone-enroll` on the device to generate `~/.ssh/id_ed25519_phone`, authorize its printed public key declaratively on the required hosts, and revoke it when the device is retired or lost. The helper refuses to overwrite or silently repair an incomplete keypair.
+
+Run `phone-config-sync` for routine updates. It clones the public configuration on first use, requires fast-forward updates thereafter, and applies the pinned local Android subflake.
 
 ## Remote development
 

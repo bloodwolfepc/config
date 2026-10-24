@@ -14,6 +14,38 @@ let
       exec mosh angel -- zellij attach --create rainbow_session
     '';
   };
+  phoneConfigSync = pkgs.writeShellApplication {
+    name = "phone-config-sync";
+    runtimeInputs = [ pkgs.git ];
+    text = ''
+      repo="$HOME/src/config"
+      if [[ -d "$repo/.git" ]]; then
+        git -C "$repo" pull --ff-only
+      elif [[ -e "$repo" ]]; then
+        echo "$repo exists but is not a Git checkout" >&2
+        exit 1
+      else
+        mkdir -p "$(dirname "$repo")"
+        git clone https://github.com/bloodwolfepc/config.git "$repo"
+      fi
+      exec nix-on-droid switch --flake "$repo/droid#phone"
+    '';
+  };
+  phoneEnroll = pkgs.writeShellApplication {
+    name = "phone-enroll";
+    runtimeInputs = [ pkgs.openssh ];
+    text = ''
+      key="$HOME/.ssh/id_ed25519_phone"
+      install -d -m 0700 "$HOME/.ssh"
+      if [[ ! -e "$key" && ! -e "$key.pub" ]]; then
+        ssh-keygen -t ed25519 -a 100 -C tinywolfe-android -f "$key"
+      elif [[ ! -f "$key" || ! -f "$key.pub" ]]; then
+        echo "incomplete phone SSH keypair at $key" >&2
+        exit 1
+      fi
+      cat "$key.pub"
+    '';
+  };
 in
 {
   system.stateVersion = "24.05";
@@ -53,6 +85,8 @@ in
           mosh
           neovim
           openssh
+          phoneConfigSync
+          phoneEnroll
           ripgrep
           rsync
           sops
