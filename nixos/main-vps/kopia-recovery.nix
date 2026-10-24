@@ -57,7 +57,8 @@ let
     test -s "$incoming/.complete"
     ${pkgs.postgresql_18}/bin/pg_restore --list "$incoming/databases/auth.dump" >/dev/null
     ${pkgs.postgresql_18}/bin/pg_restore --list "$incoming/databases/vaultwarden.dump" >/dev/null
-    ${pkgs.gnutar}/bin/tar -tzf "$incoming/openbao.snap" >/dev/null
+    ${pkgs.gzip}/bin/gzip -cd "$incoming/openbao.snap" |
+      ${pkgs.gnutar}/bin/tar -tf - >/dev/null
     test -n "$(${pkgs.findutils}/bin/find "$incoming/volumes/auth_data" -mindepth 1 -print -quit)"
     test -n "$(${pkgs.findutils}/bin/find "$incoming/volumes/vaultwarden_data" -mindepth 1 -print -quit)"
     ${pkgs.coreutils}/bin/date --iso-8601=seconds >"$incoming/.restored-at"
