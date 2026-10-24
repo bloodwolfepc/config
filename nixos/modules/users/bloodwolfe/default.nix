@@ -54,6 +54,7 @@
       ];
       openssh.authorizedKeys.keys = [
         (builtins.readFile ./id_angel.pub)
+        ''from="100.64.0.0/10" ${builtins.readFile ./id_phone.pub}''
       ];
     };
   };
