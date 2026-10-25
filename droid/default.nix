@@ -1,5 +1,7 @@
 { pkgs, ... }:
 let
+  sharedStarshipConfig = ./shared/starship.toml;
+  sharedZellijConfig = ./shared/zellij.kdl;
   angelZellij = pkgs.writeShellApplication {
     name = "angel-zellij";
     runtimeInputs = [ pkgs.openssh ];
@@ -69,7 +71,11 @@ in
     backupFileExtension = "hm-bak";
     useGlobalPkgs = true;
     config =
-      { config, ... }:
+      {
+        config,
+        lib,
+        ...
+      }:
       {
         home.stateVersion = "24.05";
         home.packages = with pkgs; [
@@ -97,6 +103,7 @@ in
 
         home.sessionVariables = {
           EDITOR = "nvim";
+          STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship.toml";
           VISUAL = "nvim";
         };
         home.shellAliases = {
@@ -186,15 +193,26 @@ in
             enable = true;
             enableZshIntegration = true;
           };
+          zoxide = {
+            enable = true;
+            enableZshIntegration = true;
+          };
           zsh = {
             enable = true;
             autosuggestion.enable = true;
             enableCompletion = true;
             syntaxHighlighting.enable = true;
+            initContent = lib.mkAfter ''
+              if [[ -o interactive && -z "''${ZELLIJ:-}" && "''${ZELLIJ_AUTO_ATTACH:-1}" == 1 ]]; then
+                zellij attach --create phone
+              fi
+            '';
           };
         };
 
         home.file = {
+          ".config/starship.toml".source = sharedStarshipConfig;
+          ".config/zellij/config.kdl".source = sharedZellijConfig;
           ".ssh/known_hosts.d/admin-vm".text = ''
             admin-vm ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5usOlyWjopfqK4XocBSTtztxSin0taRIiwhy7F/Eg5
           '';

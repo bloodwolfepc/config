@@ -194,20 +194,23 @@ keybinds clear-defaults=true {
       SwitchToMode "EnterSearch"
       SearchInput 0
     }
+    bind "g" {
+      ScrollToTop
+    }
     bind "G" {
       ScrollToBottom
       SwitchToMode "Normal"
     }
-    bind "j" {
+    bind "j" "Down" {
       ScrollDown
     }
-    bind "k" {
+    bind "k" "Up" {
       ScrollUp
     }
-    bind "f" {
+    bind "f" "PageDown" {
       PageScrollDown
     }
-    bind "b" {
+    bind "b" "PageUp" {
       PageScrollUp
     }
     bind "d" {
@@ -225,16 +228,16 @@ keybinds clear-defaults=true {
       ScrollToBottom
       SwitchToMode "Normal"
     }
-    bind "j" {
+    bind "j" "Down" {
       ScrollDown
     }
-    bind "k" {
+    bind "k" "Up" {
       ScrollUp
     }
-    bind "f" {
+    bind "f" "PageDown" {
       PageScrollDown
     }
-    bind "b" {
+    bind "b" "PageUp" {
       PageScrollUp
     }
     bind "d" {
@@ -334,7 +337,7 @@ keybinds clear-defaults=true {
     bind "[" {
       SwitchToMode "Scroll"
     }
-    bind "Ctrl Alt b" {
+    bind "Ctrl b" "Ctrl Alt b" {
       Write 2
       SwitchToMode "Normal"
     }
@@ -497,7 +500,7 @@ keybinds clear-defaults=true {
     }
   }
   shared_except "tmux" "locked" {
-    bind "Ctrl Alt b" {
+    bind "Ctrl b" "Ctrl Alt b" {
       SwitchToMode "Tmux"
     }
   }

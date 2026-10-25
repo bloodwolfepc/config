@@ -4,7 +4,7 @@
   ...
 }:
 let
-  configFile = config.dotfiles.source "zellij/config.kdl" ./config.kdl;
+  configFile = config.dotfiles.sourceAt "${config.dotfiles.path}/../../../../droid/shared/zellij.kdl" ../../../../droid/shared/zellij.kdl;
   rainbowLayout = config.dotfiles.source "zellij/rainbow_layout.kdl" ./rainbow_layout.kdl;
   dropLayout = config.dotfiles.source "zellij/drop_layout.kdl" ./drop_layout.kdl;
 in

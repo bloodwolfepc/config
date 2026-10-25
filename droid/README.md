@@ -29,6 +29,14 @@ After a wipe, install Droid-ify, import both files, and reinstall the restored f
 
 There is intentionally no Git-maintained application manifest or custom comparison tool. The Droid-ify backup is the source of truth for application memory; Git declares only the reproducible terminal environment.
 
+## Shell and terminal navigation
+
+Interactive shells use Zsh with the shared Starship prompt, zoxide's `z` command, and the shared Zellij configuration. A top-level Nix-on-Droid shell automatically attaches or creates the local `phone` Zellij session; panes opened inside it do not recurse.
+
+Use `Ctrl+B` as the mobile-safe prefix. `Ctrl+B [` enters scroll mode, `Ctrl+B d` detaches, `Ctrl+B h/j/k/l` moves focus, and `Ctrl+B c/n/p` creates or changes tabs. In scroll mode, use arrows or `j/k`, Page Up/Down or `b/f`, `u/d` for half pages, `g/G` for top/bottom, and `i` or Escape to return.
+
+Detach the local session before running `angel-zellij` for the simplest remote experience. If Angel's Zellij is nested inside the local session, double the prefix: `Ctrl+B Ctrl+B d` sends `Ctrl+B d` to Angel.
+
 ## Remote development
 
 The declared `angel` SSH host uses Angel's current Headscale address and pins its ED25519 host key. `angel-zellij` attaches to, or creates, Angel's `rainbow_session` over SSH; `angel-mosh-zellij` does the same over Mosh for unreliable mobile links.
