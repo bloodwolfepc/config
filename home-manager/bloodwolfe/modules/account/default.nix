@@ -35,6 +35,7 @@ in
     khal
     khard
     neomutt
+    urlscan
     vdirsyncer
   ];
 

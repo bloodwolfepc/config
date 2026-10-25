@@ -20,5 +20,6 @@ folder-hook /tinywolfe/ "source ~/.config/neomutt/accounts/tinywolfe"
 folder-hook /bloodwolfe/ "source ~/.config/neomutt/accounts/google"
 macro index,pager <f2> "<sync-mailbox><enter-command>source ~/.config/neomutt/accounts/tinywolfe<enter><change-folder>/persist/home/bloodwolfe/.mail/tinywolfe/inbox<enter>" "Tinywolfe account"
 macro index,pager <f3> "<sync-mailbox><enter-command>source ~/.config/neomutt/accounts/google<enter><change-folder>/persist/home/bloodwolfe/.mail/bloodwolfe/inbox<enter>" "Google account"
+macro index,pager ,u "<pipe-message>urlscan --single --run-safe 'xdg-open {}'<enter>" "Open a URL"
 
 source ~/.config/neomutt/accounts/tinywolfe
