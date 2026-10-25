@@ -103,6 +103,7 @@ in
 
         home.sessionVariables = {
           EDITOR = "nvim";
+          SHELL = "${pkgs.zsh}/bin/zsh";
           STARSHIP_CONFIG = "${config.home.homeDirectory}/.config/starship.toml";
           VISUAL = "nvim";
         };
