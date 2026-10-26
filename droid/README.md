@@ -41,8 +41,8 @@ Detach the local session before running `angel-zellij` for the simplest remote e
 
 The declared `angel` SSH host uses Angel's current Headscale address and pins its ED25519 host key. `angel-zellij` attaches to, or creates, Angel's `rainbow_session` over SSH; `angel-mosh-zellij` does the same over Mosh for unreliable mobile links.
 
-The declared `admin-vm` host reaches the development VM through the pinned `navi` SSH jump host because admin-vm's old tailnet node is offline. Both hops enforce pinned ED25519 host keys.
+The admin-vm SSH entries use its unprivileged `mobiledev` account. `admin-zellij` prefers admin-vm's direct tailnet host and falls back to the pinned Navi jump path. `admin-mosh-zellij` uses the direct path for roaming sessions. Both paths pin admin-vm's ED25519 host key; Mosh becomes available after admin-vm is enrolled in Headscale.
 
-The Headscale addresses are stable while the current node registrations exist. Update both the SSH configuration and documentation after intentionally re-enrolling Angel.
+The Headscale addresses are stable while the current node registrations exist. Update both the SSH configuration and documentation after intentionally re-enrolling a host.
 
-Nix-on-Droid has no service manager. Treat local daemons and background jobs as opportunistic; Android may stop them. Authoritative work belongs on Angel or `admin-vm`, with repositories pushed to GitHub or Forgejo.
+Nix-on-Droid has no service manager. Treat local daemons and background jobs as opportunistic; Android may stop them. Mobile work uses topic branches on `admin-vm`; canonical commits are reviewed and YubiKey-signed on Angel before entering protected default branches.

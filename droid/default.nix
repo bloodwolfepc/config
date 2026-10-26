@@ -16,6 +16,24 @@ let
       exec mosh angel -- zellij attach --create rainbow_session
     '';
   };
+  adminZellij = pkgs.writeShellApplication {
+    name = "admin-zellij";
+    runtimeInputs = [ pkgs.openssh ];
+    text = ''
+      host=admin-vm
+      if ssh -o BatchMode=yes -o ConnectTimeout=3 admin-vm-direct true 2>/dev/null; then
+        host=admin-vm-direct
+      fi
+      exec ssh -t "$host" admin-zellij
+    '';
+  };
+  adminMoshZellij = pkgs.writeShellApplication {
+    name = "admin-mosh-zellij";
+    runtimeInputs = [ pkgs.mosh ];
+    text = ''
+      exec mosh admin-vm-direct -- admin-zellij
+    '';
+  };
   phoneConfigSync = pkgs.writeShellApplication {
     name = "phone-config-sync";
     runtimeInputs = [ pkgs.git ];
@@ -79,6 +97,8 @@ in
       {
         home.stateVersion = "24.05";
         home.packages = with pkgs; [
+          adminMoshZellij
+          adminZellij
           age
           angelMoshZellij
           angelZellij
@@ -143,7 +163,17 @@ in
                 HostName = "192.168.5.4";
                 HostKeyAlias = "admin-vm";
                 ProxyJump = "navi";
-                User = "bloodwolfe";
+                User = "mobiledev";
+                IdentityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_phone" ];
+                IdentitiesOnly = true;
+                StrictHostKeyChecking = "yes";
+                UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/admin-vm";
+              };
+              admin-vm-direct = {
+                header = "Host admin-vm-direct";
+                HostName = "admin-vm.srvctl.ts.net";
+                HostKeyAlias = "admin-vm";
+                User = "mobiledev";
                 IdentityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519_phone" ];
                 IdentitiesOnly = true;
                 StrictHostKeyChecking = "yes";

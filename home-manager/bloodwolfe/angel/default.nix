@@ -1,10 +1,15 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
 let
+  signingPublicKey = lib.trim (builtins.readFile ./id_ed25519_sk_angel.pub);
+  allowedSigners = pkgs.writeText "git-allowed-signers" ''
+    bloodwolfepc@gmail.com namespaces="git" ${signingPublicKey}
+  '';
   editMusic = pkgs.writeShellApplication {
     name = "edit-music";
     runtimeInputs = [ pkgs.openssh ];
@@ -36,6 +41,16 @@ in
     ".ssh/id_ed25519_sk_angel"
     ".ssh/id_ed25519_sk_angel.pub"
   ];
+
+  programs.git.settings = {
+    commit.gpgSign = true;
+    gpg = {
+      format = "ssh";
+      ssh.allowedSignersFile = "${allowedSigners}";
+    };
+    tag.forceSignAnnotated = true;
+    user.signingKey = "${config.home.homeDirectory}/.ssh/id_ed25519_sk_angel";
+  };
 
   systemd.user.services.lemonade = {
     Unit = {
