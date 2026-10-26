@@ -69,6 +69,7 @@ in
 
   home.persistence."/persist".directories = [
     ".config/Nextcloud"
+    ".local/share/keyrings"
     "Nextcloud"
   ];
   home.persistence."/persist".files = [

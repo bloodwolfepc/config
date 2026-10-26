@@ -23,6 +23,10 @@
     asusd = {
       enable = false;
     };
+    gnome = {
+      gcr-ssh-agent.enable = false;
+      gnome-keyring.enable = true;
+    };
     switcherooControl.enable = true;
     supergfxd = {
       enable = true;
