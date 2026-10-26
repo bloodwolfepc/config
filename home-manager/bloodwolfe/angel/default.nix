@@ -70,7 +70,7 @@ in
   home.persistence."/persist".directories = [
     ".config/Nextcloud"
     ".local/share/keyrings"
-    "Nextcloud"
+    "nextcloud"
   ];
   home.persistence."/persist".files = [
     ".ssh/id_ed25519_sk_angel"
