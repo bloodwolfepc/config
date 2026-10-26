@@ -67,10 +67,19 @@ in
     secrets."ssh-angel".path = "${config.home.homeDirectory}/.ssh/id_ed25519";
   };
 
+  home.persistence."/persist".directories = [
+    ".config/Nextcloud"
+    "Nextcloud"
+  ];
   home.persistence."/persist".files = [
     ".ssh/id_ed25519_sk_angel"
     ".ssh/id_ed25519_sk_angel.pub"
   ];
+
+  services.nextcloud-client = {
+    enable = true;
+    startInBackground = true;
+  };
 
   programs.git.settings = {
     alias.scommit = "commit -S";
@@ -115,6 +124,7 @@ in
     wiremix
     ego
     editMusic
+    nextcloud-client
 
     (writeShellScriptBin "ddc-default" ''
       ddcutil setvcp 10 45
