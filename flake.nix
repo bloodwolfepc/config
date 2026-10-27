@@ -134,6 +134,10 @@
       url = "git+ssh://git@gitlab.com/bloodwolfe/secrets.git?shallow=1";
       flake = false;
     };
+    agents = {
+      url = "git+ssh://git@forgejo/bloodwolfe/agents.git?ref=main";
+      flake = false;
+    };
     srv = {
       url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?shallow=1";
     };

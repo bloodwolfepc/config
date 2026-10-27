@@ -1283,7 +1283,8 @@
         "subtui": "subtui",
         "systems": "systems_5",
         "waybar-lyric": "waybar-lyric",
-        "wl-crosshair": "wl-crosshair"
+        "wl-crosshair": "wl-crosshair",
+        "agents": "agents"
       }
     },
     "rust-analyzer-src": {
@@ -1641,6 +1642,23 @@
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
         "type": "github"
+      }
+    },
+    "agents": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793064807,
+        "narHash": "sha256-cXY7hW+gJ7RmIF6DRSh3fhJh9cE/fuoLlmcNVoWIIYg=",
+        "ref": "main",
+        "rev": "a40e87ae1b8e8ab7784a9de225c99996e3eb3d53",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       }
     }
   },

@@ -117,6 +117,7 @@ in
   home.persistence."/persist".directories = [
     ".config/Nextcloud"
     ".local/share/keyrings"
+    ".ssh/forgejo-fast"
     "nextcloud"
   ];
   home.persistence."/persist".files = [
@@ -141,7 +142,8 @@ in
   };
 
   home.activation.gitPromotionHooks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    for repo in "$HOME/src/config" "$HOME/src/srv"; do
+    run install -d -m 0700 "$HOME/.ssh/forgejo-fast"
+    for repo in "$HOME/src/agents" "$HOME/src/config" "$HOME/src/srv"; do
       if [[ -d "$repo/.git/hooks" ]]; then
         run ln -sfn ${gitPrePush}/bin/git-pre-push "$repo/.git/hooks/pre-push"
       fi
@@ -167,6 +169,7 @@ in
   };
 
   home.packages = with pkgs; [
+    gitPrePush
     xf86_input_wacom
     wine
     wiremix
