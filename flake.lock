@@ -1645,13 +1645,13 @@
       }
     },
     "agents": {
-      "flake": false,
+      "flake": true,
       "locked": {
-        "lastModified": 1793081509,
-        "narHash": "sha256-470HxR35jZQd7nJ5l2hbU2u+4PITK9mZXaaWNCVhaIY=",
+        "lastModified": 1793115752,
+        "narHash": "sha256-dUq3kVEVkv/kE/hHu78Zn8j1xVbQcKk7Oixyv68H/vY=",
         "ref": "main",
-        "rev": "b0f60866df0f551e9921d3402a8a3b9520ab3195",
-        "revCount": 3,
+        "rev": "c4a54b1c8942741650bfae4247bc191683117cd3",
+        "revCount": 4,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       },
@@ -1659,6 +1659,11 @@
         "ref": "main",
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
+      },
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       }
     }
   },

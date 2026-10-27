@@ -136,7 +136,7 @@
     };
     agents = {
       url = "git+ssh://git@forgejo/bloodwolfe/agents.git?ref=main";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     srv = {
       url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?shallow=1";
