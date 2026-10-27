@@ -37,6 +37,10 @@ Use `Ctrl+B` as the mobile-safe prefix. `Ctrl+B [` enters scroll mode, `Ctrl+B d
 
 Detach the local session before running `angel-zellij` for the simplest remote experience. If Angel's Zellij is nested inside the local session, double the prefix: `Ctrl+B Ctrl+B d` sends `Ctrl+B d` to Angel.
 
+## Encrypted documents
+
+DroidFS opens the local gocryptfs ciphertext vault. Round Sync transfers only the complete ciphertext directory through Nextcloud using a dedicated app password. Never run Round Sync while DroidFS is open, and never edit the same vault on Angel and Android concurrently. The canonical operating and recovery procedure is documented in the `srv` repository at `doc/encrypted-documents.md`.
+
 ## Remote development
 
 The declared `angel` SSH host uses Angel's current Headscale address and pins its ED25519 host key. `angel-zellij` attaches to, or creates, Angel's `rainbow_session` over SSH; `angel-mosh-zellij` does the same over Mosh for unreliable mobile links.

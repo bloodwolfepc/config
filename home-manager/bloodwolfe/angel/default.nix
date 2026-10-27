@@ -40,6 +40,53 @@ let
       done
     '';
   };
+  documentsVault = pkgs.writeShellApplication {
+    name = "documents-vault";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.findutils
+      pkgs.fuse3
+      pkgs.gocryptfs
+      pkgs.util-linux
+    ];
+    text = ''
+      set -euo pipefail
+      cipher="$HOME/nextcloud/documents-vault"
+      mount="$HOME/secure-documents"
+      case "''${1:-status}" in
+        init)
+          install -d -m 0700 "$cipher" "$mount"
+          [[ -z "$(find "$cipher" -mindepth 1 -print -quit)" ]] || {
+            echo "refusing to initialize non-empty $cipher" >&2
+            exit 1
+          }
+          gocryptfs -init "$cipher"
+          printf 'Store the printed master key offline before adding real documents.\n'
+          ;;
+        open)
+          [[ -f "$cipher/gocryptfs.conf" ]] || {
+            echo "initialize the vault first: documents-vault init" >&2
+            exit 1
+          }
+          install -d -m 0700 "$mount"
+          ! mountpoint --quiet "$mount" || { echo "$mount is already open" >&2; exit 1; }
+          gocryptfs "$cipher" "$mount"
+          ;;
+        close)
+          mountpoint --quiet "$mount" || { echo "$mount is already closed"; exit 0; }
+          fusermount3 -u "$mount"
+          ;;
+        status)
+          if mountpoint --quiet "$mount"; then
+            echo "open: $mount"
+          else
+            echo "closed: ciphertext is in $cipher"
+          fi
+          ;;
+        *) echo 'usage: documents-vault {init|open|close|status}' >&2; exit 2 ;;
+      esac
+    '';
+  };
   editMusic = pkgs.writeShellApplication {
     name = "edit-music";
     runtimeInputs = [ pkgs.openssh ];
@@ -124,8 +171,11 @@ in
     wine
     wiremix
     ego
+    documentsVault
     editMusic
+    gocryptfs
     nextcloud-client
+    sirikali
 
     (writeShellScriptBin "ddc-default" ''
       ddcutil setvcp 10 45
