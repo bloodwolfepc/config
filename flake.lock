@@ -1647,11 +1647,11 @@
     "agents": {
       "flake": true,
       "locked": {
-        "lastModified": 1793115752,
-        "narHash": "sha256-dUq3kVEVkv/kE/hHu78Zn8j1xVbQcKk7Oixyv68H/vY=",
+        "lastModified": 1793142450,
+        "narHash": "sha256-CX6yHWI+cGWI2igsPfgijvoSf9UligYC3sHGmEaM3MA=",
         "ref": "main",
-        "rev": "c4a54b1c8942741650bfae4247bc191683117cd3",
-        "revCount": 4,
+        "rev": "7f04c01d2009289ec5f720efb2a7e30921db759b",
+        "revCount": 6,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       },

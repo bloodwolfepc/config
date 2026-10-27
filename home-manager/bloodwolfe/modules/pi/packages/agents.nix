@@ -18,10 +18,46 @@ in
   home.activation.piAgentsSource = lib.mkIf config.dotfiles.mutable (
     lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       source=${piAgents}
-      if [[ -f "${live}/package.json" && -f "${live}/extensions/workflow.ts" ]]; then
+      required=(
+        package.json
+        extensions/workflow.ts
+        extensions/workflow-policy.ts
+        prompts/fast-finish.md
+        prompts/queue-handoff.md
+        prompts/secure-promote.md
+        prompts/workflow-check.md
+        skills/development-workflow/SKILL.md
+        skills/intuition-probe/SKILL.md
+        skills/intuition-probe/references/blind-prompt.md
+        skills/intuition-probe/references/scoring.md
+        skills/intuition-probe/scripts/run-blind.sh
+        skills/jujutsu/SKILL.md
+        skills/nix-shell/SKILL.md
+        skills/pi-extension-authoring/SKILL.md
+        skills/sub-agents/SKILL.md
+        skills/sub-agents/scripts/run.sh
+        skills/thinking-scaffold/SKILL.md
+        angel/extensions/codex-usage.ts
+        angel/extensions/jj-snapshot.ts
+        angel/extensions/suggest-edit.ts
+        angel/extensions/web.ts
+        angel/skills/note-refactor/SKILL.md
+        angel/skills/note-write/SKILL.md
+        angel/skills/personal-tools/SKILL.md
+        angel/skills/runelite-query/SKILL.md
+        angel/skills/web-fetch/SKILL.md
+      )
+      missing=
+      for relative in "''${required[@]}"; do
+        if [[ ! -f "${live}/$relative" ]]; then
+          missing=$relative
+          break
+        fi
+      done
+      if [[ -z "$missing" ]]; then
         source=${live}
       else
-        echo "warning: ${live} is incomplete; using pinned Pi policy" >&2
+        echo "warning: ${live} is incomplete (missing $missing); using pinned Pi policy" >&2
       fi
 
       if [[ -e "${target}" && ! -L "${target}" ]]; then
