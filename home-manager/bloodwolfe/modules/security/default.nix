@@ -44,6 +44,27 @@
           "${config.home.homeDirectory}/.ssh/id_ed25519_sk_angel"
         ];
       };
+      admin-vm = {
+        header = "Host admin-vm admin-vm.srvctl.ts.net";
+        HostName = "admin-vm.srvctl.ts.net";
+        HostKeyAlias = "admin-vm";
+        StrictHostKeyChecking = "yes";
+        UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/admin-vm";
+      };
+      admin-vm-lan = {
+        header = "Host admin-vm-lan";
+        HostName = "192.168.5.4";
+        HostKeyAlias = "admin-vm";
+        StrictHostKeyChecking = "yes";
+        UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/admin-vm";
+      };
+      srv-vm = {
+        header = "Host srv-vm srv-vm.srvctl.ts.net";
+        HostName = "srv-vm.srvctl.ts.net";
+        HostKeyAlias = "srv-vm";
+        StrictHostKeyChecking = "yes";
+        UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/srv-vm";
+      };
       navi = {
         header = "Host navi";
         HostName = "tinywolfe.net";
@@ -54,6 +75,15 @@
         RemoteForward = "127.0.0.1:2489 127.0.0.1:2489";
       };
     };
+  };
+
+  home.file = {
+    ".ssh/known_hosts.d/admin-vm".text = ''
+      admin-vm ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5usOlyWjopfqK4XocBSTtztxSin0taRIiwhy7F/Eg5
+    '';
+    ".ssh/known_hosts.d/srv-vm".text = ''
+      srv-vm ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACFW/KSvimD8k8SnBJuyCuN8aq6csMUqRrPxfbLRpL2
+    '';
   };
 
   services.gpg-agent = {
