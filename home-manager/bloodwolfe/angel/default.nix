@@ -128,10 +128,7 @@ in
     ".ssh/id_ed25519_sk_angel.pub"
   ];
 
-  services.nextcloud-client = {
-    enable = true;
-    startInBackground = true;
-  };
+  services.nextcloud-client.enable = false;
 
   programs.git.settings = {
     alias.scommit = "commit -S";
