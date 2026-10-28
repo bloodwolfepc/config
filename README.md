@@ -23,3 +23,5 @@
 ### Notes
 
 User configuration is under `home-manager/bloodwolfe/modules`
+
+These configurations are based heavily off, and resuse/modify the ones by Misterio77

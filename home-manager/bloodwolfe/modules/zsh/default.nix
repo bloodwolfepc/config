@@ -5,7 +5,7 @@
   ...
 }:
 let
-  starshipConfig = config.dotfiles.sourceAt "${config.dotfiles.path}/../../../../droid/shared/starship.toml" ../../../../droid/shared/starship.toml;
+  starshipConfig = config.dotfiles.sourceAt "${config.dotfiles.path}/../../../droid/shared/starship.toml" ../../../../droid/shared/starship.toml;
 in
 {
   programs.zsh = {

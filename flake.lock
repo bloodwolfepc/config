@@ -770,11 +770,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1790320027,
-        "narHash": "sha256-mCW5iqFir9MUrJvyxC0lTtf9zg0O4n6Ee/ZMzZYEGW0=",
+        "lastModified": 1792050059,
+        "narHash": "sha256-Iz3/60BrIFW7DgR/iyILUigXRtDf/pOnYZ1gxhqThTs=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "00034f4c84de3be38eff7aeaf376f71238c3af82",
+        "rev": "b33ca988915808a95e26dc159d6f14f43a43aedd",
         "type": "github"
       },
       "original": {
@@ -1647,11 +1647,11 @@
     "agents": {
       "flake": true,
       "locked": {
-        "lastModified": 1793207911,
-        "narHash": "sha256-V2e92AnLItU6jkdwt4dwwrRRYKV+60Maub1h867bKK0=",
+        "lastModified": 1793142450,
+        "narHash": "sha256-CX6yHWI+cGWI2igsPfgijvoSf9UligYC3sHGmEaM3MA=",
         "ref": "main",
-        "rev": "12809e3e5353869880db4ba568a0cae6f1b3eb7d",
-        "revCount": 7,
+        "rev": "7f04c01d2009289ec5f720efb2a7e30921db759b",
+        "revCount": 6,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       },
