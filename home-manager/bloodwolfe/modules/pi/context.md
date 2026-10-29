@@ -87,7 +87,26 @@ Do not defer this check until commit time; edits and tool-generated changes alre
 
 When Jan needs to run operational commands, put them in an executable script
 under `/tmp` instead of giving inline commands. Validate shell scripts with
-`bash -n` before handing them over.
+`bash -n` and ShellCheck when available before handing them over.
+
+When a command needs human interaction (e.g. a password, PIN, YubiKey touch, or
+confirmation):
+
+- Explain the script's effects and expected prompts, then let Jan run it in an
+  existing terminal. Do not launch a terminal with `handlr` unless Jan explicitly
+  asks for one.
+- Afterward, ask whether it completed or failed and independently verify the
+  resulting state. Do not rely only on the script's success message.
+- For substantial scripts, use strict error handling, a failure trap that reports
+  the command, line, and exit status, and `umask 077`. Save output to a private
+  log when it can safely persist; never enable `set -x` around credentials or log
+  secrets.
+- Give multi-stage mutating scripts explicit preconditions and resumable
+  checkpoints so a retry cannot repeat an already completed destructive step.
+  Print useful final identifiers such as commits or system generations.
+- Run required tools through the project's declared environment (e.g.
+  `nix develop -c`) rather than assuming Jan's interactive shell provides tools
+  such as `npm`.
 
 For remote scripts that prompt interactively, upload the helper in one
 non-interactive SSH connection, then execute it in a separate `ssh -t` session.
@@ -97,23 +116,7 @@ input.
 
 ## Privileged commands
 
-When a command needs interactive password entry (e.g. `sudo`), don't run it directly — the non-interactive TTY can't handle it. Spawn a terminal instead. `handlr` already forks, so don't append `&`; pass the command as split args rather than one quoted shell string:
-
-```bash
-handlr launch x-scheme-handler/terminal -- -e <cmd> <arg> ...
-```
-
-Example:
-
-```bash
-handlr launch x-scheme-handler/terminal -- -e sudo nixos-rebuild switch --flake ~/Foundry
-```
-
-Then prompt the user to confirm when the operation is complete:
-
-```
-Question: "Done? (the operation is complete)"
-Options: ["Done"]
-```
-
-The user confirms when finished, then continue.
+Never run commands requiring interactive password entry (e.g. `sudo`) directly
+through a non-interactive agent tool. Use the user-run script protocol above. A
+popup terminal is opt-in; if Jan requests one, keep it open after failure so the
+error remains visible.
