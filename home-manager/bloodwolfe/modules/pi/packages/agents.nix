@@ -23,6 +23,7 @@ in
         extensions/workflow.ts
         extensions/workflow-policy.ts
         prompts/fast-finish.md
+        prompts/incident.md
         prompts/queue-handoff.md
         prompts/secure-promote.md
         prompts/task-plan.md
@@ -32,6 +33,7 @@ in
         skills/intuition-probe/references/blind-prompt.md
         skills/intuition-probe/references/scoring.md
         skills/intuition-probe/scripts/run-blind.sh
+        skills/incident-investigation/SKILL.md
         skills/jujutsu/SKILL.md
         skills/nix-shell/SKILL.md
         skills/pi-extension-authoring/SKILL.md
@@ -40,6 +42,7 @@ in
         skills/thinking-scaffold/SKILL.md
         angel/extensions/codex-usage.ts
         angel/extensions/coordinated-work/index.ts
+        angel/extensions/handoff.ts
         angel/extensions/coordinated-work/task-coordination.ts
         angel/extensions/jj-snapshot.ts
         angel/extensions/suggest-edit.ts

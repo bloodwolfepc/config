@@ -22,11 +22,13 @@
     "./nix-packages/pi-invisible-continue",
     "./nix-packages/pi-codex-image-gen",
     "./nix-packages/pi-claude-bridge",
+    "./nix-packages/pi-context-analyzer",
+    "./nix-packages/pi-notify",
     "git:github.com/DietrichGebert/ponytail"
   ],
   "webSearch": {
     "kagiSessionTokenFile": "/home/bloodwolfe/.config/sops-nix/secrets/kagi-session-token"
   },
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "1.4.0",
   "theme": "dark"
 }

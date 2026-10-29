@@ -138,6 +138,11 @@
       url = "git+ssh://git@forgejo/bloodwolfe/agents.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pi = {
+      url = "github:earendil-works/pi/v1.4.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-darwin-x64.follows = "nixpkgs";
+    };
     srv = {
       url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?shallow=1";
     };

@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793246692,
-        "narHash": "sha256-Y6c9Q+NzbJjne3NiJXPxA4p56PtA6kK1OJKbWNknQrA=",
+        "lastModified": 1793295141,
+        "narHash": "sha256-ogNoIBc52ha3wlvk2n4KLBsyjtEKJ+VGz32quXcVYq0=",
         "ref": "main",
-        "rev": "9266f58a9579d614a7954f3c511a71581bccb45e",
-        "revCount": 9,
+        "rev": "c29d6e8b4b4bd5a85b65ebdd2049b8c08d0007f6",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       },
@@ -1260,6 +1260,30 @@
         "type": "github"
       }
     },
+    "pi": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-darwin-x64": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792621753,
+        "narHash": "sha256-N9NOpiiZTbOMDMV+CxvJAgtLjJJ1/8NJBGS0cFHkhsc=",
+        "owner": "earendil-works",
+        "repo": "pi",
+        "rev": "4a080252f06caf63a525d7873c5d94d3c23887e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "earendil-works",
+        "ref": "v1.4.0",
+        "repo": "pi",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1299,6 +1323,7 @@
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_8",
         "nur": "nur",
+        "pi": "pi",
         "secrets": "secrets",
         "sops-nix": "sops-nix",
         "srv": "srv",

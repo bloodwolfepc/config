@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -41,6 +42,7 @@ in
 
   programs.pi-coding-agent = {
     enable = true;
+    package = inputs.pi.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraPackages = [
       pkgs.jujutsu # Used by the jj snapshot extension
       pkgs.python3 # Often used
@@ -50,6 +52,7 @@ in
     context = source "pi/context.md" ./context.md;
   };
   home.sessionVariables = {
+    PI_NOTIFY_WAIT_TOOLS = "ask_user_question";
     PI_SKIP_VERSION_CHECK = true;
     PI_TELEMETRY = false;
   };
