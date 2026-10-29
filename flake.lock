@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "agents": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793246692,
+        "narHash": "sha256-Y6c9Q+NzbJjne3NiJXPxA4p56PtA6kK1OJKbWNknQrA=",
+        "ref": "main",
+        "rev": "9266f58a9579d614a7954f3c511a71581bccb45e",
+        "revCount": 9,
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
+      }
+    },
     "aquamarine": {
       "inputs": {
         "hyprutils": [
@@ -1263,6 +1284,7 @@
     },
     "root": {
       "inputs": {
+        "agents": "agents",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "hardware": "hardware",
@@ -1283,8 +1305,7 @@
         "subtui": "subtui",
         "systems": "systems_5",
         "waybar-lyric": "waybar-lyric",
-        "wl-crosshair": "wl-crosshair",
-        "agents": "agents"
+        "wl-crosshair": "wl-crosshair"
       }
     },
     "rust-analyzer-src": {
@@ -1642,28 +1663,6 @@
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
         "type": "github"
-      }
-    },
-    "agents": {
-      "flake": true,
-      "locked": {
-        "lastModified": 1793207911,
-        "narHash": "sha256-V2e92AnLItU6jkdwt4dwwrRRYKV+60Maub1h867bKK0=",
-        "ref": "main",
-        "rev": "12809e3e5353869880db4ba568a0cae6f1b3eb7d",
-        "revCount": 7,
-        "type": "git",
-        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
-      },
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
       }
     }
   },

@@ -59,6 +59,38 @@
   programs.taskwarrior = {
     enable = true;
     package = pkgs.taskwarrior3;
+    config.uda = {
+      pi_repo = {
+        type = "string";
+        label = "Pi repository";
+      };
+      pi_role = {
+        type = "string";
+        label = "Pi role";
+        values = "umbrella,coordinator,worker";
+      };
+      pi_scope = {
+        type = "string";
+        label = "Pi scope";
+      };
+      pi_session = {
+        type = "string";
+        label = "Pi session";
+      };
+      pi_ref = {
+        type = "string";
+        label = "Pi ref";
+      };
+      pi_worktree = {
+        type = "string";
+        label = "Pi worktree";
+      };
+      pi_state = {
+        type = "string";
+        label = "Pi state";
+        values = "queued,active,review,deployed";
+      };
+    };
   };
   programs.zoxide = {
     enable = true;

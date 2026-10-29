@@ -25,6 +25,7 @@ in
         prompts/fast-finish.md
         prompts/queue-handoff.md
         prompts/secure-promote.md
+        prompts/task-plan.md
         prompts/workflow-check.md
         skills/development-workflow/SKILL.md
         skills/intuition-probe/SKILL.md
@@ -38,6 +39,8 @@ in
         skills/sub-agents/scripts/run.sh
         skills/thinking-scaffold/SKILL.md
         angel/extensions/codex-usage.ts
+        angel/extensions/coordinated-work/index.ts
+        angel/extensions/coordinated-work/task-coordination.ts
         angel/extensions/jj-snapshot.ts
         angel/extensions/suggest-edit.ts
         angel/extensions/web.ts
