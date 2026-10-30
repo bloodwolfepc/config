@@ -19,6 +19,17 @@ let
       "--legacy-peer-deps"
     ];
     npmDepsHash = "sha256-71k85XYwT+1LluE9Mm+PyDdupZyoAKSWIzaOCll5K90=";
+    installPhase = ''
+      mkdir -p "$out"
+      cp -r . "$out/"
+      for manifest in "$out/package.json" "$out/node_modules/@juicesharp/rpiv-config/package.json"; do
+        ${pkgs.lib.getExe pkgs.jq} \
+          '.peerDependencies.typebox = "*" | del(.dependencies.typebox)' \
+          "$manifest" > "$manifest.tmp"
+        mv "$manifest.tmp" "$manifest"
+      done
+      rm -rf "$out/node_modules/typebox"
+    '';
   };
 in
 {

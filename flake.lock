@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793295141,
-        "narHash": "sha256-ogNoIBc52ha3wlvk2n4KLBsyjtEKJ+VGz32quXcVYq0=",
+        "lastModified": 1793320785,
+        "narHash": "sha256-0jrM4uhCNb8r/JlTaquarR8XMr3M71GMtdreTmK4UOs=",
         "ref": "main",
-        "rev": "c29d6e8b4b4bd5a85b65ebdd2049b8c08d0007f6",
-        "revCount": 10,
+        "rev": "dbd2b44314cab2d5fb370977634cc0fd453b55cd",
+        "revCount": 11,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/agents.git"
       },

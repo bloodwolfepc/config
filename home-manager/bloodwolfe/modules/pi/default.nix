@@ -52,7 +52,6 @@ in
     context = source "pi/context.md" ./context.md;
   };
   home.sessionVariables = {
-    PI_NOTIFY_WAIT_TOOLS = "ask_user_question";
     PI_SKIP_VERSION_CHECK = true;
     PI_TELEMETRY = false;
   };
@@ -69,7 +68,7 @@ in
         pi
         "--print"
         "--provider openai-codex"
-        "--model gpt-5.6-sol"
+        "--model gpt-6.1-sol"
         "--thinking off"
         "--no-session"
         "--no-tools"
