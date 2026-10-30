@@ -28,5 +28,6 @@
     "kagiSessionTokenFile": "/home/bloodwolfe/.config/sops-nix/secrets/kagi-session-token"
   },
   "lastChangelogVersion": "1.4.0",
-  "theme": "dark"
+  "theme": "dark",
+  "tuiMode": "regular"
 }
