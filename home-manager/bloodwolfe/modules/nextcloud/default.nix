@@ -38,14 +38,6 @@ let
       localDirectory = "${config.home.homeDirectory}/notebook";
       remotePath = "/notebook";
     };
-    retroarch-saves = {
-      localDirectory = "${config.xdg.configHome}/retroarch/saves";
-      remotePath = "/retroarch/saves";
-    };
-    retroarch-states = {
-      localDirectory = "${config.xdg.configHome}/retroarch/states";
-      remotePath = "/retroarch/states";
-    };
   };
 
   mkRunner =

@@ -106,6 +106,8 @@ in
     ../modules
     ../modules/audio
     ../modules/bitwarden
+    ./obtainium
+    ./backups
   ];
   dotfiles.mutable = true;
 

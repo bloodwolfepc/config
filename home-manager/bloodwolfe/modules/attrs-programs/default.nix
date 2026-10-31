@@ -15,23 +15,16 @@
 
       ".cache/flatpak"
       ".config/kdeconnect"
-      ".config/vesktop"
       ".config/legcord"
 
       ".local/share/flatpak"
       ".local/state/wireplumber"
 
       ".local/share/zathura"
-      ".local/share/dolhin"
-    ];
-    "/persist".files = [
-      ".config/dolphinrc"
     ];
   };
   home.packages = with pkgs; [
-    vesktop
     legcord
-    kdePackages.dolphin
 
     #wineWowPackages.stagingFull
     winetricks

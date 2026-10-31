@@ -38,11 +38,7 @@
       fsType = "btrfs";
       options = [ "subvol=nix" ];
     };
-    "/sync" = {
-      device = "/dev/root_vg/root";
-      fsType = "btrfs";
-      options = [ "subvol=sync" ];
-    };
+    # /sync is retired; its empty subvolume is retained for older rollback generations.
     "/home/bloodwolfe/.var/app" = {
       device = "/dev/root_vg/root";
       fsType = "btrfs";
