@@ -28,24 +28,32 @@
       customPackages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
-      nixosModules.myFormats =
-        {
-          config,
-          ...
-        }:
-        {
-          imports = [
-            nixos-generators.nixosModules.all-formats
-          ];
-          nixpkgs.hostPlatform = "x86_64-linux";
-          formatConfigs."iso" =
-            { config, modulesPath, ... }:
-            {
-              imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-base.nix" ];
-              formatAttr = "isoImage";
-              fileExtension = ".iso";
-            };
-        };
+      checks = forEachSystem (pkgs: {
+        edit-music = import ./home-manager/bloodwolfe/angel/edit-music/test.nix { inherit pkgs; };
+        backups-config = import ./modules/nixos/backups/tests/config.nix { inherit pkgs; };
+        backups-vm = import ./modules/nixos/backups/tests/vm.nix { inherit pkgs; };
+      });
+      homeManagerModules = import ./modules/home-manager;
+      nixosModules = (import ./modules/nixos) // {
+        myFormats =
+          {
+            config,
+            ...
+          }:
+          {
+            imports = [
+              nixos-generators.nixosModules.all-formats
+            ];
+            nixpkgs.hostPlatform = "x86_64-linux";
+            formatConfigs."iso" =
+              { config, modulesPath, ... }:
+              {
+                imports = [ "${toString modulesPath}/installer/cd-dvd/installation-cd-base.nix" ];
+                formatAttr = "isoImage";
+                fileExtension = ".iso";
+              };
+          };
+      };
 
       nixosConfigurations = {
         angel = lib.nixosSystem {

@@ -17,6 +17,8 @@
     inputs.hardware.nixosModules.asus-zephyrus-ga402
   ];
 
+  # Keep the existing on-disk identity explicit for user-session integration.
+  users.users.bloodwolfe.uid = 1000;
   networking.hostName = "angel";
   sops.defaultSopsFile = "${inputs.secrets}/sops/hosts/angel/system.yaml";
 

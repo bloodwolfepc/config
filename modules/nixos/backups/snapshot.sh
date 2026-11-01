@@ -26,8 +26,10 @@ while (( $# )); do
   relative=$1 pattern=$2
   shift 2
   if [[ -z "${checked[$relative]+present}" ]]; then
+  selected=$(realpath -ms "$source/$relative")
+  scope=${selected%/}
   while IFS= read -r target; do
-    if [[ "$target" != "$source" && ( "$target" == "$source/$relative" || "$target" == "$source/$relative/"* || "$source/$relative" == "$target/"* ) ]]; then
+    if [[ "$target" != "$source" && ( "$target" == "$selected" || "$target" == "$scope/"* || "$selected" == "${target%/}/"* ) ]]; then
       echo 'A selected backup path crosses a mount; declare a separate snapshot source' >&2
       exit 1
     fi

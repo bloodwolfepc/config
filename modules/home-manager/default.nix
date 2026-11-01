@@ -1,1 +1,3 @@
-{ }
+{
+  backups = import ./backups;
+}

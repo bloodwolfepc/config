@@ -3,6 +3,7 @@
   ...
 }:
 {
+  home.backups.state.paths = [ ".config/fcitx5" ];
   home = {
     persistence."/persist".directories = [
       ".config/fcitx5"

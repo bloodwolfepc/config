@@ -1,6 +1,11 @@
 # Small filesystem adapter around native services.restic.backups.
 # Job attributes are ordinary NixOS restic options; paths refer to the live source.
-{ source, jobs }:
+{
+  source,
+  jobs,
+  snapshotBase ? "${source}/.backup-snapshots",
+  basePath ? source,
+}:
 {
   config,
   lib,
@@ -8,7 +13,6 @@
   ...
 }:
 let
-  snapshotBase = "${source}/.angel-backup-snapshots";
   helper = pkgs.writeShellApplication {
     name = "restic-btrfs-view";
     runtimeInputs = [
@@ -22,7 +26,8 @@ let
     text = builtins.readFile ./snapshot.sh;
   };
   runtime = name: "/run/restic-backups-${name}";
-  relative = path: lib.removePrefix "${source}/" path;
+  sourcePrefix = "${lib.removeSuffix "/" source}/";
+  relative = path: lib.removePrefix sourcePrefix path;
   prefix =
     path:
     let
@@ -49,22 +54,32 @@ let
           snapshot_create always
     '';
 in
-{
+lib.mkIf (jobs != { }) {
   assertions = [
     {
       assertion = config.fileSystems.${source}.fsType == "btrfs";
       message = "Snapshot backups require a declared Btrfs source mount";
     }
     {
-      assertion = lib.all (name: builtins.match "[a-zA-Z0-9_-]+" name != null) (builtins.attrNames jobs);
+      assertion = lib.all (name: builtins.match "[A-Za-z0-9][A-Za-z0-9_.-]*" name != null) (
+        builtins.attrNames jobs
+      );
       message = "Unsafe snapshot backup job name";
+    }
+    {
+      assertion = lib.all (job: (job.user or "root") == "root") (builtins.attrValues jobs);
+      message = "Snapshot backup jobs require root for privileged snapshot preparation.";
     }
     {
       assertion = lib.all (
         job:
         lib.all (
           path:
-          lib.hasPrefix "${source}/" path && !(lib.hasPrefix snapshotBase path) && !(lib.hasInfix "\n" path)
+          lib.hasPrefix sourcePrefix path
+          && !(lib.hasPrefix snapshotBase path)
+          && !(builtins.elem ".." (lib.splitString "/" path))
+          && !(lib.hasInfix "\n" path)
+          && !(lib.hasInfix "\r" path)
         ) job.paths
       ) (builtins.attrValues jobs);
       message = "Backup paths must be inside the snapshot source, outside its snapshot namespace";
@@ -102,13 +117,16 @@ in
             ]) job.paths
           )
         }
-        ${job.backupPrepareCommand or ""}
+        ${lib.optionalString ((job.backupPrepareCommand or null) != null) job.backupPrepareCommand}
       '';
     }
   ) jobs;
   systemd.services = lib.mapAttrs' (
     name: _:
     lib.nameValuePair "restic-backups-${name}" {
+      environment.BACKUP_ROOT = "${runtime name}/view${
+        lib.optionalString (basePath != source) "/${relative basePath}"
+      }";
       unitConfig.RequiresMountsFor = [ source ];
       serviceConfig = {
         UMask = "0077";

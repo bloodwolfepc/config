@@ -13,6 +13,14 @@
       ];
     };
   };
+  home.backups.state.paths = [
+    "projects/art"
+    ".config/GIMP"
+    ".local/share/krita"
+    ".config/kritarc"
+    ".config/kritadisplayrc"
+    ".config/BeeRef/BeeRef.ini"
+  ];
   home.packages = with pkgs; [
     beeref
     krita

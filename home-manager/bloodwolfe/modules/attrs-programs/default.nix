@@ -23,6 +23,24 @@
       ".local/share/zathura"
     ];
   };
+  home.backups.legcord = {
+    paths = [ ".config/legcord" ];
+    exclude = map (name: "**/legcord/${name}") [
+      "Cache"
+      "Code Cache"
+      "GPUCache"
+      "Crashpad"
+      "DawnGraphiteCache"
+      "DawnWebGPUCache"
+      "logs"
+      "VideoDecodeStats"
+      "WebrtcVideoStats"
+      "SingletonCookie"
+      "SingletonLock"
+      "SingletonSocket"
+      ".org.chromium.Chromium.*"
+    ];
+  };
   home.packages = with pkgs; [
     legcord
 
@@ -56,6 +74,11 @@
     };
   };
 
+  home.backups.state.paths = [
+    ".local/share/zathura/bookmarks.sqlite"
+    ".local/share/zathura/bookmarks.sqlite-wal"
+    ".local/share/zathura/bookmarks.sqlite-shm"
+  ];
   programs.zathura = {
     enable = true;
   };

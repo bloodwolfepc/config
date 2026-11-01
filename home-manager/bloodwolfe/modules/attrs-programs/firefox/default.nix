@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -9,6 +10,33 @@
     ".cache/mozilla"
     ".config/mozilla"
   ];
+
+  home.backups.firefox = {
+    paths = [
+      ".config/mozilla/firefox"
+      ".mozilla/firefox"
+    ];
+    exclude =
+      lib.concatMap
+        (name: [
+          "**/firefox/${name}"
+          "**/firefox/*/${name}"
+        ])
+        [
+          "cache2"
+          "startupCache"
+          "shader-cache"
+          "thumbnails"
+          "minidumps"
+          "crashes"
+          "Crash Reports"
+          "Pending Pings"
+          "firefox-mpris"
+          ".parentlock"
+          "parent.lock"
+          "lock"
+        ];
+  };
 
   programs.firefox = {
     enable = true;

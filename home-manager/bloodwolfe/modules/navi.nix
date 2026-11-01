@@ -3,6 +3,7 @@
   imports = [
     inputs.sops-nix.homeManagerModules.sops
     ./dotfiles.nix
+    ../../../modules/home-manager/backups
     ./pi/packages
 
     ./attrs-programs
