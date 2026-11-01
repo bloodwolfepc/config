@@ -1,140 +1,150 @@
-# Angel state backups
+# Angel snapshot backups
 
-`angel-state-backup` uses restic over rclone's Nextcloud WebDAV backend, reusing
-SOPS Nextcloud credentials plus `restic-angel-nextcloud-password`. The repository
-is `Backups/angel-state`; it is separate from the folder-sync daemon. Credentials
-are passed through environment/password files, never command arguments or logs.
+**Applications stay open.** Native NixOS `services.restic.backups` jobs read
+read-only Btrfs snapshots created/retained by Btrbk. There is no Python backup
+application and no resticprofile layer.
 
-## Before activation
+## Configuration
 
-1. Enroll `restic-angel-nextcloud-password` in the secrets repository's
-   `sops/users/bloodwolfe/angel.yaml`. The human-run helper
-   `/tmp/enroll-angel-backup-secret` takes a new private recovery-file path outside
-   repositories. It prepares unsigned topic work, without committing, pushing,
-   signing or rebuilding.
-2. Preserve the password independently, offline or in a recoverable password
-   manager. A local recovery file alone does not survive losing Angel. Treat this
-   password as access to the backed-up accounts, not just artwork. Never rotate
-   the SOPS password without adding its replacement to the restic repository.
-3. Review/promote the secrets change through the Secure workflow, update this
-   flake's pinned secrets input, then rebuild Angel. The pin now includes the
-   enrolled password; activation must still use the reviewed, promoted config.
-4. Run `/tmp/initialize-angel-backups` in an existing terminal. It asks for
-   confirmation of an independent recovery copy and initializes the encrypted
-   repository. Initialization is explicit and happens only once for all groups.
-5. Allow backups with the relevant apps closed, then test restoration of each
-   recovery group before relying on it. No cloud backup/restore has been tested
-   before enrollment and initialization.
+- `nixos/angel/backups/paths.nix`: ordinary source paths and exclusions. Add paths
+  here; no script changes are needed. Paths refer to physical data under `/persist`,
+  not the live `/home` bind mounts. Native restic files-from wildcard patterns
+  select Steam accounts and Minecraft instances without discovery code.
+- `nixos/angel/backups/default.nix`: repository/credentials, schedules, tags,
+  maintenance and notifications using native NixOS restic options.
+- `nixos/angel/backups/snapshot-restic.nix` and `snapshot.sh`: the small common
+  filesystem adapter. It creates a fresh snapshot, verifies it is read-only and
+  publishes a stable source path for the native job. It never copies profiles.
+- Home Manager retains the existing SOPS password declaration and art/legacy
+  state persistence only. Old user backup services/CLI are retired.
 
-## Independent recovery groups
+## Consistency and local snapshots
 
-Each group has its own success timestamp, snapshot tag and retention. An open
-Firefox session does not defer artwork or another application's backups.
+Each group gets its own snapshot of `/persist`, under the root-private
+`/persist/.angel-backup-snapshots/angel-GROUP/`. Btrbk retains **one latest local
+snapshot per group**, replacing only that group's older snapshots on its next
+run. These are staging/recovery views, not substitutes for off-machine backups.
+They include the entire source subvolume locally, but **only configured paths
+are uploaded**. Secret stores, recovery keys, VM state and other excluded data
+are not implicitly added to the cloud backup.
 
-- **`state`** (the default): artwork under `~/projects/art/{gimp,krita,beeref}`;
-  GIMP, Krita resources/preferences, BeeRef INI, Ardour 8/9, Carla/falkTX and Fcitx5
-  settings; selected Millennium preferences/CSS; Zathura bookmarks; and selected
-  Minecraft instance data. Save future artwork and supporting assets under the
-  project directories: the module does not rewrite application last-save paths.
-  - Krita's resource database and Zathura bookmarks use SQLite's online backup
-    API with integrity checks, including committed WAL data.
-  - Millennium excludes the network/proxy-credentials block and reinstallable
-    plugins/themes. Restored JSON is a sanitized subset to merge, not blindly
-    replace a newer full configuration.
-  - Minecraft includes instance metadata, worlds, config, scripts/KubeJS,
-    screenshots, mods and resource/shader/data packs. Hidden/trash instances,
-    accounts.json, game binaries, logs, libraries and launcher caches are omitted.
-    All per-instance mods/packs are included because local edits cannot be
-    reliably inferred. Symlinked Minecraft roots are refused.
-- **`legcord`**: full `~/.config/legcord` profile, including themes/plugins, local
-  storage, settings, cookies and login state. Known caches, diagnostics,
-  Chromium temporary files and singleton locks are omitted.
-- **`anki`**: full `~/.local/share/Anki2` plus `~/.config/Anki{,2}` if present:
-  collections, media, add-ons and their settings, preferences and built-in backups.
-  Databases and WAL files are copied together with Anki closed. Linked profiles
-  or media directories require explicit inclusion instead of silent omission.
-- **`firefox`**: full `~/.config/mozilla/firefox` and `~/.mozilla/firefox` if present,
-  including saved logins/key databases, cookies, history, extensions and their
-  data, preferences and session recovery. Known caches, crash diagnostics and
-  runtime locks are omitted. Registered profiles outside their backed-up root
-  cause an error so they can be explicitly included.
-- **`terraria`**: native `~/.local/share/Terraria`, including players, worlds,
-  configuration and tModLoader data; the equivalent Steam Flatpak data directory;
-  Steam-cloud `userdata/*/{105600,1281930}/remote`; and standard Proton
-  `Documents/My Games/Terraria` save directories for those app IDs. Steam roots
-  checked are `~/.local/share/{Steam,steamgames}` and the Steam Flatpak data root.
-  Custom libraries elsewhere require explicit additions. Reinstallable game
-  binaries and downloaded Steam Workshop content are not included.
+Snapshots are **crash-consistent**, not application-native exports: database,
+WAL and journal files are captured together. They cannot capture unsaved data
+still only in application memory. Application recovery may discard unfinished
+transactions or require logging in again. The real Btrfs VM test verifies an
+actively open SQLite WAL database restores the committed state at snapshot time,
+not writes made afterward; it does not certify every application's recovery.
 
-**Full-profile groups deliberately include passwords, tokens and private history
-where present.** Keep decrypted restores private. Device-bound or expired sessions
-may still require signing in again; OS keyrings are not newly added to this scope.
+Snapshots initially share blocks rather than copying all data. Live writes keep
+old blocks pinned, so local disk usage can grow (notably with Steam/VM updates).
+The adapter refuses creation below 10 GiB free; this is headroom, not a guarantee
+against filling the filesystem during large subsequent writes. Watch free space.
 
-Taskwarrior remains untouched and excluded. Dedicated credential stores, mail,
-contacts/calendars, VM/container state, private AI history and recovery keys also
-remain outside this change. WirePlumber and Zoxide are excluded. Fcitx settings
-are covered, but Mozc's separate learned state in `~/.config/mozc` still needs a
-persistence/export decision.
+A parent snapshot does not capture nested subvolumes or mounted filesystems.
+Selected prefixes are checked for mount overlays and inode-2 nested-subvolume
+stubs; unsupported layouts **fail before backup**, never silently read live data.
+Patterns traversing symlinks outside the snapshot are refused. Ordinary final
+symlinks are archived as links, not recursively followed: explicitly declare any
+external data you want protected, using an appropriate snapshot source.
 
-## Schedule and safety
+## Coverage
 
-Timers check hourly at staggered minutes with two minutes of jitter; a group's
-successful backup suppresses further scheduled runs for 24 hours. Each relevant
-application must be closed before and throughout its export. Terraria also waits
-for Steam and dotnet to exit, avoiding Steam-cloud save rewrites. An unrelated
-Java process defers `state`, and unrelated dotnet activity defers `terraria`.
-Zathura may stay open because its database uses the SQLite backup API.
+The five existing host/tag identities remain `angel` / `angel-GROUP`:
 
-A common local lock serializes repository operations; a collision exits 75 and
-retries on a later timer tick, without marking success. Private staging lives in
-`~/.local/state/angel-state-backup/export` for `state`, and
-`profiles/GROUP/export` below that state directory for the other groups. Copies
-use reflinks when possible. Allow enough disk space if copying is necessary.
-This is not an atomic filesystem snapshot: do not launch apps during export.
-Normal attempts remove staging afterward; interrupted attempts are cleaned up on
-retry. Symlinks are preserved rather than recursively dereferenced; linked
-external assets still require their own backup. A missing application's sources
-fail visibly rather than recording an empty successful profile backup.
+- `state`: projects/art; GIMP; Krita resources/preferences (including SQLite/WAL);
+  BeeRef INI; Ardour 8/9; Carla/falkTX; Fcitx; Zathura SQLite/WAL; Millennium CSS
+  and sanitized preferences; selected Minecraft instance metadata, saves, config,
+  scripts, mods and packs. Hidden instances, launcher accounts, libraries, logs
+  and downloaded game binaries are excluded by the path selection.
+- `legcord`: full profile, except regenerable caches/diagnostics/runtime locks.
+- `anki`: collections, media, add-ons/settings and profile configuration, with WAL.
+- `firefox`: full current/legacy profile roots including passwords, cookies,
+  history, extensions/state and website storage. Ordinary caches/crashes/locks
+  are excluded; IndexedDB is not silently removed in this migration.
+- `terraria`: native Terraria/tModLoader data and native Steam userdata/Proton
+  saves for app IDs 105600 and 1281930. Flatpak Steam was removed and its legacy
+  save locations are empty; the separate Flatpak subvolume is **not** part of
+  `/persist`. Reintroducing Flatpak saves requires a separate snapshot source.
 
-A successful snapshot is checked before retention, then pruned to 7 daily,
-4 weekly and 6 monthly snapshots for host `angel` and tag `angel-GROUP`, followed
-by another metadata check. Partial backups or failed pre-retention checks never
-prune. Failed retention/checks do not mark success. Metadata checks do not read
-every data blob: periodically perform real restore tests.
+Full profiles intentionally contain authentication/private history. Dedicated
+credential stores, OS keyrings, recovery keys, mail/contacts/calendars, private
+AI history and Taskwarrior remain outside selected paths. Mozc learned state is
+still not selected. Device-bound or expired sessions may require reauthentication.
 
-## Operator interface
+The only application-specific transformation is a jq whitelist for Millennium's
+preferences, excluding its network/proxy-credentials block. Its sanitized output
+is stored as `millennium.json` in the state's snapshot file tree; merge it back
+rather than replacing a newer full configuration. There are no app-closed checks,
+profile-copy loops, custom restic dispatch, or SQLite export routines.
 
-```text
-angel-state-backup init
-angel-state-backup backup
-angel-state-backup --group firefox backup
-angel-state-backup --group firefox snapshots
-angel-state-backup check
-angel-state-backup --group firefox restore latest /some/new/restore-directory
-```
+## Scheduling, credentials and maintenance
 
-`backup` bypasses only the 24-hour suppression, not the application gate. Choose
-the same group for listing/restoring its snapshots; omitted `--group` means
-`state`. Restore refuses an existing destination and produces an inspectable
-`home/` tree. Copy selected files back with the app closed, retaining an old copy
-first. Restore compatible application versions; account/session portability is
-not guaranteed. User journal units are `angel-state-backup.service` for `state`
-and `angel-state-backup-GROUP.service` for the other groups, with matching timers.
+Native system timers run daily at 03:00/10/20/30/40, with jitter and persistent
+catch-up. Failures retry after 30 minutes; ordinary laptop sleep is not inhibited.
+A standard flock wrapper (`locked-restic.nix`) queues commands sharing this
+repository so an exclusive check cannot collide with another group's upload. Successful jobs are checked,
+then record a heartbeat; failed attempts record a persistent failure marker.
 
-## Legacy sync retirement
+Existing SOPS credentials are decrypted via the existing user service, without
+hardware signing or new enrollment. Backup-only credentials are cached atomically
+in root-private `/run/angel-backup-credentials` (0700, files 0600), survive user
+logout during uploads, and disappear at reboot. Secrets never enter the Nix
+store, command arguments or logs. Native root-readable wrappers are named
+`restic-angel-state`, `restic-angel-firefox`, etc.; manual access requires root.
+The old `angel-state-backup --group ...` interface is retired.
 
-Angel and Angelstuck no longer declare `/sync`; Navi's independent use is unchanged.
-After the reviewed configuration is active, the human-run `/tmp/retire-angel-sync`
-helper unmounts the old mount and clears only the three audited Syncthing marker
-files plus empty directories. It retains empty Btrfs subvolume 258 so older
-rollback generations can still mount it. It never removes the Flatpak subvolume
-used by Sober. The helper refuses to run while the active fstab still declares
-`/sync`; enrollment and pinning the backup secret must precede activation.
+The existing Nextcloud `Backups/angel-state` repository and encryption password
+are unchanged. Automatic initialization is disabled. Source paths in **new**
+snapshots change to `/run/restic-backups-angel-GROUP/view/home/bloodwolfe/...`;
+content deduplication and old snapshots remain usable. Restore with a native
+restic wrapper into a fresh private directory; native restic can merge into an
+existing destination, so do not point it at the live home accidentally.
 
-## Tests
+Weekly maintenance requires a checked success for each new group, no persistent
+failure markers and no active/starting/stopping group jobs. These gates are
+rechecked **inside** the shared lock before every maintenance command, including
+pruning, not before waiting for it. Credential setup failures mark all groups
+failed until checked backups succeed. Busy/failed maintenance retries hourly.
+It checks, performs native grouped
+retention/prune (7 daily / 4 weekly / 6 monthly, known tags only), and checks again.
+A failed/partial backup blocks pruning across reboots until a checked retry
+succeeds. The native module performs ordinary stale-lock cleanup, not forced
+removal of active repository locks. No repository initialization or data migration
+is involved. Data reads during restore drills remain necessary; metadata checks
+are not full payload verification.
 
-Run `python3 -B -m unittest discover -s home-manager/bloodwolfe/angel/backups -v`
-with Python, coreutils and restic from the flake environment. Tests use temporary
-local repositories only: encrypted backup/restore of all five groups, independent
-retention and schedules, authentication/media preservation, cache exclusions,
-SQLite WAL export, external-profile safeguards and failed-backup retention.
+Failures and hourly stale checks notify the existing SwayNC desktop session.
+Warnings start at 48 hours, critical at seven days/missing history, with failed
+jobs reported explicitly. These are **local notifications**, not independent
+monitoring of an offline laptop. Journals remain available without a desktop.
+
+## Deployment and rollback
+
+Use the reviewed `/tmp/deploy-angel-snapshot-backups` helper. It shows the exact
+diff and asks for review. A privileged filesystem-only preflight creates/validates
+local snapshots using the already tested closure (no remote backup or activation).
+It then requires human hardware-backed signing/push, builds the exact canonical
+revision, asks before activation, stops the old user timers and waits on their
+existing lock before switching. It does not close applications, initialize repositories,
+prune boot generations, delete `/sync` subvolume 258 or remove Sober's subvolume.
+New jobs are started after the switch; first-run checks/heartbeats establish
+maintenance eligibility. Never run old and new backup implementations together.
+
+Older `/tmp` commissioning scripts use the retired CLI; do not reuse them
+unchanged. Old snapshot data and the old user's persisted backup state remain
+available for recovery/old-generation rollback. Stop new system backup jobs
+before rolling back to a generation with the old user jobs.
+
+## Verification
+
+`test-vm.nix` runs a real Btrfs filesystem, Btrbk and native restic services in an
+isolated NixOS VM, using synthetic data and a local encrypted repository. It
+checks live SQLite/WAL recovery, writes after the snapshot not appearing in the
+restore, read-only enforcement, per-group local retention, and refusal of nested
+subvolumes (including ancestors of otherwise missing paths), mount overlays and
+escaping source symlinks. It also changes a failure gate while maintenance is
+waiting on the repository lock, verifies no pruning, then permits real pruning
+without deleting an unrelated group's snapshots. No VM test reads real
+credentials or accesses Nextcloud. Validate Angel, Angelstuck and Navi evaluation
+and build Angel before signing/deployment. Live post-deployment backup/restore
+verification remains a separate operational check.

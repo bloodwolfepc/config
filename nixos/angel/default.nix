@@ -8,6 +8,7 @@
 {
   imports = [
     ./hardware-configuraion.nix
+    ./backups
     ./audio
     ./power
     ./networking
