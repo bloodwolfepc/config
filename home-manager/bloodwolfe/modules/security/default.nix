@@ -58,6 +58,15 @@
         StrictHostKeyChecking = "yes";
         UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/admin-vm";
       };
+      main-vps = {
+        header = "Host main-vps main-vps.srvctl.ts.net mx.tinywolfe.net";
+        HostName = "main-vps.srvctl.ts.net";
+        HostKeyAlias = "main-vps";
+        IdentitiesOnly = true;
+        IdentityFile = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
+        StrictHostKeyChecking = "yes";
+        UserKnownHostsFile = "${config.home.homeDirectory}/.ssh/known_hosts.d/main-vps";
+      };
       srv-vm = {
         header = "Host srv-vm srv-vm.srvctl.ts.net";
         HostName = "srv-vm.srvctl.ts.net";
@@ -78,6 +87,7 @@
   };
 
   home.file = {
+    ".ssh/known_hosts.d/main-vps".source = ./main-vps.known_hosts;
     ".ssh/known_hosts.d/admin-vm".text = ''
       admin-vm ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ5usOlyWjopfqK4XocBSTtztxSin0taRIiwhy7F/Eg5
     '';

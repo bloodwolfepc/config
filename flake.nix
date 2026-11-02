@@ -30,6 +30,14 @@
 
       checks = forEachSystem (pkgs: {
         game-saves = import ./modules/home-manager/game-saves/test.nix { inherit pkgs home-manager; };
+        ssh-host-trust = import ./home-manager/bloodwolfe/modules/security/ssh-test.nix {
+          inherit pkgs;
+          homes = map (host: self.nixosConfigurations.${host}.config.home-manager.users.bloodwolfe) [
+            "angel"
+            "angelstuck"
+            "navi"
+          ];
+        };
         mail-relay = import ./nixos/main-vps/mail-test.nix {
           inherit pkgs;
           postfix = self.nixosConfigurations.main-vps.config.services.postfix;
