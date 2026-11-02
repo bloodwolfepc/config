@@ -199,7 +199,9 @@ def operate(args, action):
     if action == "shell":
         if not sys.stdin.isatty() or not sys.stdout.isatty():
             raise Failure("Open the normal editor in an existing terminal.")
-        theme = Path(os.environ.get("STARSHIP_CONFIG", Path.home() / ".config/starship.toml"))
+        theme = Path(os.environ.get("STARSHIP_CONFIG") or Path.home() / ".config/starship.toml")
+        if not theme.is_file():
+            theme = Path.home() / ".config/starship.toml"
         if not theme.is_file():
             raise Failure("Missing Starship configuration; set STARSHIP_CONFIG or ~/.config/starship.toml. Backend operations do not need a theme.")
         with theme.open("rb") as stream:

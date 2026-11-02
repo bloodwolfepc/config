@@ -96,6 +96,7 @@ in
     ../modules/bitwarden
     ./obtainium
     ./backups
+    ./game-saves
   ];
   dotfiles.mutable = true;
 

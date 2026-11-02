@@ -28,7 +28,8 @@ or recreates containers. Server provisioning belongs to the operator.
 ## Interface
 
 No arguments retains the normal Starship upload followed by interactive login
-zsh. `STARSHIP_CONFIG` overrides `~/.config/starship.toml`. Both SSH upload and
+zsh. A valid `STARSHIP_CONFIG` overrides `~/.config/starship.toml`; an unset,
+empty or missing override falls back to that Home Manager file. Both SSH upload and
 interactive shell occur only after readiness. Interactive operations authenticate
 on a data-free readiness connection (normal SSH terminal prompts remain possible),
 then reuse its private short-lived control socket. Payload/theme transfers still

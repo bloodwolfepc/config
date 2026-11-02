@@ -38,6 +38,23 @@ let
       localDirectory = "${config.home.homeDirectory}/notebook";
       remotePath = "/notebook";
     };
+  }
+  // lib.optionalAttrs (config.gameSaves.enable or false) {
+    game-saves = {
+      localDirectory = config.gameSaves.backupDirectory;
+      remotePath = "/game-saves/ludusavi";
+      mode = "0700";
+    };
+    game-saves-inbox = {
+      localDirectory = config.gameSaves.inboxDirectory;
+      remotePath = "/game-saves/inbox";
+      mode = "0700";
+    };
+    game-saves-status = {
+      localDirectory = config.gameSaves.statusDirectory;
+      remotePath = "/game-saves/status";
+      mode = "0700";
+    };
   };
 
   mkRunner =
@@ -56,7 +73,7 @@ let
                 exit 1
               }
 
-              install -d -m 0755 ${lib.escapeShellArg sync.localDirectory}
+              install -d -m ${sync.mode or "0755"} ${lib.escapeShellArg sync.localDirectory}
               runtime_directory="''${XDG_RUNTIME_DIR:?}/nextcloud-sync-daemon"
               install -d -m 0700 "$runtime_directory"
               export TMPDIR="$runtime_directory/${name}"
@@ -104,11 +121,16 @@ let
           interval: 10m
         EOF
               ${lib.getExe daemon} --once --config "$config_file"
+              if [[ "''${1:-}" == --once ]]; then exit 0; fi
               exec ${lib.getExe daemon} --config "$config_file"
       '';
     };
 in
 {
+  imports = [ ../../../../modules/home-manager/game-saves ];
+  gameSaves.refreshCommand = lib.mkIf config.gameSaves.enable "${pkgs.writeShellScript "game-saves-refresh" ''
+    exec ${pkgs.systemd}/bin/systemctl --user start --wait nextcloud-game-saves-refresh.service
+  ''}";
   sops.secrets."cloud-tinywolfe-net-username" = { };
   sops.secrets."cloud-tinywolfe-net-password" = { };
 
@@ -118,32 +140,52 @@ in
   ];
 
   systemd.user = {
-    services = lib.mapAttrs' (
-      name: sync:
-      lib.nameValuePair "nextcloud-sync-${name}" {
-        Unit = {
-          Description = "Sync ${name} with Nextcloud";
-          After = [
-            "network-online.target"
-            "sops-nix.service"
-          ];
-          Wants = [ "network-online.target" ];
-          ConditionPathExists = [
-            config.sops.secrets.cloud-tinywolfe-net-username.path
-            config.sops.secrets.cloud-tinywolfe-net-password.path
-          ];
-        };
-        Service = {
-          ExecStart = lib.getExe (mkRunner name sync);
-          Restart = "on-failure";
-          RestartSec = "30s";
+    services =
+      (lib.mapAttrs' (
+        name: sync:
+        lib.nameValuePair "nextcloud-sync-${name}" {
+          Unit = {
+            Description = "Sync ${name} with Nextcloud";
+            After = [
+              "network-online.target"
+              "sops-nix.service"
+            ];
+            Wants = [ "network-online.target" ];
+            ConditionPathExists = [
+              config.sops.secrets.cloud-tinywolfe-net-username.path
+              config.sops.secrets.cloud-tinywolfe-net-password.path
+            ];
+          };
+          Service = {
+            ExecStart = lib.getExe (mkRunner name sync);
+            Restart = "on-failure";
+            RestartSec = "30s";
+          }
+          // lib.optionalAttrs (sync ? prepare) {
+            ExecStartPre = sync.prepare;
+          };
+          Install.WantedBy = [ "default.target" ];
         }
-        // lib.optionalAttrs (sync ? prepare) {
-          ExecStartPre = sync.prepare;
+      ) syncDirectories)
+      // lib.optionalAttrs (config.gameSaves.enable or false) {
+        nextcloud-game-saves-refresh = {
+          Unit = {
+            Description = "Finish Nextcloud inbox download before launching a game";
+            Conflicts = [ "nextcloud-sync-game-saves-inbox.service" ];
+            After = [
+              "nextcloud-sync-game-saves-inbox.service"
+              "sops-nix.service"
+            ];
+            OnSuccess = [ "nextcloud-sync-game-saves-inbox.service" ];
+            OnFailure = [ "nextcloud-sync-game-saves-inbox.service" ];
+          };
+          Service = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe (mkRunner "game-saves-refresh" syncDirectories.game-saves-inbox)} --once";
+            UMask = "0077";
+          };
         };
-        Install.WantedBy = [ "default.target" ];
-      }
-    ) syncDirectories;
+      };
     startServices = true;
   };
 

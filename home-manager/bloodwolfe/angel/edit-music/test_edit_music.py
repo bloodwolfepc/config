@@ -70,9 +70,11 @@ class CLI(unittest.TestCase):
         self.theme = self.root / "starship.toml"
         self.theme.write_text("format = '$directory$character'\n")
 
-    def run_cli(self, *args, mode="", tty=False, theme=True):
-        env = dict(os.environ, PATH=str(self.root), TEST_LOG=str(self.log), TEST_MODE=mode,
+    def run_cli(self, *args, mode="", tty=False, theme=True, unset_theme=False):
+        env = dict(os.environ, PATH=str(self.root), HOME=str(self.root), TEST_LOG=str(self.log), TEST_MODE=mode,
                    PYTHONDONTWRITEBYTECODE="1", STARSHIP_CONFIG=str(self.theme if theme else self.root / 'missing'))
+        if unset_theme:
+            env.pop('STARSHIP_CONFIG')
         command = [sys.executable, "-B", str(SCRIPT), *args]
         if not tty:
             return subprocess.run(command, env=env, capture_output=True, text=True)
@@ -113,6 +115,21 @@ class CLI(unittest.TestCase):
         self.assertEqual(shell['command'][-2:], ['zsh', '-l'])
         import base64
         self.assertEqual(base64.b64decode(upload['input']), self.theme.read_bytes())
+
+    def test_shell_uses_home_theme_when_override_is_missing_or_unset(self):
+        import base64
+        config = self.root / '.config'
+        config.mkdir()
+        (config / 'starship.toml').symlink_to(self.theme)
+        (self.root / 'missing').symlink_to(self.root / 'nonexistent')
+        for unset in (False, True):
+            with self.subTest(unset=unset):
+                self.log.unlink(missing_ok=True)
+                result = self.run_cli(tty=True, theme=False, unset_theme=unset)
+                self.assertEqual(result.returncode, 0, result.stdout)
+                upload, shell = self.calls()[-2:]
+                self.assertEqual(base64.b64decode(upload['input']), self.theme.read_bytes())
+                self.assertEqual(shell['command'][-2:], ['zsh', '-l'])
 
     def test_missing_old_incomplete_and_stale_fail_closed(self):
         for mode in ('missing', 'old', 'missing-command', 'stale'):

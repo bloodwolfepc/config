@@ -29,6 +29,11 @@
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
       checks = forEachSystem (pkgs: {
+        game-saves = import ./modules/home-manager/game-saves/test.nix { inherit pkgs home-manager; };
+        mail-relay = import ./nixos/main-vps/mail-test.nix {
+          inherit pkgs;
+          postfix = self.nixosConfigurations.main-vps.config.services.postfix;
+        };
         edit-music = import ./home-manager/bloodwolfe/angel/edit-music/test.nix { inherit pkgs; };
         backups-config = import ./modules/nixos/backups/tests/config.nix { inherit pkgs; };
         backups-vm = import ./modules/nixos/backups/tests/vm.nix { inherit pkgs; };

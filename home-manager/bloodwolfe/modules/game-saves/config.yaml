@@ -1,0 +1,30 @@
+# Native discovery; exclude games known to have storefront cloud saves.
+manifest:
+  enable: true
+# Add missing games or extend upstream definitions here; see the module README.
+customGames: []
+roots:
+  - path: ~/.local/share/Steam
+    store: steam
+  - path: ~/.local/share/steamgames
+    store: steam
+backup:
+  path: ~/.local/share/nextcloud-sync/game-saves
+  filter:
+    cloud:
+      exclude: true
+      steam: true
+      gog: true
+      epic: true
+      origin: true
+      uplay: true
+  retention:
+    full: 7
+    differential: 0
+restore:
+  path: ~/.local/share/nextcloud-sync/game-saves
+# The existing Nextcloud client owns transport, not a second cloud sync engine.
+cloud:
+  synchronize: false
+release:
+  check: false
