@@ -155,9 +155,10 @@
       url = "git+ssh://git@gitlab.com/bloodwolfe/secrets.git?shallow=1";
       flake = false;
     };
-    agents = {
-      url = "git+ssh://git@forgejo/bloodwolfe/agents.git?ref=main";
+    wolfe-pi = {
+      url = "git+ssh://git@forgejo/bloodwolfe/wolfe-pi.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     pi = {
       url = "github:earendil-works/pi/v1.4.0";

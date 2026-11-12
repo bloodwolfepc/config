@@ -4,7 +4,6 @@
     inputs.sops-nix.homeManagerModules.sops
     ./dotfiles.nix
     ../../../modules/home-manager/backups
-    ./pi/packages
 
     ./account
     ./pi

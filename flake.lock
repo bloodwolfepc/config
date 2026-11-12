@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "agents": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793320785,
-        "narHash": "sha256-0jrM4uhCNb8r/JlTaquarR8XMr3M71GMtdreTmK4UOs=",
-        "ref": "main",
-        "rev": "dbd2b44314cab2d5fb370977634cc0fd453b55cd",
-        "revCount": 11,
-        "type": "git",
-        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@forgejo/bloodwolfe/agents.git"
-      }
-    },
     "aquamarine": {
       "inputs": {
         "hyprutils": [
@@ -1322,7 +1301,6 @@
     },
     "root": {
       "inputs": {
-        "agents": "agents",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "hardware": "hardware",
@@ -1344,7 +1322,8 @@
         "subtui": "subtui",
         "systems": "systems_5",
         "waybar-lyric": "waybar-lyric",
-        "wl-crosshair": "wl-crosshair"
+        "wl-crosshair": "wl-crosshair",
+        "wolfe-pi": "wolfe-pi"
       }
     },
     "rust-analyzer-src": {
@@ -1661,6 +1640,30 @@
         "owner": "lelgenio",
         "repo": "wl-crosshair",
         "type": "github"
+      }
+    },
+    "wolfe-pi": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794441246,
+        "narHash": "sha256-eMhCePAL0XYonED67kCvkoTHMpK57v6ek0cuJQeRvSE=",
+        "ref": "main",
+        "rev": "cf2021756ade97d621481c8de4c224d2e81a3034",
+        "revCount": 12,
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
       }
     },
     "xdph": {
