@@ -771,11 +771,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1792050059,
-        "narHash": "sha256-Iz3/60BrIFW7DgR/iyILUigXRtDf/pOnYZ1gxhqThTs=",
+        "lastModified": 1794471249,
+        "narHash": "sha256-bCLyAKGwsa7KbmPWjiOjH1SgmHSgv7JPeQhX5Ms250c=",
         "owner": "bloodwolfepc",
         "repo": "january-nvim",
-        "rev": "b33ca988915808a95e26dc159d6f14f43a43aedd",
+        "rev": "94d7f951eadf1b6d308c2e347852694210579ba1",
         "type": "github"
       },
       "original": {

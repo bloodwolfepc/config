@@ -17,7 +17,13 @@ local config1 = {
 
 	font_size = 24,
 	color_scheme = "thwump (terminal.sexy)",
-	-- colors = {},
+	default_cursor_style = "BlinkingBlock",
+	cursor_blink_rate = 500,
+	colors = {
+		cursor_bg = "#00ff00",
+		cursor_fg = "#000000",
+		cursor_border = "#00ff00",
+	},
 	window_background_opacity = 0,
 	text_background_opacity = 1,
 	default_prog = { "/home/bloodwolfe/.nix-profile/bin/zsh" },
