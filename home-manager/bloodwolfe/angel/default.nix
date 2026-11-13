@@ -158,25 +158,30 @@ in
     Install.WantedBy = [ "graphical-session.target" ];
   };
 
-  home.packages = with pkgs; [
-    gitPrePush
-    xf86_input_wacom
-    wine
-    wiremix
-    ego
-    documentsVault
-    editMusic
-    gocryptfs
-    nextcloud-client
-    sirikali
+  home.packages =
+    with pkgs;
+    [
+      gitPrePush
+      xf86_input_wacom
+      wine
+      wiremix
+      ego
+      documentsVault
+      editMusic
+      gocryptfs
+      nextcloud-client
+      sirikali
 
-    (writeShellScriptBin "ddc-default" ''
-      ddcutil setvcp 10 45
-      ddcutil setvcp 87 50
-    '')
-    (writeShellScriptBin "ddc-comp" ''
-      ddcutil setvcp 10 100
-      ddcutil setvcp 87 70
-    '')
-  ];
+      (writeShellScriptBin "ddc-default" ''
+        ddcutil setvcp 10 45
+        ddcutil setvcp 87 50
+      '')
+      (writeShellScriptBin "ddc-comp" ''
+        ddcutil setvcp 10 100
+        ddcutil setvcp 87 70
+      '')
+    ]
+    ++ lib.optionals config.dotfiles.mutable [
+      inputs.wolfe-pi.packages.${pkgs.stdenv.hostPlatform.system}.pi-local-personal-pilot
+    ];
 }
