@@ -7,6 +7,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./admin-libvirt.nix
     ./backups.nix
     ./kopia.nix
     ./openbao-unseal.nix
