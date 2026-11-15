@@ -30,6 +30,7 @@
 
       checks = forEachSystem (pkgs: {
         admin-libvirt = import ./nixos/navi/admin-libvirt-test.nix { inherit pkgs; };
+        srv-backup-lock = import ./nixos/navi/backup-lock-test.nix { inherit pkgs; };
         game-saves = import ./modules/home-manager/game-saves/test.nix { inherit pkgs home-manager; };
         ssh-host-trust = import ./home-manager/bloodwolfe/modules/security/ssh-test.nix {
           inherit pkgs;

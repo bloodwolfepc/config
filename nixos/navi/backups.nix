@@ -43,6 +43,7 @@ in
   systemd.tmpfiles.rules = [
     "d /backup/srv-incoming 0700 srv-backup srv-backup -"
     "d /backup/srv-staging 0700 srv-backup srv-backup -"
+    "f /run/lock/srv-backup.lock 0600 root root -"
     "d /var/lib/prometheus-node-exporter-text-files 0755 root root -"
   ];
 
@@ -73,6 +74,10 @@ in
     enabledCollectors = [ "systemd" ];
     extraFlags = [ "--collector.textfile.directory=/var/lib/prometheus-node-exporter-text-files" ];
   };
+  # Keep Borg's strict sandbox while sharing the promoter's exact lock inode.
+  systemd.services.borgbackup-job-srv-vm.serviceConfig.ReadWritePaths = [
+    "/run/lock/srv-backup.lock"
+  ];
   systemd.services.srv-backup-promote = {
     description = "Atomically publish a completed service backup";
     serviceConfig = {
