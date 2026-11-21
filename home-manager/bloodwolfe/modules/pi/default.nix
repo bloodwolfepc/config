@@ -7,6 +7,7 @@
 }:
 let
   pi = "${config.programs.pi-coding-agent.package}/bin/pi";
+  kaneo = import "${inputs.kaneo-cli-src}/packages/kaneo-cli.nix" { inherit pkgs; };
 in
 {
   imports = [ inputs.wolfe-pi.homeManagerModules.default ];
@@ -26,6 +27,7 @@ in
   };
   home = {
     packages = with pkgs; [
+      kaneo
       # pi-coding-agent
       # jujutsu
       # python3
@@ -39,11 +41,16 @@ in
     persistence."/persist".directories = [
       ".pi"
       ".claude"
+      {
+        directory = ".config/kaneo";
+        mode = "0700";
+      }
     ];
   };
 
   programs.pi-coding-agent = {
     package = inputs.pi.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    extraPackages = [ kaneo ];
   };
 
   systemd.user.services.codex-window-primer = lib.mkIf config.dotfiles.mutable {

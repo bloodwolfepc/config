@@ -1096,6 +1096,23 @@
         "type": "github"
       }
     },
+    "kaneo-cli-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794982948,
+        "narHash": "sha256-CxkbLifWMpuo03AbDenk5BTmxzB0c4MBD+6pdbQYFlE=",
+        "rev": "c18d36cf1f4e1e08116f03f9b5e2fc5e11c8e878",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/bloodwolfe/srv.git"
+      },
+      "original": {
+        "rev": "c18d36cf1f4e1e08116f03f9b5e2fc5e11c8e878",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/bloodwolfe/srv.git"
+      }
+    },
     "lilypond-midi-input": {
       "inputs": {
         "naersk": "naersk",
@@ -2054,6 +2071,7 @@
         "hydra": "hydra",
         "hyprland": "hyprland",
         "impermanence": "impermanence",
+        "kaneo-cli-src": "kaneo-cli-src",
         "millennium": "millennium",
         "neovim": "neovim",
         "nix-on-droid": "nix-on-droid",
@@ -2424,11 +2442,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794610956,
-        "narHash": "sha256-wuLq/kSb5BdIfRE3Sz57O3gvWBg10pYosyiXg367R2w=",
+        "lastModified": 1795248482,
+        "narHash": "sha256-IG7krEniPa2IvqXVuFc8tghsl0MtyHZ8+CKc2zHb1zE=",
         "ref": "main",
-        "rev": "be94e5ebecd131ae58c2e1ac8bd0f16ce6f1fbcd",
-        "revCount": 14,
+        "rev": "f6e56f37d7b64911a6039c13c99df5e60ce91c02",
+        "revCount": 16,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
       },

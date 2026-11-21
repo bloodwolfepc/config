@@ -170,6 +170,10 @@
     srv = {
       url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?shallow=1";
     };
+    kaneo-cli-src = {
+      url = "git+ssh://git@gitlab.com/bloodwolfe/srv.git?rev=c18d36cf1f4e1e08116f03f9b5e2fc5e11c8e878&shallow=1";
+      flake = false;
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
