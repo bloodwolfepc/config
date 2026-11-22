@@ -2442,11 +2442,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795311124,
-        "narHash": "sha256-RodkMyv6lyhgDSgA1hgz7Qak9konsmnXU7vXcsm30fY=",
+        "lastModified": 1795316000,
+        "narHash": "sha256-T7r4XsQ6PAT6snhR4DAlToWkP1nHzEOvqip3pO287Wo=",
         "ref": "main",
-        "rev": "98c62b2aa829824b030241bbc3435b9e5c19a26a",
-        "revCount": 19,
+        "rev": "3068bb57a1532724c4e36295cdf7bc4bca6b30bf",
+        "revCount": 20,
         "type": "git",
         "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
       },
