@@ -29,6 +29,7 @@
       devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
       checks = forEachSystem (pkgs: {
+        pi-coordinator = import ./nixos/angel/pi-coordinator-test.nix { inherit pkgs; };
         admin-libvirt = import ./nixos/navi/admin-libvirt-test.nix { inherit pkgs; };
         srv-backup-lock = import ./nixos/navi/backup-lock-test.nix { inherit pkgs; };
         game-saves = import ./modules/home-manager/game-saves/test.nix { inherit pkgs home-manager; };

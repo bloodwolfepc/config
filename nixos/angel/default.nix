@@ -12,6 +12,7 @@
     ./audio
     ./power
     ./networking
+    ./pi-coordinator.nix
     ../modules
     ../modules/users/bloodwolfe
     inputs.hardware.nixosModules.asus-zephyrus-ga402
