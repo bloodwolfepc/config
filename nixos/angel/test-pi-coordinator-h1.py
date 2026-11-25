@@ -308,6 +308,23 @@ class Metadata(unittest.TestCase):
                 self.assertFalse(path.is_symlink())
                 self.assertEqual(path.stat().st_size, 0)
 
+    def test_declared_continuation_descriptor_runtime_and_deadline(self):
+        settings = json.loads(Path(os.environ["PI_H1_SETTINGS"]).read_text())
+        h1.immutable(settings["continuation"])
+        self.assertEqual(settings["policy"], os.environ["PI_H1_POLICY"])
+        descriptor = json.loads(Path(settings["continuation"]).read_bytes())
+        self.assertEqual(descriptor["version"], h1.CONTINUATION)
+        self.assertEqual(descriptor["id"], "0001")
+        self.assertEqual(descriptor["previousOwnerSha256"], "f79f33dbdf68b5a356a7b98884af35b571db1c85c1a8b0219d8686295f20b9fb")
+        self.assertEqual(descriptor["previousHeldSha256"], "b9807684a27c27233a17a7b9d8011b4d3e0202ad7270b6913233a0bac0392410")
+        binding = h1.runtime_binding(settings)
+        self.assertEqual(len(binding["files"]), 8)
+        self.assertEqual(binding["files"]["continuation"]["path"], settings["continuation"])
+        service = json.loads(Path(os.environ["PI_H1_METADATA"]).read_bytes())["service"]
+        self.assertEqual(service["RuntimeMaxSec"], h1.LIMITS["runtimeSeconds"])
+        self.assertEqual(service["TimeoutStopSec"], h1.LIMITS["stopGraceSeconds"])
+        self.assertEqual(service["KillMode"], "control-group")
+
     def test_actual_immutable_paths_and_synthetic_launch(self):
         settings = json.loads(Path(os.environ["PI_H1_SETTINGS"]).read_text())
         for key in ["helper", "launcher", "launch", "workerSource", "python", "storeCanary"]:

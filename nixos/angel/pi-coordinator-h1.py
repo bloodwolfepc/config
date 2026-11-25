@@ -85,6 +85,9 @@ def invoke(argv, body=b"", pass_fds=()):
                         require(len(output) <= 131072)
         code = process.wait(timeout=max(0.01, deadline - time.monotonic()))
         return code, bytes(output)
+    except BaseException as error:
+        error.h1_private_output = bytes(output[:131072])
+        raise
     finally:
         process.stdout.close()
         if process.poll() is None:
@@ -124,6 +127,127 @@ def transport_diagnostic(error):
     return result
 
 
+CONTINUATION = "pi-h1-continuation/v1"
+LIMITS = {"dispatches": 13, "operationSeconds": 15, "inputBytes": 8192,
+          "captureBytes": 131072, "failureBytes": 131072, "runtimeSeconds": 240, "stopGraceSeconds": 10}
+
+
+def read_record(path, uid, mode, gid=None):
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        before = os.fstat(fd)
+        require(stat.S_ISREG(before.st_mode) and before.st_uid == uid and before.st_nlink == 1
+                and stat.S_IMODE(before.st_mode) == mode and before.st_size <= 65536)
+        require(gid is None or before.st_gid == gid)
+        body = bytearray()
+        while len(body) <= 65536:
+            block = os.read(fd, min(16384, 65537 - len(body)))
+            if not block:
+                break
+            body.extend(block)
+        after = os.fstat(fd)
+        require(len(body) == before.st_size and (before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                (after.st_size, after.st_mtime_ns, after.st_ctime_ns))
+        return bytes(body)
+    finally:
+        os.close(fd)
+
+
+def root_grant(path):
+    return read_record(path, 0, 0o440, os.getgid())
+
+
+def file_digest(path):
+    immutable(path)
+    require(Path(path).stat().st_size <= 16 * 1024 * 1024)
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def runtime_binding(settings):
+    return {"harnessSha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "settingsSha256": hashlib.sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest(),
+            "files": {key: {"path": settings[key], "sha256": file_digest(settings[key])} for key in
+                      ["helper", "launcher", "launch", "workerSource", "python", "storeCanary", "policy", "continuation"]}}
+
+
+def host_state(settings):
+    return {"bootId": Path("/proc/sys/kernel/random/boot_id").read_text().strip(),
+            "stateDevice": Path(settings["state"]).stat().st_dev,
+            "workspaceDevice": Path(settings["workspace"]).stat().st_dev}
+
+
+def prepare_continuation(settings, root):
+    private_directory(root)
+    require({p.name for p in root.iterdir()} == {"owner.json", "HELD.json", "credential-marker.json",
+                                               "continuation-0001.grant.json"})
+    immutable(settings["continuation"])
+    require(Path(settings["continuation"]).stat().st_size <= 65536)
+    descriptor_bytes = Path(settings["continuation"]).read_bytes()
+    descriptor = json.loads(descriptor_bytes)
+    require(set(descriptor) == {"version", "id", "taskId", "previousOwnerSha256", "previousHeldSha256",
+                                "previousWriteOutputSha256", "stateUUID", "workspaceUUID"})
+    require(descriptor["version"] == CONTINUATION and descriptor["id"] == "0001"
+            and descriptor["taskId"] == settings["taskId"] == "h1_fixture_20261124")
+    for key in ["stateUUID", "workspaceUUID"]:
+        require(type(descriptor[key]) is str and re.fullmatch("[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}", descriptor[key]))
+    require(descriptor["stateUUID"] != descriptor["workspaceUUID"])
+    for key in ["previousOwnerSha256", "previousHeldSha256", "previousWriteOutputSha256"]:
+        require(type(descriptor[key]) is str and re.fullmatch("[a-f0-9]{64}", descriptor[key]))
+    owner = read_record(root / "owner.json", os.getuid(), 0o400)
+    held_bytes = read_record(root / "HELD.json", os.getuid(), 0o400)
+    marker = read_record(root / "credential-marker.json", os.getuid(), 0o400)
+    require(hashlib.sha256(owner).hexdigest() == descriptor["previousOwnerSha256"]
+            and hashlib.sha256(held_bytes).hexdigest() == descriptor["previousHeldSha256"])
+    require(json.loads(owner) == {"version": VERSION, "synthetic": True, "retry": False})
+    require(marker == json.dumps({"marker": "SYNTHETIC-H1-NOT-A-CREDENTIAL"}, sort_keys=True).encode() + b"\n")
+    held = json.loads(held_bytes)
+    require(held["version"] == VERSION and held["phase"] == "tools" and held["retry"] is False
+            and held["ownerRetained"] is True and held["qualification"] == "not-granted"
+            and len(held["cases"]) == 1)
+    case = held["cases"][0]
+    require(case["name"] == "write" and case["exit"] == 1 and case["expectedExitObserved"] is False
+            and case["outputSha256"] == descriptor["previousWriteOutputSha256"])
+    grant_bytes = root_grant(root / "continuation-0001.grant.json")
+    grant = json.loads(grant_bytes)
+    require(type(grant.get("limits")) is dict and all(type(value) is int for value in grant["limits"].values()))
+    require(set(grant) == {"version", "id", "authority", "descriptorSha256", "runtime", "host", "limits", "retainPrivateFailure"})
+    require(grant["version"] == CONTINUATION and grant["id"] == "0001"
+            and grant["authority"] == "one-synthetic-continuation-only" and grant["retainPrivateFailure"] is True
+            and grant["descriptorSha256"] == hashlib.sha256(descriptor_bytes).hexdigest()
+            and grant["runtime"] == runtime_binding(settings) and grant["limits"] == LIMITS)
+    host = grant["host"]
+    require(set(host) == {"generation", "unitSha256", "reconciliationSha256", "bootId", "stateDevice", "workspaceDevice", "stateUUID", "workspaceUUID"})
+    require(type(host["generation"]) is str and re.fullmatch(r"/nix/store/[a-z0-9]{32}-nixos-system-angel-[A-Za-z0-9.]+", host["generation"]))
+    for key in ["unitSha256", "reconciliationSha256"]:
+        require(type(host[key]) is str and re.fullmatch("[a-f0-9]{64}", host[key]))
+    unit_file = (Path(host["generation"]) / "etc/systemd/system/pi-coordinator.service").resolve()
+    require(file_digest(unit_file) == host["unitSha256"])
+    actual_host = host_state(settings)
+    require(all(host[key] == value for key, value in actual_host.items())
+            and type(host["stateDevice"]) is int and type(host["workspaceDevice"]) is int
+            and host["stateDevice"] != host["workspaceDevice"]
+            and host["stateUUID"] == descriptor["stateUUID"] and host["workspaceUUID"] == descriptor["workspaceUUID"])
+    # Generation/unit/reconciliation fields are the trusted root supervisor's attestation;
+    # this chroot cannot independently inspect the host's /run/current-system or unit manager.
+    return {"id": "0001", "grantSha256": hashlib.sha256(grant_bytes).hexdigest(),
+            "descriptorSha256": grant["descriptorSha256"], "previousHeldSha256": descriptor["previousHeldSha256"],
+            "hostAttestation": host, "runtime": grant["runtime"], "limits": LIMITS}
+
+
+def private_failure(path, body):
+    require(type(body) is bytes and len(body) <= 131072)
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    try:
+        with os.fdopen(fd, "wb", closefd=False) as stream:
+            stream.write(body)
+            stream.flush()
+        os.fchmod(fd, 0o400)
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+    sync_dir(path.parent)
+
+
 def validate_workspace(settings):
     spec = importlib.util.spec_from_file_location("trusted_pi_tool_validator", settings["workerSource"])
     module = importlib.util.module_from_spec(spec)
@@ -143,30 +267,52 @@ def run(settings, call=invoke, check_workspace=validate_workspace):
         private_directory(workspace / "lost+found")
         require(not any((workspace / "lost+found").iterdir()))
     journal = state / "journal"
+    if "continuation" in settings:
+        require(journal.exists())  # Never recreate missing retained state to make a continuation fresh.
     if not journal.exists():
         journal.mkdir(mode=0o700)
         sync_dir(state)
     private_directory(journal)
     require(not any(journal.iterdir()))
     root = state / "h1-probe"
-    root.mkdir(mode=0o700)  # Never replace/retry a prior attempt, including partial creation.
-    sync_dir(state)
-    exclusive(root / "owner.json", {"version": VERSION, "synthetic": True, "retry": False})
+    continuation = prepare_continuation(settings, root) if "continuation" in settings else None
+    prefix = "continuation-0001." if continuation else ""
+    if continuation:
+        exclusive(root / (prefix + "attempt.json"), {"version": CONTINUATION, "continuation": continuation,
+                                                    "synthetic": True, "retry": False, "qualification": "not-granted"})
+    else:
+        root.mkdir(mode=0o700)  # Never replace/retry a prior attempt, including partial creation.
+        sync_dir(state)
+        exclusive(root / "owner.json", {"version": VERSION, "synthetic": True, "retry": False})
     cases = []
     phase = "fixture"
+    last_output = None
+    output_complete = False
     try:
         marker = root / "credential-marker.json"
-        exclusive(marker, {"marker": "SYNTHETIC-H1-NOT-A-CREDENTIAL"})
+        if not continuation:
+            exclusive(marker, {"marker": "SYNTHETIC-H1-NOT-A-CREDENTIAL"})
         require(Path(settings["storeCanary"]).read_text() == "synthetic H1 marker, not a credential\n")
 
         def observed(name, argv, body=b"", pass_fds=(), expected=0):
+            nonlocal last_output, output_complete
+            last_output, output_complete = None, False
+            require(len(cases) < (13 if continuation else 12))
             case = {"name": name, "expectedExitObserved": False}
             cases.append(case)
+            if continuation:
+                exclusive(root / (prefix + f"case-{len(cases):02d}.attempt.json"),
+                          {"name": name, "expectedExit": expected, "grantSha256": continuation["grantSha256"]})
             try:
                 code, output = call(argv, body, pass_fds)
+                require(type(output) is bytes and len(output) <= 131072)
             except BaseException as error:
+                partial = getattr(error, "h1_private_output", None)
+                if continuation and type(partial) is bytes and len(partial) <= 131072:
+                    last_output = partial
                 case["diagnostic"] = transport_diagnostic(error)
                 raise
+            last_output, output_complete = output, True
             case.update({"expectedExitObserved": code == expected, "exit": code,
                          "outputSha256": hashlib.sha256(output).hexdigest()})
             if code != expected:
@@ -184,6 +330,9 @@ def run(settings, call=invoke, check_workspace=validate_workspace):
                     and reply["truncated"] is False and isinstance(reply["text"], str))
             return reply["text"]
 
+        if continuation:
+            phase = "startup"
+            require(tool("startup-marker", "bash", {"command": "printf '%s\\n' 'PI_H1_CONTINUATION_0001'"}) == "PI_H1_CONTINUATION_0001\n")
         phase = "tools"
         tool("write", "write", {"path": "h1-probe.txt", "content": "first\n"})
         require(tool("read", "read", {"path": "h1-probe.txt"}) == "first\n")
@@ -227,12 +376,26 @@ def run(settings, call=invoke, check_workspace=validate_workspace):
                    "namespaceIds": {"controller": parent, "worker": child},
                    "stateDevice": state.stat().st_dev, "workspaceDevice": workspace.stat().st_dev,
                    "cases": cases, "inventory": inventory, "pending": PENDING, "ownerRetained": True}
-        exclusive(root / "RESULT.json", receipt)
+        if continuation:
+            receipt.update(version=CONTINUATION, continuation=continuation)
+        exclusive(root / (prefix + "RESULT.json"), receipt)
         return receipt
     except BaseException:
+        failure = None
+        if continuation and last_output is not None:
+            try:
+                private_failure(root / (prefix + "failure.bin"), last_output)
+                failure = {"bytes": len(last_output), "sha256": hashlib.sha256(last_output).hexdigest(),
+                           "complete": output_complete, "operatorPrivate": True, "case": cases[-1]["name"],
+                           "scope": "last-captured-helper-output-not-cause-proof"}
+            except BaseException:
+                failure = {"persistence": "failed-preserve-attempt-no-retry"}
         try:
-            exclusive(root / "HELD.json", {"version": VERSION, "phase": phase, "cases": cases,
-                                           "ownerRetained": True, "retry": False, "qualification": "not-granted"})
+            held = {"version": CONTINUATION if continuation else VERSION, "phase": phase, "cases": cases,
+                    "ownerRetained": True, "retry": False, "qualification": "not-granted"}
+            if continuation:
+                held.update(continuation=continuation, privateFailure=failure)
+            exclusive(root / (prefix + "HELD.json"), held)
         except Exception:
             pass  # Even a failed receipt leaves the exclusive owner/partial files in place.
         raise RuntimeError("H1 held; retain synthetic state and inspect host-side teardown. No retry.") from None
@@ -246,7 +409,8 @@ def main():
     immutable(sys.argv[1])
     require(Path(sys.argv[1]).stat().st_size <= 65536)
     settings = json.loads(Path(sys.argv[1]).read_bytes())
-    require(set(settings) == {"state", "taskId", "workspace", "storeCanary", "launch", "helper", "launcher", "workerSource", "python"})
+    keys = {"state", "taskId", "workspace", "storeCanary", "launch", "helper", "launcher", "workerSource", "python"}
+    require(set(settings) == keys or set(settings) == keys | {"continuation", "policy"})
     require(settings["state"] == "/var/lib/pi-coordinator" and settings["workspace"] == "/var/lib/pi-tool-workspaces/slot-1")
     for key in ["storeCanary", "launch", "helper", "launcher", "workerSource", "python"]:
         immutable(settings[key])

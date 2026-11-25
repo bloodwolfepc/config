@@ -45,5 +45,6 @@ pkgs.runCommand "pi-coordinator-install-source-tests"
     export PYTHONDONTWRITEBYTECODE=1
     set -o pipefail
     python3 ${./test-pi-coordinator-h1.py} ${./pi-coordinator-h1.py} 2>&1 | tee "$out"
+    python3 ${./test-pi-h1-continuation.py} ${./pi-coordinator-h1.py} ${./test-pi-coordinator-h1.py} 2>&1 | tee -a "$out"
     ${workerPackage}/bin/pi-fixed-batch --help 2>&1 | tee -a "$out"
   ''

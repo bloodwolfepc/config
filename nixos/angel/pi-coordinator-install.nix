@@ -44,9 +44,22 @@ let
       };
     }
   );
+  # Describes one held synthetic case only; a separate root-issued runtime grant is still mandatory.
+  continuation = pkgs.writeText "pi-h1-continuation-0001.json" (builtins.toJSON {
+    version = "pi-h1-continuation/v1";
+    id = "0001";
+    inherit taskId;
+    previousOwnerSha256 = "f79f33dbdf68b5a356a7b98884af35b571db1c85c1a8b0219d8686295f20b9fb";
+    previousHeldSha256 = "b9807684a27c27233a17a7b9d8011b4d3e0202ad7270b6913233a0bac0392410";
+    previousWriteOutputSha256 = "ab638b22a9f945f20c5f91436260e572ea66720757000b029ad189e8886dcd93";
+    stateUUID = "fe7c9e02-1525-45cd-b0f3-b396bf47c671";
+    workspaceUUID = "324eaf89-48e0-4c6a-a36d-8aca542a9a6d";
+  });
   settings = pkgs.writeText "pi-h1-settings.json" (
     builtins.toJSON {
       state = "/var/lib/pi-coordinator";
+      inherit continuation;
+      policy = config.system.build.pi-tool-policy;
       inherit
         taskId
         workspace
@@ -103,6 +116,7 @@ in
     startAt = [ ];
     restartIfChanged = false;
     stopIfChanged = false;
+    serviceConfig.RuntimeMaxSec = 240;
   };
   system.build.pi-coordinator-h1 = probe;
   system.build.pi-coordinator-h1-launch = launch;

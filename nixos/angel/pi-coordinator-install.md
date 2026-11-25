@@ -1,7 +1,9 @@
 # Build-only Pi worker/H1 installation wiring
 
-This source adds `nixosConfigurations.angel-pi-h1`, **not an activated host**.
-Ordinary Angel, Angelstuck and Navi do not import its installation module.
+This source declares `nixosConfigurations.angel-pi-h1`; this candidate is
+**source/build-only**. Existing human-installed host state does not authorize
+applying this revision or starting another trial. Ordinary Angel, Angelstuck and
+Navi do not import its installation module.
 It selects a no-model synthetic probe entrypoint, never `pi-fixed-batch --run`.
 No new automatic Kaneo adapter, schedule, credential flow or source licensing
 change is included. Existing PI-3/PI-30 and H1/H2 holds remain.
@@ -66,9 +68,11 @@ all dirty native checkouts and the immutable Angelstuck fallback.
 The service calls `pi-coordinator-h1` with one immutable settings JSON, using the
 same coordinator module/helpers as the candidate. The library uses the actual
 workspace validator; offline tests inject an inert validator/transport instead.
-It refuses nonprivate state, a nonempty workspace/journal, any real credential/
-admission/H1 pathname (including broken symlinks), or an earlier probe attempt.
-It creates an exclusive/fsynced `h1-probe/owner.json` before any tool dispatch.
+Its original fresh-run mode refuses nonprivate state, a nonempty workspace/journal,
+any real credential/admission/H1 pathname (including broken symlinks), or an earlier
+probe attempt. It creates an exclusive/fsynced `h1-probe/owner.json` before any tool
+dispatch. Those fresh/replay rules remain unchanged. The declared H1 profile now
+selects only the separately gated continuation below; there is no fallback to fresh.
 
 Later, when explicitly started for H1, finite probes exercise Bash/read/write/edit,
 controller-state marker denial, excluded-store denial, selected sterile environment
@@ -88,8 +92,8 @@ receipt/full disk still means hold. Probe cases are named before dispatch so a
 transport exception can be identified in the attempted `HELD.json`. Unexpected
 child exits retain only the existing output digest, bounded byte count and a
 closed vocabulary of **untrusted** diagnostic hints (for example bubblewrap,
-namespace, permission or missing-path markers). Child output is never retained
-or decoded into error text; unrecognized output yields no hints. Transport
+namespace, permission or missing-path markers). In fresh-run mode child output is
+never retained or decoded into error text; unrecognized output yields no hints. Transport
 failures retain only a fixed category and bounded numeric OS errno, never raw
 exception values, argv, environment or credentials. A hint can be forged by
 child output: it is not a diagnosis, test result or isolation proof. The normal
@@ -100,6 +104,80 @@ review/approval, never replay or a new worker/journal root.
 No cleanup, unlock, retry or owner transfer exists. Synthetic ownership must be
 reconciled by a separately authorized human before real admission; never bypass
 it using a new journal root. Save all evidence.
+
+### One append-only synthetic continuation, not an unlock
+
+The profile's immutable `pi-h1-continuation-0001.json` names exactly the original
+failed first-write owner/HELD/output digests, task and two ext4 UUIDs. It is a
+**descriptor, not execution authority**. There is no issuer/start/reconciliation
+helper or generic force/reset/resume CLI in this source. No owner is released.
+An unchanged direct restart cannot validly replay the old trial.
+
+Before a later, separately approved start, the trusted root supervisor must:
+
+1. Independently verify inactive unit/empty cgroup, exclusive writer, current
+   generation and loaded unit, unchanged original records and partial workspace,
+   actual loop images/UUIDs/options/capacity, no credentials/real admission/H1,
+   and retained H1/v1/v2 failure evidence. ResetFailed is not reconciliation.
+2. Obtain/record scoped human reconciliation, without changing historical
+   owner/HELD/diagnostic receipts, then a **separate** default-No trial decision.
+3. Durably consume its sole start attempt **before** issuing a nonsecret
+   `h1-probe/continuation-0001.grant.json` (root:coordinator-group0440, regular,
+   single-link, private parent) and starting the existing coordinator once.
+   Grant/start uncertainty consumes that admission; never replay or substitute
+   another name/root. Issuance is an approved mutation of the existing state
+   volume, not cleanup or a credential/bootstrap operation.
+
+The exact grant schema is checked by `prepare_continuation`:
+- `version: pi-h1-continuation/v1`, `id: 0001`,
+  `authority: one-synthetic-continuation-only`, `retainPrivateFailure: true`;
+- `descriptorSha256`: raw immutable descriptor bytes;
+- `runtime`: exact `runtime_binding(settings)` result: current harness bytes,
+  SHA256 of `json.dumps(settings, sort_keys=True).encode()` (not raw settings
+  serialization), and paths/raw hashes for helper, launcher, launch, validator,
+  Python, excluded canary, policy and descriptor. Compute after building the
+  final target; no self-referential generation hash in the Nix descriptor;
+- `host`: generation, immutable coordinator unit SHA256, reconciliation receipt
+  SHA256, bootId, stateDevice/workspaceDevice (integer `st_dev`), stateUUID and
+  workspaceUUID. The consumer checks current boot/devices, distinct devices,
+  descriptor UUIDs and the unit bytes in the named immutable generation.
+  **Current loaded generation/unit, physical UUIDs and reconciliation are root
+  supervisor attestations**, not independently observable facts in this chroot.
+  A syntactically valid attestation alone is not host verification;
+- `limits`: exactly13dispatches,15s/operation,8192input bytes,131072capture bytes,
+  131072private failure bytes,240configured runtime seconds and10stop-grace
+  seconds (field names/integers in `LIMITS`, no floats or extra keys).
+
+The consumer requires exactly the old owner, HELD, canonical synthetic marker and
+root grant in the same existing0700 probe directory; original RESULT, journal
+owner, unknown entries, links, metadata/content drift or missing retained journal
+refuse. The native workspace validator still requires the original slot empty
+apart from empty lost+found. Root preflight must validate marker/partial state
+before issuing the grant; it must not reconstruct missing state to pass freshness.
+It exclusively fsyncs `continuation-0001.attempt.json` before dispatch and one
+`continuation-0001.case-NN.attempt.json` before each call. Original files remain
+byte-identical, including absent original RESULT. A fixed no-write Bash marker
+comes first, then the existing12cases, using the same four sandbox operations and
+CLI inventory/refusal/report only. There is no model, provider or real batch grant.
+The shared owner-refusal case may create the previously absent synthetic journal
+owner exactly once; retain it, along with the workspace's new synthetic probe file.
+
+Only continuation-specific RESULT/HELD files are appended. Failure attempts one
+operator-private0400 `continuation-0001.failure.bin` of at most128KiB **combined
+helper output**, not a stderr-only claim. Closed metadata/digests only go into
+receipts; partial transport prefixes are marked incomplete. Metadata names the
+last captured case and explicitly disclaims cause proof: a later local persistence
+or validation failure can leave that case's successful output as context, not its error. Failure to persist
+output/receipt remains held and non-replayable; a durable attempt is not success.
+No raw output enters the system journal, model messages or ledger. Future execution
+consent must expressly include this capture; source approval is not capture consent.
+
+H1-specific RuntimeMaxSec240, existing control-group kill and10sstop grace are
+configured limits, not guaranteed elapsed/spend budgets. Host monitoring and exact
+allowed deadline/cancellation actions must be frozen/tested in the separately
+reviewed execution helper. Client termination is not descendant teardown proof.
+Success remains partial-H1/not-granted; original HELD is not replaced, h1.json is
+never manufactured, and no post-success cleanup or ownership transfer is allowed.
 
 Host-side process/cgroup/mount/socket/device observations, controlled network/DNS
 denials, actual resource exhaustion, descendant cleanup/cancellation, collector
