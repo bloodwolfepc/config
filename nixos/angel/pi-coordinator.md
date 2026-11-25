@@ -33,6 +33,20 @@ no further user namespaces, dropped capabilities, read-only root, 256 MiB scratc
 sterile environment and one `/workspace` are explicit. Unsupported flags/errors
 stop; there is no host-shell fallback. Do not substitute `--*-try` flags.
 
+The outer coordinator uses `ProcSubset=all`: Bubblewrap needs kernel proc APIs
+such as `/proc/sys/kernel/overflowuid` and `overflowgid` before tool execution.
+`ProcSubset=pid` hid those APIs and produced the observed startup failure.
+This explicitly restores non-PID kernel metadata visibility (not just those two
+files); it is a reviewed boundary expansion, not a transparent security no-op.
+`ProtectProc=invisible` still hides other users' processes, and
+`ProtectKernelTunables=true`, strict system protection and dropped capabilities
+remain declared. Their effective enforcement still needs live qualification.
+`systemd.exec(5)` offers only `all`/`pid`, not a per-file subset exception; file
+binds need an existing/creatable target, which pid-only procfs does not supply
+under hidden `/proc/sys`. No custom proc overlay, fake sysctl or patched
+Bubblewrap is introduced. No additional host-data bind or inner-worker policy
+change accompanies this setting.
+
 Workspace validation requires canonical private controller-owned directories,
 actual ext4 mounts of at most 1 GiB and distinct device IDs across the configured
 map. No allocation, formatting, copying old data or quota adjustment is performed.

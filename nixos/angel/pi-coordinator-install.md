@@ -84,9 +84,22 @@ Success writes read-only `h1-probe/RESULT.json` with source/settings digests,
 namespace inode observations, state/workspace device IDs and inventory bindings,
 `status: partial-h1` and `qualification: not-granted`; failure attempts `HELD.json` and preserves partial
 state. Exit zero means these probes completed, **not H1 accepted**. A failed
-receipt/full disk still means hold. No cleanup, unlock, retry or owner transfer
-exists. Synthetic ownership must be reconciled by a separately authorized human
-before real admission; never bypass it using a new journal root. Save all evidence.
+receipt/full disk still means hold. Probe cases are named before dispatch so a
+transport exception can be identified in the attempted `HELD.json`. Unexpected
+child exits retain only the existing output digest, bounded byte count and a
+closed vocabulary of **untrusted** diagnostic hints (for example bubblewrap,
+namespace, permission or missing-path markers). Child output is never retained
+or decoded into error text; unrecognized output yields no hints. Transport
+failures retain only a fixed category and bounded numeric OS errno, never raw
+exception values, argv, environment or credentials. A hint can be forged by
+child output: it is not a diagnosis, test result or isolation proof. The normal
+15-second operational deadline remains unchanged and is categorized as timeout.
+This cannot recover discarded output from an earlier consumed trial; source
+promotion, runtime changes and any further diagnostic execution need separate
+review/approval, never replay or a new worker/journal root.
+No cleanup, unlock, retry or owner transfer exists. Synthetic ownership must be
+reconciled by a separately authorized human before real admission; never bypass
+it using a new journal root. Save all evidence.
 
 Host-side process/cgroup/mount/socket/device observations, controlled network/DNS
 denials, actual resource exhaustion, descendant cleanup/cancellation, collector

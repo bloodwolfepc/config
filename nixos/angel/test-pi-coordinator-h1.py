@@ -25,13 +25,14 @@ class Fixture:
                          "storeCanary": str(self.canary), "python": "fixture-python", "workerSource": "unused"}
         self.calls = []
         self.fail = None
+        self.failure_output = b"synthetic failure, never a credential\n"
         self.bad_namespace = False
         self.saw_inherited_fd = False
 
     def call(self, argv, body, pass_fds):
         self.calls.append((argv, body, pass_fds))
         if self.fail == len(self.calls):
-            return 1, b"synthetic failure, never a credential\n"
+            return 1, self.failure_output
         if argv[0] == "fixture-helper":
             request = json.loads(body)
             op, args = request["operation"], request["args"]
@@ -117,6 +118,49 @@ class Probes(unittest.TestCase):
             f.run()
         self.assertEqual(len(f.calls), 2)
 
+    def test_unexpected_exit_retains_only_closed_untrusted_hints(self):
+        f = self.fixture
+        f.fail = 1
+        f.failure_output = (b"bwrap: Creating new namespace failed: Operation not permitted\n"
+                            b"Tool boundary refused or outcome unknown; preserve ownership.\n"
+                            b"SYNTHETIC-PRIVATE-OUTPUT-DO-NOT-RETAIN\n")
+        with self.assertRaises(RuntimeError):
+            f.run()
+        held = json.loads((f.state / "h1-probe/HELD.json").read_text())
+        case = held["cases"][0]
+        self.assertEqual(case["name"], "write")
+        self.assertEqual(case["diagnostic"], {"outputBytes": len(f.failure_output), "untrusted": True,
+                         "hints": ["bubblewrap", "helper-held", "namespace", "operation-not-permitted"]})
+        self.assertNotIn("SYNTHETIC-PRIVATE-OUTPUT", json.dumps(held))
+        self.assertEqual(len(f.calls), 1)
+        self.assertTrue((f.state / "h1-probe/owner.json").exists())
+        self.assertFalse((f.state / "h1-probe/RESULT.json").exists())
+
+    def test_unknown_binary_output_is_not_persisted_or_decoded(self):
+        f = self.fixture
+        f.fail = 1
+        f.failure_output = b"SYNTHETIC-PRIVATE-UNKNOWN\x00\xff"
+        with self.assertRaises(RuntimeError):
+            f.run()
+        held = json.loads((f.state / "h1-probe/HELD.json").read_text())
+        self.assertEqual(held["cases"][0]["diagnostic"],
+                         {"outputBytes": len(f.failure_output), "hints": [], "untrusted": True})
+        self.assertNotIn("SYNTHETIC-PRIVATE-UNKNOWN", json.dumps(held))
+
+    def test_transport_error_retains_probe_name_not_exception_value(self):
+        f = self.fixture
+        calls = []
+        def broken(argv, body, pass_fds):
+            calls.append(argv)
+            raise OSError(13, "SYNTHETIC-PRIVATE-EXCEPTION")
+        with self.assertRaises(RuntimeError):
+            h1.run(f.settings, broken, lambda _: str(f.workspace))
+        held = json.loads((f.state / "h1-probe/HELD.json").read_text())
+        self.assertEqual(held["cases"][0], {"name": "write", "expectedExitObserved": False,
+                         "diagnostic": {"transport": "os-error", "errno": 13}})
+        self.assertNotIn("SYNTHETIC-PRIVATE-EXCEPTION", json.dumps(held))
+        self.assertEqual(len(calls), 1)
+
     def test_unchanged_namespaces_hold_even_with_zero_exit(self):
         f = self.fixture
         f.bad_namespace = True
@@ -192,6 +236,22 @@ class Probes(unittest.TestCase):
         with self.assertRaises(ValueError):
             h1.invoke([sys.executable, "-I", "-c", "pass"], b"x" * 8193)
 
+    def test_safe_diagnostic_categories_never_copy_exception_values(self):
+        for error, kind in [(TimeoutError("private"), "timeout"), (ValueError("private"), "refused"),
+                            (KeyboardInterrupt("private"), "interrupted"), (RuntimeError("private"), "other")]:
+            with self.subTest(kind=kind):
+                self.assertEqual(h1.transport_diagnostic(error), {"transport": kind})
+        with self.assertRaises(ValueError):
+            h1.output_diagnostic(b"x" * 131073)
+        with self.assertRaises(ValueError):
+            h1.output_diagnostic("private")
+
+    def test_operational_deadline_has_safe_timeout_category(self):
+        from unittest.mock import patch
+        with patch.object(h1.time, "monotonic", side_effect=[0, 16]):
+            with self.assertRaises(TimeoutError):
+                h1.invoke([sys.executable, "-I", "-c", "pass"])
+
     def test_broad_state_permissions_refused(self):
         f = self.fixture
         f.state.chmod(0o755)
@@ -216,6 +276,15 @@ class Metadata(unittest.TestCase):
             self.assertIn("noauto", mount["options"])
             self.assertTrue(mount["device"].startswith("/persist/pi-coordinator-images/"))
         self.assertNotEqual(metadata["entrypoint"], metadata["workerPackage"])
+
+    def test_h1_retains_proc_kernel_api_and_process_tunable_protections(self):
+        service = json.loads(Path(os.environ["PI_H1_METADATA"]).read_text())["service"]
+        for key, value in {"MountAPIVFS": True, "ProcSubset": "all", "ProtectProc": "invisible",
+                           "ProtectKernelTunables": True, "ProtectKernelModules": True,
+                           "ProtectControlGroups": True, "NoNewPrivileges": True,
+                           "CapabilityBoundingSet": "", "ProtectSystem": "strict"}.items():
+            with self.subTest(setting=key):
+                self.assertEqual(service[key], value)
 
     def test_built_root_has_api_and_private_tmp_mount_targets(self):
         metadata = json.loads(Path(os.environ["PI_H1_METADATA"]).read_text())

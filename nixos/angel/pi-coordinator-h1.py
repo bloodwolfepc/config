@@ -74,7 +74,8 @@ def invoke(argv, body=b"", pass_fds=()):
             selector.register(process.stdout, selectors.EVENT_READ)
             deadline = time.monotonic() + 15
             while selector.get_map():
-                require(time.monotonic() < deadline)
+                if time.monotonic() >= deadline:
+                    raise TimeoutError("operational probe deadline")
                 for key, _ in selector.select(timeout=0.1):
                     chunk = os.read(key.fd, 16384)
                     if not chunk:
@@ -90,6 +91,37 @@ def invoke(argv, body=b"", pass_fds=()):
             process.kill()
         process.wait(timeout=2)
         # A timeout is uncertain: the retained receipt requires host-side teardown inspection.
+
+
+def output_diagnostic(output):
+    # Child text may contain secrets or forged errors: persist only closed, untrusted hints.
+    require(isinstance(output, bytes) and len(output) <= 131072)
+    patterns = [(b"bwrap:", "bubblewrap"), (b"namespace", "namespace"),
+                (b"Operation not permitted", "operation-not-permitted"),
+                (b"Permission denied", "permission-denied"), (b"No such file or directory", "missing-path"),
+                (b"uid map", "uid-map"), (b"gid map", "gid-map"),
+                (b"Traceback (most recent call last):", "python-traceback"),
+                (b"Tool boundary refused or outcome unknown; preserve ownership.", "helper-held"),
+                (b"Manual batch launcher refused/held.", "launcher-held")]
+    return {"outputBytes": len(output), "untrusted": True,
+            "hints": sorted(label for pattern, label in patterns if pattern in output)}
+
+
+def transport_diagnostic(error):
+    if isinstance(error, (TimeoutError, subprocess.TimeoutExpired)):
+        kind = "timeout"
+    elif isinstance(error, OSError):
+        kind = "os-error"
+    elif isinstance(error, ValueError):
+        kind = "refused"
+    elif isinstance(error, (KeyboardInterrupt, SystemExit)):
+        kind = "interrupted"
+    else:
+        kind = "other"
+    result = {"transport": kind}
+    if isinstance(error, OSError) and type(error.errno) is int and 0 <= error.errno <= 4095:
+        result["errno"] = error.errno
+    return result
 
 
 def validate_workspace(settings):
@@ -128,9 +160,17 @@ def run(settings, call=invoke, check_workspace=validate_workspace):
         require(Path(settings["storeCanary"]).read_text() == "synthetic H1 marker, not a credential\n")
 
         def observed(name, argv, body=b"", pass_fds=(), expected=0):
-            code, output = call(argv, body, pass_fds)
-            cases.append({"name": name, "expectedExitObserved": code == expected, "exit": code,
-                          "outputSha256": hashlib.sha256(output).hexdigest()})
+            case = {"name": name, "expectedExitObserved": False}
+            cases.append(case)
+            try:
+                code, output = call(argv, body, pass_fds)
+            except BaseException as error:
+                case["diagnostic"] = transport_diagnostic(error)
+                raise
+            case.update({"expectedExitObserved": code == expected, "exit": code,
+                         "outputSha256": hashlib.sha256(output).hexdigest()})
+            if code != expected:
+                case["diagnostic"] = output_diagnostic(output)
             require(code == expected)
             return output
 

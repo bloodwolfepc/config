@@ -160,7 +160,8 @@ in
         PrivateDevices = true;
         PrivateTmp = true;
         ProtectProc = "invisible";
-        ProcSubset = "pid";
+        # Bubblewrap reads kernel proc APIs (overflowuid/overflowgid); pid-only proc hides them.
+        ProcSubset = "all";
         NoNewPrivileges = true;
         CapabilityBoundingSet = "";
         RestrictSUIDSGID = true;

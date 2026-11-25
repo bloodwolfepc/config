@@ -120,6 +120,16 @@ class BoundarySourceTests(unittest.TestCase):
         self.assertEqual(result.stdout, b"")
         self.assertIn(b"preserve owner and partial artifacts", result.stderr)
 
+    def test_proc_kernel_api_visible_with_existing_protections(self):
+        service = json.loads(Path(os.environ["PI_UNIT_METADATA"]).read_text())["service"]
+        # Metadata regression only: pid-only proc hides Bubblewrap's overflowuid/overflowgid API.
+        for key, value in {"MountAPIVFS": True, "ProcSubset": "all", "ProtectProc": "invisible",
+                           "ProtectKernelTunables": True, "ProtectKernelModules": True,
+                           "ProtectControlGroups": True, "NoNewPrivileges": True,
+                           "CapabilityBoundingSet": "", "ProtectSystem": "strict"}.items():
+            with self.subTest(setting=key):
+                self.assertEqual(service[key], value)
+
     def test_disabled_defaults_and_declared_service_caps_not_actual_enforcement(self):
         data = json.loads(Path(os.environ["PI_UNIT_METADATA"]).read_text())
         self.assertFalse(data["disabledUnit"])
