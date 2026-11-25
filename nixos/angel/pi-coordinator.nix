@@ -53,7 +53,8 @@ let
   '';
   roots = builtins.attrValues cfg.workspaces;
   skeleton = pkgs.runCommand "pi-coordinator-root" { } ''
-    mkdir -p "$out"/{dev,proc,tmp,nix/store,etc/ssl/certs,var/lib/pi-coordinator,var/lib/pi-tool-workspaces}
+    # MountAPIVFS and PrivateTmp need mount targets already present in this immutable root.
+    mkdir -p "$out"/{dev,proc,sys,run,tmp,var/tmp,nix/store,etc/ssl/certs,var/lib/pi-coordinator,var/lib/pi-tool-workspaces}
     touch "$out/etc/resolv.conf" "$out/etc/hosts"
     ${lib.concatMapStringsSep "\n" (
       path: ''mkdir -p "$out/var/lib/pi-tool-workspaces/${builtins.baseNameOf path}"''

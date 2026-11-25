@@ -29,6 +29,16 @@ only after separately approved activation/start. No unit WantedBy/timer/restart,
 start-on-config-change or stop-on-config-change is selected. Never update a
 running batch's configuration: require a reviewed inactive/empty-cgroup precondition.
 
+The immutable service root must pre-create `/dev`, `/proc`, `/sys`, `/run`,
+`/tmp` and `/var/tmp`: `MountAPIVFS` supplies the API mounts (including an empty
+`/run` tmpfs), while `PrivateTmp` needs both temporary-directory mount targets.
+This adds empty mountpoints, not new host bind paths or weaker sandbox settings.
+The artifact regression checks these actual built directories and existing bind
+placeholders; it does not certify successful systemd namespace setup. Even a
+pre-exec setup failure consumes its host-side trial attempt: preserve its evidence
+and require explicit reconciliation plus review of the changed generation before
+another trial. Never replay the consumed installation/trial helper to test a fix.
+
 A future reviewed human provisioning helper must exclusively create new
 `/persist/pi-coordinator-images/state.ext4` and `slot-1.ext4`, proposed256MiB each,
 then prepare the controller-owned0700 ext4 roots at `/var/lib/pi-coordinator`

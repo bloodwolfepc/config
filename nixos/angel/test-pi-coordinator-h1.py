@@ -217,6 +217,28 @@ class Metadata(unittest.TestCase):
             self.assertTrue(mount["device"].startswith("/persist/pi-coordinator-images/"))
         self.assertNotEqual(metadata["entrypoint"], metadata["workerPackage"])
 
+    def test_built_root_has_api_and_private_tmp_mount_targets(self):
+        metadata = json.loads(Path(os.environ["PI_H1_METADATA"]).read_text())
+        service = metadata["service"]
+        self.assertTrue(service["MountAPIVFS"])
+        self.assertTrue(service["PrivateTmp"])
+        root = Path(service["RootDirectory"])
+        # Independent artifact expectations: never start systemd or a namespace here.
+        required = ["dev", "proc", "sys", "run", "tmp", "var/tmp", "nix/store", "etc/ssl/certs"]
+        required += [name.lstrip("/") for name in metadata["mounts"]]
+        for name in required:
+            with self.subTest(path=name):
+                path = root / name
+                self.assertTrue(path.is_dir(), f"Missing namespace mount target: /{name}")
+                self.assertFalse(path.is_symlink())
+                self.assertFalse(path.stat().st_mode & 0o222)
+        for name in ["etc/hosts", "etc/resolv.conf"]:
+            with self.subTest(path=name):
+                path = root / name
+                self.assertTrue(path.is_file())
+                self.assertFalse(path.is_symlink())
+                self.assertEqual(path.stat().st_size, 0)
+
     def test_actual_immutable_paths_and_synthetic_launch(self):
         settings = json.loads(Path(os.environ["PI_H1_SETTINGS"]).read_text())
         for key in ["helper", "launcher", "launch", "workerSource", "python", "storeCanary"]:
