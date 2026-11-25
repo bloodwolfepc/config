@@ -30,6 +30,11 @@
 
       checks = forEachSystem (pkgs: {
         pi-coordinator = import ./nixos/angel/pi-coordinator-test.nix { inherit pkgs; };
+        pi-coordinator-install = import ./nixos/angel/pi-coordinator-install-test.nix {
+          inherit pkgs;
+          workerPackage =
+            inputs.pi-fixed-batch-src.packages.${pkgs.stdenv.hostPlatform.system}.pi-fixed-batch;
+        };
         admin-libvirt = import ./nixos/navi/admin-libvirt-test.nix { inherit pkgs; };
         srv-backup-lock = import ./nixos/navi/backup-lock-test.nix { inherit pkgs; };
         game-saves = import ./modules/home-manager/game-saves/test.nix { inherit pkgs home-manager; };
@@ -74,6 +79,14 @@
       nixosConfigurations = {
         angel = lib.nixosSystem {
           modules = [ ./nixos/angel ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        # Build/review target only. No alias changes or activation from ordinary Angel.
+        angel-pi-h1 = lib.nixosSystem {
+          modules = [
+            ./nixos/angel
+            ./nixos/angel/pi-coordinator-install.nix
+          ];
           specialArgs = { inherit inputs outputs; };
         };
         angelstuck = lib.nixosSystem {
@@ -162,6 +175,13 @@
       url = "git+ssh://git@forgejo/bloodwolfe/wolfe-pi.git?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+    };
+    pi-fixed-batch-src = {
+      url = "git+ssh://git@forgejo/bloodwolfe/wolfe-pi.git?rev=1ae19b0a1f698a8b36f941fde4cf469ea6ee051b";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.local-pilot-nixpkgs.follows = "wolfe-pi/local-pilot-nixpkgs";
+      inputs.lzextras-personal.follows = "wolfe-pi/lzextras-personal";
     };
     pi = {
       url = "github:earendil-works/pi/v1.4.0";

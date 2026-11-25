@@ -6,6 +6,11 @@ credential provisioner, disk allocator, boot target or automatic restart. The
 wolfe-pi companion is documented in `doc/fixed-batch-local.md` in that repository.
 This source slice does not complete CFG-2's host qualification.
 
+The separately selected build-only `angel-pi-h1` profile, dedicated worker pin,
+synthetic probe entrypoint and retained partial-H1 receipts are documented in
+[pi-coordinator-install.md](pi-coordinator-install.md). Ordinary Angel,
+Angelstuck and Navi still do not enable the coordinator; no live trial is implied.
+
 ## Declared boundary
 
 A prospective unit requires a separately reviewed entrypoint, explicit provider

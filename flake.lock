@@ -2020,6 +2020,37 @@
         "type": "github"
       }
     },
+    "pi-fixed-batch-src": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "local-pilot-nixpkgs": [
+          "wolfe-pi",
+          "local-pilot-nixpkgs"
+        ],
+        "lzextras-personal": [
+          "wolfe-pi",
+          "lzextras-personal"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795559332,
+        "narHash": "sha256-Y4ebHPTrcmhFVrR3JR5+wDlv1V5uIgbXrxREeibZX+E=",
+        "rev": "1ae19b0a1f698a8b36f941fde4cf469ea6ee051b",
+        "revCount": 28,
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
+      },
+      "original": {
+        "rev": "1ae19b0a1f698a8b36f941fde4cf469ea6ee051b",
+        "type": "git",
+        "url": "ssh://git@forgejo/bloodwolfe/wolfe-pi.git"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -2080,6 +2111,7 @@
         "nixpkgs": "nixpkgs_8",
         "nur": "nur",
         "pi": "pi",
+        "pi-fixed-batch-src": "pi-fixed-batch-src",
         "secrets": "secrets",
         "sops-nix": "sops-nix",
         "srv": "srv",
