@@ -109,9 +109,11 @@ it using a new journal root. Save all evidence.
 
 The profile's immutable `pi-h1-continuation-0001.json` names exactly the original
 failed first-write owner/HELD/output digests, task and two ext4 UUIDs. It is a
-**descriptor, not execution authority**. There is no issuer/start/reconciliation
-helper or generic force/reset/resume CLI in this source. No owner is released.
-An unchanged direct restart cannot validly replay the old trial.
+**descriptor, not execution authority**. The separate, source-only
+`pi-h1-continuation-controller.py` below prepares an exact historical host handoff;
+it is not installed, activated or authorized merely by being present. No generic
+force/reset/resume CLI or owner release exists. An unchanged direct restart cannot
+validly replay the old trial.
 
 Before a later, separately approved start, the trusted root supervisor must:
 
@@ -121,9 +123,10 @@ Before a later, separately approved start, the trusted root supervisor must:
    and retained H1/v1/v2 failure evidence. ResetFailed is not reconciliation.
 2. Obtain/record scoped human reconciliation, without changing historical
    owner/HELD/diagnostic receipts, then a **separate** default-No trial decision.
-3. Durably consume its sole start attempt **before** issuing a nonsecret
+3. Durably consume its sole issuer attempt **before** issuing a nonsecret
    `h1-probe/continuation-0001.grant.json` (root:coordinator-group0440, regular,
-   single-link, private parent) and starting the existing coordinator once.
+   single-link, private parent), and its distinct start/dispatch attempts before
+   starting the existing coordinator once.
    Grant/start uncertainty consumes that admission; never replay or substitute
    another name/root. Issuance is an approved mutation of the existing state
    volume, not cleanup or a credential/bootstrap operation.
@@ -186,6 +189,109 @@ explicit pending items. In-unit namespace observations cannot certify host-side
 teardown. The inventory environment digest is not a hash/proof of the entire OS;
 external evidence must bind the exact system generation, unit and backing mounts.
 Do not manufacture `h1.json` from the result or turn missing tests green.
+
+### Trusted continuation controller: source candidate only
+
+`pi-h1-continuation-controller.py` is a manual, historical-host-specific controller,
+not a new daemon/module/model entrypoint. It leaves current host definitions and
+all original evidence/workspace/journal roots unchanged. Its new fixed private
+`/persist/pi-h1-continuation-controller-20261125-v1` is **observer/authority
+checkpoint storage only**, never a replacement worker owner or journal. No path,
+unit, account, continuation ID or budget override is accepted. A prepared immutable
+packet/wrapper needs separate review before any privileged phase is offered.
+
+Five independent default-No decisions are required: private evidence audit;
+scoped reconciliation without owner release or H1 qualification; private combined
+failure retention/hash-reading (128KiB, no raw export); root grant installation;
+and one synthetic start with a narrowly disclosed single-stop contingency.
+Root also requires the operator's actual existing sudo terminal and immutable
+reviewed source. Packet hashes are rechecked after each decision. Every phase has
+exclusive fsynced attempts/done receipts; partial/unknown checkpoints block later
+phases and replay. The issuer and dispatch are separate one-shot authorities.
+Original H1/v1/v2 holds stay consumed. No ResetFailed, restart, mount/format,
+credential, boot/default, model/provider, acceptance or cleanup operation exists.
+
+The audit reuses only verifier/import functions from the pinned previous activation
+helper, not any consumed audit/activation/main phase. It independently rereads all
+old private receipt domains, both activation generations' evidence, controller
+state and physical mounts/loop identities against hash-bound historical exports.
+Those exports are expected values, not proof of a fresh private read. Such proof
+exists only after the separately approved privileged audit succeeds. Root computes
+the same runtime binding as the coordinator without reusing its UID-relative
+immutable/grant convenience guards; root grant checks explicitly require UID0,
+GID977,0440/single-link. The packaged schema fixture checks this interoperability
+with the actual consumer but stubs host attestation/file authority, not OS isolation.
+
+Before start the controller rechecks fixed roots, complete issuer checkpoints,
+original receipts/markers, runtime/loaded generation/unit/storage, absence of
+native authority, no dedicated UID processes/cgroup and existing stop definitions.
+A durable dispatch checkpoint precedes the systemctl request. Polling has a250s
+operational window and501/3MiB sample caps; individual bounded metadata queries
+can overrun polling windows, so these are NOT hard elapsed/spend promises. Normal
+terminal observations require exact invocation/start-time continuity, successful
+main exit, no dedicated processes/fixed cgroup and all13case/attempt bindings.
+A dispatch failure/interruption/unknown outcome permits only the separately
+approved **one fixed-unit stop** (no kill fallback/reset/retry), followed by a15s
+teardown polling window. Failure before dispatch never stops another operation.
+Stop failure/unknown outcome remains held; supervisor SIGKILL cannot promise a
+finally block, and kernel/systemd teardown still needs actual qualification.
+
+The controller retains bounded metadata samples and RESULT/HELD privately, with
+hash-only failure-file metadata; raw combined helper bytes remain solely in the
+original volume's private failure.bin. Root artifacts/JSON are bounded (5MiB per
+receipt,3MiB combined samples,1MiB new consumer-artifact reads; current activation
+receipts262KiB each/1MiB combined). Allow14MiB for new observer checkpoints;
+this is a bounded synthetic evidence allowance, not a model work allowance.
+No grant/start helper packet has been executed by adding this source. Even a
+successful synthetic result stays `partial-h1-observed`/`not-granted`; all remaining
+H1 process/resource/network/cancellation/collector/crash/reboot proofs and H2
+remain mandatory before useful work. Never map this result to H1 acceptance,
+canonical journal supersession or overnight admission.
+
+### Separately gated private failure inspection
+
+`pi-h1-private-failure-inspect.py` is a source-only diagnostic for the consumed
+continuation's exact120-byte startup-marker failure, not a continuation issuer.
+Its hash/owner/HELD/invocation/boot/generation are fixed. A new immutable review
+packet and actual human sudo terminal/default-No content-inspection consent are
+required; previous hash-only capture consent is NOT content-inspection authority.
+It appends one exclusive inspection attempt/done-or-HELD under the EXISTING observer
+directory, holding the original observer's lock and preserving its exact owner.
+No new runtime/journal root, grant, unit start/stop/reset/retry, repair or owner
+release exists. A partial or complete inspection is never replayed automatically.
+
+Before any content open, it checks the failed/quiescent fixed unit/no UID987
+processes/cgroup, original observer owner/HELD, file UID987/GID977/0400/single-link/
+120-byte/device1792 identity, then fsyncs its attempt. Content hash must match before
+classification. Only whole-line public Bubblewrap message templates map to fixed
+stage/errno enums; generic helper failure is not a diagnosis. Unknown, partial,
+ANSI/control, variable-path or other text is never emitted. Export only closed
+labels, counts/digests and explicit untrusted/not-cause-proof flags, never raw
+content or exceptions. A recognized creation/unshare message does not identify
+which namespace/syscall/kernel policy denied it. Subsequent investigation/changes
+still need their own scope; this diagnostic cannot authorize another trial.
+
+### Separate terminal-only disclosure after an inconclusive classifier
+
+`pi-h1-private-failure-display.py` prepares a DIFFERENT, separately approved privacy
+operation, not a replay/extension of the consumed closed-label classifier or H1.
+It requires the exact completed classifier receipt hash in addition to the prior
+owner/HELD/failure bindings and failed/quiescent host. A human sudo terminal and
+independent default-No consent authorize one escaped120-byte display solely to
+`/dev/tty`. Never stdout/stderr, a saved file, chat or a model tool result. JSON
+escaping with ensure_ascii handles control sequences, bidi and invalid UTF-8;
+terminal control bytes from the payload are never written literally. A real
+character TTY is required; no file/pipe destination or alternative input is accepted.
+
+Hold the SAME observer owner lock and append `failure-local-disclosure-0001`
+attempt/done-or-HELD metadata to that SAME directory, before any content open.
+Preserve the earlier completed inspection and all runtime/owner/hold records.
+A terminal write error may mean partial display; consume the disclosure and never
+retry automatically. Only counts/digests/status leave on stdout or enter receipts.
+The helper does not enable transcripts or save/send raw text; terminal/sudo I/O
+logging and scrollback are external controls, not guarantees this code can make.
+Jan reviews locally and deliberately shares only a nonsecret diagnostic if safe.
+No grant/unit/repair/reset/retry/release/H1 qualification authority is added.
 
 ## Kaneo and first-run review
 

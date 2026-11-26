@@ -277,10 +277,11 @@ class Metadata(unittest.TestCase):
             self.assertTrue(mount["device"].startswith("/persist/pi-coordinator-images/"))
         self.assertNotEqual(metadata["entrypoint"], metadata["workerPackage"])
 
-    def test_h1_retains_proc_kernel_api_and_process_tunable_protections(self):
+    def test_h1_parent_proc_compatibility_retains_unprivileged_controls(self):
         service = json.loads(Path(os.environ["PI_H1_METADATA"]).read_text())["service"]
         for key, value in {"MountAPIVFS": True, "ProcSubset": "all", "ProtectProc": "invisible",
-                           "ProtectKernelTunables": True, "ProtectKernelModules": True,
+                           "ProtectKernelTunables": False, "User": "pi-coordinator", "Group": "pi-coordinator",
+                           "RestrictSUIDSGID": True, "ProtectKernelModules": True,
                            "ProtectControlGroups": True, "NoNewPrivileges": True,
                            "CapabilityBoundingSet": "", "ProtectSystem": "strict"}.items():
             with self.subTest(setting=key):

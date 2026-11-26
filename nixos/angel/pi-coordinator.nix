@@ -166,7 +166,8 @@ in
         CapabilityBoundingSet = "";
         RestrictSUIDSGID = true;
         RestrictRealtime = true;
-        ProtectKernelTunables = true;
+        # Parent proc overmounts block bwrap's fresh proc; tools seal their private proc read-only.
+        ProtectKernelTunables = false;
         ProtectKernelModules = true;
         ProtectControlGroups = true;
         LockPersonality = true;

@@ -134,7 +134,7 @@ def sandbox_argv(policy, workspace):
     args = [policy["bwrap"], "--unshare-user", "--unshare-pid", "--unshare-net", "--unshare-ipc",
             "--unshare-uts", "--unshare-cgroup", "--disable-userns", "--die-with-parent", "--new-session", "--as-pid-1",
             "--cap-drop", "ALL", "--clearenv", "--tmpfs", "/", "--dir", "/nix", "--dir", "/nix/store",
-            "--proc", "/proc", "--dev", "/dev", "--size", "268435456", "--tmpfs", "/tmp",
+            "--proc", "/proc", "--remount-ro", "/proc", "--dev", "/dev", "--size", "268435456", "--tmpfs", "/tmp",
             "--bind", workspace, "/workspace"]
     for path in policy["runtimePaths"]:
         require(str(Path(path).resolve()) == path and path.startswith("/nix/store/") and Path(path).exists())

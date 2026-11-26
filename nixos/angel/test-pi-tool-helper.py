@@ -1,5 +1,6 @@
 """Offline source/operation fixtures; NO namespaces, services, disk images or denial trials."""
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -97,6 +98,35 @@ class BoundarySourceTests(unittest.TestCase):
         self.assertIn("--remount-ro", argv)
         self.assertIn("268435456", argv)
 
+    def test_fresh_pid_private_proc_is_sealed_before_worker_without_host_proc_bind(self):
+        policy = json.loads(Path(os.environ["PI_TOOL_POLICY"]).read_text())
+        argv = helper.sandbox_argv(policy, "/fake/workspace")
+        proc = argv.index("--proc")
+        self.assertEqual(argv.count("--proc"), 1)
+        self.assertEqual(argv[proc:proc + 4], ["--proc", "/proc", "--remount-ro", "/proc"])
+        self.assertLess(argv.index("--unshare-pid"), proc)
+        self.assertLess(proc + 3, argv.index("/worker.py"))
+        self.assertEqual([argv[i + 1] for i, arg in enumerate(argv) if arg == "--remount-ro"], ["/proc", "/"])
+        for i, arg in enumerate(argv):
+            if arg in {"--bind", "--ro-bind", "--dev-bind"}:
+                self.assertFalse(any(p == "/proc" or p.startswith("/proc/") for p in argv[i + 1:i + 3]))
+        for prohibited in ("--pidns", "--userns", "--userns2", "--unshare-user-try", "--share-net"):
+            self.assertNotIn(prohibited, argv)
+
+    def test_failed_sandbox_setup_refuses_without_retry_or_host_fallback(self):
+        policy_path = Path(os.environ["PI_TOOL_POLICY"])
+        raw = json.dumps(message("bash", command="true")).encode()
+        with patch.object(helper.sys, "argv", ["helper", str(policy_path)]), \
+             patch.object(helper.sys, "stdin", SimpleNamespace(buffer=io.BytesIO(raw))), \
+             patch.object(helper, "checked_workspaces", return_value={"offline-task-0001": "/fake/workspace"}), \
+             patch.object(helper.subprocess, "run", return_value=SimpleNamespace(returncode=1)) as run:
+            with self.assertRaises(ValueError):
+                helper.main()
+        run.assert_called_once()
+        self.assertIn("--proc", run.call_args.args[0])
+        self.assertEqual(run.call_args.kwargs["env"], {"LANG": "C.UTF-8"})
+        self.assertTrue(run.call_args.kwargs["close_fds"])
+
     def test_workspace_aliases_refuse_using_synthetic_device_metadata_only(self):
         paths = {"first-task": "/fake/one", "second-task": "/fake/two"}
         with patch.object(helper, "checked_workspace", side_effect=lambda p: p), patch.object(helper.os, "stat") as metadata:
@@ -120,11 +150,12 @@ class BoundarySourceTests(unittest.TestCase):
         self.assertEqual(result.stdout, b"")
         self.assertIn(b"preserve owner and partial artifacts", result.stderr)
 
-    def test_proc_kernel_api_visible_with_existing_protections(self):
+    def test_parent_proc_compatible_with_readonly_private_worker_proc(self):
         service = json.loads(Path(os.environ["PI_UNIT_METADATA"]).read_text())["service"]
-        # Metadata regression only: pid-only proc hides Bubblewrap's overflowuid/overflowgid API.
+        # Metadata only: parent proc overmounts conflict with unprivileged fresh proc mounts.
         for key, value in {"MountAPIVFS": True, "ProcSubset": "all", "ProtectProc": "invisible",
-                           "ProtectKernelTunables": True, "ProtectKernelModules": True,
+                           "ProtectKernelTunables": False, "User": "pi-coordinator", "Group": "pi-coordinator",
+                           "RestrictSUIDSGID": True, "ProtectKernelModules": True,
                            "ProtectControlGroups": True, "NoNewPrivileges": True,
                            "CapabilityBoundingSet": "", "ProtectSystem": "strict"}.items():
             with self.subTest(setting=key):

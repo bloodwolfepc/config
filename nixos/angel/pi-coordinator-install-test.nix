@@ -46,5 +46,8 @@ pkgs.runCommand "pi-coordinator-install-source-tests"
     set -o pipefail
     python3 ${./test-pi-coordinator-h1.py} ${./pi-coordinator-h1.py} 2>&1 | tee "$out"
     python3 ${./test-pi-h1-continuation.py} ${./pi-coordinator-h1.py} ${./test-pi-coordinator-h1.py} 2>&1 | tee -a "$out"
+    PI_H1_CONTROLLER_HARNESS=${./pi-coordinator-h1.py} python3 ${./test-pi-h1-continuation-controller.py} ${./pi-h1-continuation-controller.py} 2>&1 | tee -a "$out"
+    python3 ${./test-pi-h1-private-failure-inspect.py} ${./pi-h1-private-failure-inspect.py} 2>&1 | tee -a "$out"
+    python3 ${./test-pi-h1-private-failure-display.py} ${./pi-h1-private-failure-display.py} 2>&1 | tee -a "$out"
     ${workerPackage}/bin/pi-fixed-batch --help 2>&1 | tee -a "$out"
   ''

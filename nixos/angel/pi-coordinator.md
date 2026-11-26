@@ -38,14 +38,54 @@ such as `/proc/sys/kernel/overflowuid` and `overflowgid` before tool execution.
 `ProcSubset=pid` hid those APIs and produced the observed startup failure.
 This explicitly restores non-PID kernel metadata visibility (not just those two
 files); it is a reviewed boundary expansion, not a transparent security no-op.
-`ProtectProc=invisible` still hides other users' processes, and
-`ProtectKernelTunables=true`, strict system protection and dropped capabilities
-remain declared. Their effective enforcement still needs live qualification.
+`ProtectProc=invisible` still hides other users' processes.
 `systemd.exec(5)` offers only `all`/`pid`, not a per-file subset exception; file
 binds need an existing/creatable target, which pid-only procfs does not supply
-under hidden `/proc/sys`. No custom proc overlay, fake sysctl or patched
-Bubblewrap is introduced. No additional host-data bind or inner-worker policy
-change accompanies this setting.
+under hidden `/proc/sys`.
+
+### Proc-mount compatibility candidate (source-only)
+
+Continuation0001 subsequently failed before worker execution with
+`bwrap: Can't mount proc on /proc: Operation not permitted`. The deliberately
+shared120-byte diagnostic matched the retained hash; the continuation, closed-label
+inspection and separate local disclosure remain consumed. No retry is implied.
+`ProtectKernelTunables=true` overmounts parts of the parent procfs. Linux's
+fully-visible-proc check can then reject a fresh proc mount in an unprivileged
+user namespace. This is reproduced in
+[Nixpkgs477428](https://github.com/NixOS/nixpkgs/issues/477428) and
+[sandbox-runtime743](https://github.com/anthropics/sandbox-runtime/issues/743).
+It is a high-confidence explanation, NOT a local live A/B or kernel-trace proof.
+
+The candidate removes ONLY the outer unit's `ProtectKernelTunables` proc masks
+and explicitly remounts the worker's freshly created `/proc` read-only immediately
+after `--proc /proc`. `--unshare-pid` remains mandatory; no host-proc bind, reused
+PID namespace, alternate proc, patched Bubblewrap or `--*-try` fallback is added.
+Bubblewrap0.12 also protects accessible sensitive proc subpaths during `--proc`;
+our explicit whole-proc remount does not rely solely on that conditional behavior.
+Remount/setup failure remains a hard refusal, never a host-shell retry.
+
+This is a security trade-off, not equivalent enforcement at the same layer:
+- The trusted coordinator loses its mount-level kernel-tunable backstop. Dedicated
+  non-root identity, empty capabilities, no-new-privileges, strict root/system/home,
+  module/cgroup/device/network/resource controls and ordinary kernel/DAC protection
+  remain. Model-controlled code must still execute ONLY inside the immutable tool
+  worker; this is not permission to run application hooks/code in the coordinator.
+- The worker retains fresh PID/user/net/IPC/UTS/cgroup namespaces, no further user
+  namespaces and dropped capabilities, and now requests read-only private procfs
+  explicitly. No parent proc tree/tunable bind exposes outer PID/network views.
+- Writes to the worker's own proc control files also become unavailable. Programs
+  needing writable proc controls need separate review, never a writable fallback.
+  Read-only proc is not a claim that following an FD symlink cannot write its
+  already-open target; inherited-FD closure/denial remains separately mandatory.
+
+Before activation/use, separately qualify the actual worker proc mount/submount
+flags, PID privacy, unchanged FD/network/credential isolation and tunable-write
+refusal on both sides. Do not mutate host tunables or sysrq to test denial. Inspect
+mounts/identity/capabilities and use separately approved non-destructive checks.
+No native isolation/resource/cancellation/collector/crash/reboot proof is waived.
+All previous owners/holds/partial workspaces remain; do not replay continuation0001
+or its diagnostic/disclosure helpers. Source review, promotion, activation and any
+new qualification authority/reconciliation remain separate human decisions.
 
 Workspace validation requires canonical private controller-owned directories,
 actual ext4 mounts of at most 1 GiB and distinct device IDs across the configured
